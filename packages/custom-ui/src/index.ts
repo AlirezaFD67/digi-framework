@@ -29,12 +29,14 @@ export {
   ToastProvider, 
   useToast,
   ModalProvider, 
-  useModalContext 
+  useModalContext,
+  SidebarProvider,
+  useSidebar
 } from "./contexts"
 
 // Export providers
 export { CustomUIProvider } from "./providers/custom-ui-provider"
-export type { CustomUIProviderProps } from "./providers/custom-ui-provider"
+export type { CustomUIProviderProps, AppMode } from "./providers/custom-ui-provider"
 
 // Export form components
 export { 
@@ -60,6 +62,7 @@ export { useLocalStorage, useDebounce, useToggle, useModal } from "./hooks"
 export type { ModalConfig, ModalType, ModalState, ModalContextType } from "./types/modal"
 export type { FieldError, AppError, ErrorContextType } from "./types/error"
 export type { Toast, ToastType } from "./components/error/error-toast"
+export type { SidebarContextType } from "./contexts"
 
 // Export map components
 export { default as Map } from "./components/map/map"
@@ -70,6 +73,9 @@ export { default as CustomPagination } from "./components/pagination"
 
 // Export table component
 export { default as CustomTable } from "./components/table"
+
+// Export auth components
+export { SignOutButton } from "./components/auth/sign-out-button"
 
 // Re-export commonly used UI components for convenience
 export { Button } from "@workspace/ui/components/button"

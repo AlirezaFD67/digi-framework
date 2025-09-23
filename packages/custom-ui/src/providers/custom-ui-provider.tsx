@@ -5,13 +5,16 @@ import { ThemeProvider as NextThemesProvider } from "next-themes"
 import { 
   ModalProvider, 
   ErrorProvider,
-  ToastProvider
+  ToastProvider,
 } from "../contexts"
 import { ModalManager } from "../components/modal"
 import { ToastContainer } from "../components/error"
+import { SidebarProvider } from "@workspace/ui/components/sidebar"
+export type AppMode = "dashboard" | "web-app"
 
 export interface CustomUIProviderProps {
   children: React.ReactNode
+  mode?: AppMode
   themeConfig?: {
     attribute?: "class" | "data-theme" | "data-mode"
     defaultTheme?: string
@@ -22,12 +25,18 @@ export interface CustomUIProviderProps {
   toastConfig?: {
     position?: "top-left" | "top-center" | "top-right" | "bottom-left" | "bottom-center" | "bottom-right"
   }
+  sidebarConfig?: {
+    defaultOpen?: boolean
+    defaultCollapsed?: boolean
+  }
 }
 
 export function CustomUIProvider({ 
   children, 
+  mode = "web-app",
   themeConfig = {},
-  toastConfig = {}
+  toastConfig = {},
+  sidebarConfig = {}
 }: CustomUIProviderProps) {
   const {
     attribute = "class",
@@ -41,7 +50,13 @@ export function CustomUIProvider({
     position = "top-right"
   } = toastConfig
 
-  return (
+  const {
+    defaultOpen = true,
+    defaultCollapsed = false
+  } = sidebarConfig
+
+  // Create the base providers wrapper
+  const BaseProviders = ({ children }: { children: React.ReactNode }) => (
     <NextThemesProvider
       attribute={attribute}
       defaultTheme={defaultTheme}
@@ -59,5 +74,25 @@ export function CustomUIProvider({
         </ToastProvider>
       </ErrorProvider>
     </NextThemesProvider>
+  )
+
+  // Create dashboard providers wrapper (includes SidebarProvider)
+  const DashboardProviders = ({ children }: { children: React.ReactNode }) => (
+    <BaseProviders>
+      <SidebarProvider defaultOpen={defaultOpen}>
+        {children}
+      </SidebarProvider>
+    </BaseProviders>
+  )
+
+  // Return the appropriate provider based on mode
+  return mode === "dashboard" ? (
+    <DashboardProviders>
+      {children}
+    </DashboardProviders>
+  ) : (
+    <BaseProviders>
+      {children}
+    </BaseProviders>
   )
 }

@@ -8,6 +8,9 @@
       ],
       "@workspace/ui/*": [
         "../../packages/ui/src/*"
+      ],
+      "@workspace/custom-ui/*": [
+        "../../packages/custom-ui/src/*"
       ]
     },
     "plugins": [
@@ -22,7 +25,7 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts"
-  ],
+, "../../packages/custom-ui/src/types/index.ts"  ],
   "exclude": [
     "node_modules"
   ]
