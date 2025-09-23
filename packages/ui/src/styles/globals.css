@@ -6,7 +6,6 @@
 @import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
-
 :root {
   --background: oklch(1.0000 0 0);
   --foreground: oklch(0.3406 0.0100 7.8166);
@@ -32,13 +31,13 @@
   --chart-3: oklch(0.8785 0.0784 58.3769);
   --chart-4: oklch(0.8176 0.1076 41.8712);
   --chart-5: oklch(0.6399 0.1305 32.0587);
-  --sidebar: oklch(1.0000 0 0);
-  --sidebar-foreground: oklch(0.3406 0.0100 7.8166);
-  --sidebar-primary: oklch(0.7407 0.1601 34.5704);
+  --sidebar: oklch(0.9684 0.0042 236.4968);
+  --sidebar-foreground: oklch(0.2478 0 0);
+  --sidebar-primary: oklch(0.9777 0.0154 67.6464);
   --sidebar-primary-foreground: oklch(1.0000 0 0);
-  --sidebar-accent: oklch(0.8290 0.1098 57.8937);
+  --sidebar-accent: oklch(0.9777 0.0154 67.6464);
   --sidebar-accent-foreground: oklch(0.3406 0.0100 7.8166);
-  --sidebar-border: oklch(0.9290 0.0381 42.3592);
+  --sidebar-border: oklch(0.7003 0.1905 47.4691);
   --sidebar-ring: oklch(0.7407 0.1601 34.5704);
   --font-sans: Montserrat, sans-serif;
   --font-serif: Merriweather, serif;

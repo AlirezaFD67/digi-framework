@@ -41,24 +41,26 @@ export default function AppSidebar({ navItems }: AppSidebarProps) {
                   key={item.title}
                   asChild
                   defaultOpen={item.isActive}
-                  className='group/collapsible'
                 >
-                  <SidebarMenuItem>
-                    <CollapsibleTrigger asChild>
+                  <SidebarMenuItem  >
+                    <CollapsibleTrigger className='group/collapsible' asChild>
                       <SidebarMenuButton
+                        size="lg"
                         tooltip={item.title}
                         isActive={pathname === item.url}
+                        className="justify-start"
                       >
                         {item.icon && <Icon />}
-                        <span>{item.title}</span>
-                        <Icons.chevronRight className='ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90' />
+                        <span className='ml-auto' >{item.title}</span>
+                        <Icons.chevronRight className=' self-end transition-transform duration-200' />
                       </SidebarMenuButton>
                     </CollapsibleTrigger>
                     <CollapsibleContent>
-                      <SidebarMenuSub>
+                      <SidebarMenuSub >
                         {item.items?.map((subItem: any) => (
                           <SidebarMenuSubItem key={subItem.title}>
                             <SidebarMenuSubButton
+
                               asChild
                               isActive={pathname === subItem.url}
                             >
@@ -76,6 +78,7 @@ export default function AppSidebar({ navItems }: AppSidebarProps) {
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton
                     asChild
+                    size="lg"
                     tooltip={item.title}
                     isActive={pathname === item.url}
                   >
