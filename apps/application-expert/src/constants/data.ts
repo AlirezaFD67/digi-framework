@@ -22,14 +22,6 @@ export const navItems: NavItem[] = [
     items: [] // آرایه خالی چون هیچ آیتم فرزندی برای داشبورد وجود ندارد
   },
   {
-    title: 'محصولات',
-    url: '/dashboard/product',
-    icon: 'product',
-    shortcut: ['p', 'p'],
-    isActive: false,
-    items: [] // هیچ آیتم فرزندی وجود ندارد
-  },
-  {
     title: 'حساب کاربری',
     url: '#', // نگهدارنده چون هیچ لینک مستقیمی برای والد وجود ندارد
     icon: 'billing',
@@ -42,21 +34,7 @@ export const navItems: NavItem[] = [
         icon: 'userPen',
         shortcut: ['m', 'm']
       },
-      {
-        title: 'ورود',
-        shortcut: ['l', 'l'],
-        url: '/',
-        icon: 'login'
-      }
     ]
-  },
-  {
-    title: 'کانبان',
-    url: '/dashboard/kanban',
-    icon: 'kanban',
-    shortcut: ['k', 'k'],
-    isActive: false,
-    items: [] // هیچ آیتم فرزندی وجود ندارد
   }
 ];
 

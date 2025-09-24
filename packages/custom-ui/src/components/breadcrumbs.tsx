@@ -5,6 +5,7 @@ import { NavItem } from '../types';
 import { useBreadcrumbs } from '../hooks/use-breadcrumbs';
 import { IconSlash } from '@tabler/icons-react';
 import { Fragment } from 'react';
+import { cn } from '@workspace/ui/lib/utils';
 
 interface BreadcrumbsProps {
   navItems: NavItem[];
@@ -18,8 +19,8 @@ export function Breadcrumbs({ navItems }: BreadcrumbsProps) {
   }
 
   return (
-    <Breadcrumb>
-      <BreadcrumbList>
+    <Breadcrumb className={cn('mx-auto md:!mr-0 md:!ml-auto')} >
+      <BreadcrumbList >
         {items.map((item: any, index: number) => (
           <Fragment key={item.title || index}>
             {index !== items.length - 1 && (
