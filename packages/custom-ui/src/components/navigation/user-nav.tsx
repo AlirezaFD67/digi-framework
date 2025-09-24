@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@workspace/ui/components/dropdown-menu';
-import { UserAvatarProfile } from '@workspace/custom-ui/components/user-avatar-profile';
+import { UserAvatarProfile } from '../user-avatar-profile';
 import { SignOutButton } from '../auth/sign-out-button';
 import { useRouter } from 'next/navigation';
 

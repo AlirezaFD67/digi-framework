@@ -1,4 +1,4 @@
-import { NavItem } from '@/types';
+import { NavItem } from '@workspace/custom-ui/types';
 
 export type Product = {
   photo_url: string;
@@ -11,39 +11,39 @@ export type Product = {
   updated_at: string;
 };
 
-//Info: The following data is used for the sidebar navigation and Cmd K bar.
+//اطلاعات: داده‌های زیر برای ناوبری کناری و نوار Cmd K استفاده می‌شود.
 export const navItems: NavItem[] = [
   {
-    title: 'Dashboard',
+    title: 'داشبورد',
     url: '/dashboard',
     icon: 'dashboard',
     isActive: false,
     shortcut: ['d', 'd'],
-    items: [] // Empty array as there are no child items for Dashboard
+    items: [] // آرایه خالی چون هیچ آیتم فرزندی برای داشبورد وجود ندارد
   },
   {
-    title: 'Product',
+    title: 'محصولات',
     url: '/dashboard/product',
     icon: 'product',
     shortcut: ['p', 'p'],
     isActive: false,
-    items: [] // No child items
+    items: [] // هیچ آیتم فرزندی وجود ندارد
   },
   {
-    title: 'Account',
-    url: '#', // Placeholder as there is no direct link for the parent
+    title: 'حساب کاربری',
+    url: '#', // نگهدارنده چون هیچ لینک مستقیمی برای والد وجود ندارد
     icon: 'billing',
     isActive: true,
 
     items: [
       {
-        title: 'Profile',
+        title: 'پروفایل',
         url: '/dashboard/profile',
         icon: 'userPen',
         shortcut: ['m', 'm']
       },
       {
-        title: 'Login',
+        title: 'ورود',
         shortcut: ['l', 'l'],
         url: '/',
         icon: 'login'
@@ -51,12 +51,12 @@ export const navItems: NavItem[] = [
     ]
   },
   {
-    title: 'Kanban',
+    title: 'کانبان',
     url: '/dashboard/kanban',
     icon: 'kanban',
     shortcut: ['k', 'k'],
     isActive: false,
-    items: [] // No child items
+    items: [] // هیچ آیتم فرزندی وجود ندارد
   }
 ];
 
@@ -72,42 +72,42 @@ export interface SaleUser {
 export const recentSalesData: SaleUser[] = [
   {
     id: 1,
-    name: 'Olivia Martin',
-    email: 'olivia.martin@email.com',
+    name: 'علی احمدی',
+    email: 'ali.ahmadi@email.com',
     amount: '+$1,999.00',
     image: 'https://api.slingacademy.com/public/sample-users/1.png',
-    initials: 'OM'
+    initials: 'عا'
   },
   {
     id: 2,
-    name: 'Jackson Lee',
-    email: 'jackson.lee@email.com',
+    name: 'فاطمه رضایی',
+    email: 'fateme.razai@email.com',
     amount: '+$39.00',
     image: 'https://api.slingacademy.com/public/sample-users/2.png',
-    initials: 'JL'
+    initials: 'فر'
   },
   {
     id: 3,
-    name: 'Isabella Nguyen',
-    email: 'isabella.nguyen@email.com',
+    name: 'محمد حسینی',
+    email: 'mohammad.hosseini@email.com',
     amount: '+$299.00',
     image: 'https://api.slingacademy.com/public/sample-users/3.png',
-    initials: 'IN'
+    initials: 'مح'
   },
   {
     id: 4,
-    name: 'William Kim',
-    email: 'will@email.com',
+    name: 'زهرا کریمی',
+    email: 'zahra.karimi@email.com',
     amount: '+$99.00',
     image: 'https://api.slingacademy.com/public/sample-users/4.png',
-    initials: 'WK'
+    initials: 'زک'
   },
   {
     id: 5,
-    name: 'Sofia Davis',
-    email: 'sofia.davis@email.com',
+    name: 'حسن مرادی',
+    email: 'hasan.moradi@email.com',
     amount: '+$39.00',
     image: 'https://api.slingacademy.com/public/sample-users/5.png',
-    initials: 'SD'
+    initials: 'حم'
   }
 ];

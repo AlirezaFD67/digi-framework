@@ -1,13 +1,13 @@
 'use client';
-import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem, SidebarRail, useSidebar } from "@workspace/ui/components/sidebar"
+import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupLabel, SidebarMenu, SidebarMenuButton, SidebarMenuItem, SidebarMenuSub, SidebarMenuSubButton, SidebarMenuSubItem, SidebarRail } from "@workspace/ui/components/sidebar"
 // import { useMediaQuery } from "@workspace/ui/hooks/use-media-query"
-import Icons from "@workspace/custom-ui/components/icons"
-import { UserAvatarProfile } from '@workspace/custom-ui/components/user-avatar-profile';
+import Icons from "../../../icons"
+import { UserAvatarProfile } from '../../../user-avatar-profile';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@workspace/ui/components/collapsible';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@workspace/ui/components/dropdown-menu';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { NavItem } from "@/types";
+import { NavItem } from "../../../../types";  
 
 
 
@@ -41,28 +41,29 @@ export default function AppSidebar({ navItems }: AppSidebarProps) {
                   key={item.title}
                   asChild
                   defaultOpen={item.isActive}
+                  className='group/collapsible'
                 >
                   <SidebarMenuItem  >
-                    <CollapsibleTrigger className='group/collapsible' asChild>
+                    <CollapsibleTrigger  asChild>
                       <SidebarMenuButton
                         size="lg"
                         tooltip={item.title}
                         isActive={pathname === item.url}
-                        className="justify-start"
+                      className="justify-start"
                       >
                         {item.icon && <Icon />}
                         <span className='ml-auto' >{item.title}</span>
                         <Icons.chevronRight className=' self-end transition-transform duration-200' />
                       </SidebarMenuButton>
                     </CollapsibleTrigger>
-                    <CollapsibleContent>
+                    <CollapsibleContent >
                       <SidebarMenuSub >
                         {item.items?.map((subItem: any) => (
                           <SidebarMenuSubItem key={subItem.title}>
                             <SidebarMenuSubButton
-
                               asChild
                               isActive={pathname === subItem.url}
+                              className="data-[active=true]:text-secondary data-[active=true]:font-bold"
                             >
                               <Link href={subItem.url}>
                                 <span>{subItem.title}</span>
@@ -75,13 +76,15 @@ export default function AppSidebar({ navItems }: AppSidebarProps) {
                   </SidebarMenuItem>
                 </Collapsible>
               ) : (
-                <SidebarMenuItem key={item.title}>
+                <SidebarMenuItem 
+                key={item.title}>
                   <SidebarMenuButton
                     asChild
                     size="lg"
                     tooltip={item.title}
                     isActive={pathname === item.url}
-                  >
+                    className=" border-transparent data-[active=true]:border-secondary border-r"
+                    >
                     <Link href={item.url}>
                       <Icon />
                       <span>{item.title}</span>

@@ -26,6 +26,9 @@ importers:
 
   apps/application-expert:
     dependencies:
+      '@fontsource/vazir':
+        specifier: ^4.5.4
+        version: 4.5.4
       '@workspace/custom-ui':
         specifier: workspace:*
         version: link:../../packages/custom-ui
@@ -689,6 +692,9 @@ packages:
 
   '@floating-ui/utils@0.2.10':
     resolution: {integrity: sha512-aGTxbpbg8/b5JfU1HXSrbH3wXZuLPJcNEcZQFMxLs3oSzgtVu6nFPkbbGGUvBcUjKV2YyB9Wxxabo+HEH9tcRQ==}
+
+  '@fontsource/vazir@4.5.4':
+    resolution: {integrity: sha512-PnQwwPf9JDnCHHLx55c9QHBfPSQY4VOqhGTTQ0jUkAAJOW66gE6aCOKZGGANd5e3u95LGXEzzt6E0GZXVUv0cg==}
 
   '@formatjs/intl-localematcher@0.6.1':
     resolution: {integrity: sha512-ePEgLgVCqi2BBFnTMWPfIghu6FkbZnnBVhO2sSxvLfrdFw7wCHAHiDoM2h4NRgjbaY7+B7HgOLZGkK187pZTZg==}
@@ -5196,6 +5202,8 @@ snapshots:
       react-dom: 19.1.1(react@19.1.1)
 
   '@floating-ui/utils@0.2.10': {}
+
+  '@fontsource/vazir@4.5.4': {}
 
   '@formatjs/intl-localematcher@0.6.1':
     dependencies:

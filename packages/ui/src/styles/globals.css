@@ -39,7 +39,7 @@
   --sidebar-accent-foreground: oklch(0.3406 0.0100 7.8166);
   --sidebar-border: oklch(0.7003 0.1905 47.4691);
   --sidebar-ring: oklch(0.7407 0.1601 34.5704);
-  --font-sans: Montserrat, sans-serif;
+  --font-sans: Vazir, Montserrat, sans-serif;
   --font-serif: Merriweather, serif;
   --font-mono: Ubuntu Mono, monospace;
   --radius: 0.525rem;
@@ -88,7 +88,7 @@
   --sidebar-accent-foreground: oklch(0.2599 0.0204 351.7627);
   --sidebar-border: oklch(0.3599 0.0203 342.2825);
   --sidebar-ring: oklch(0.7407 0.1601 34.5704);
-  --font-sans: Inter;
+  --font-sans: Vazir, Inter, sans-serif;
   --font-serif: serif;
   --font-mono: monospace;
   --radius: 0.5rem;
@@ -171,5 +171,37 @@ body {
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer utilities {
+  @keyframes collapsible-down {
+    from {
+      height: 0;
+    }
+    to {
+      height: var(--radix-collapsible-content-height);
+    }
+  }
+
+  @keyframes collapsible-up {
+    from {
+      height: var(--radix-collapsible-content-height);
+    }
+    to {
+      height: 0;
+    }
+  }
+
+  .animate-collapsible-down {
+    animation: collapsible-down 200ms ease-out;
+  }
+
+  .animate-collapsible-up {
+    animation: collapsible-up 200ms ease-out;
+  }
+
+  .font-vazir {
+    font-family: 'Vazir', sans-serif;
   }
 }

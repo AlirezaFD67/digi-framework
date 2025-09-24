@@ -16,7 +16,7 @@ export default function DashboardLayout({
       <div className="flex min-h-dvh w-full">
         <AppSidebar navItems={navItems} />
         <div className="flex flex-1 flex-col">
-          <DashboardHeader />
+          <DashboardHeader navItems={navItems} />
           <main className="p-6">
             {children}
           </main>

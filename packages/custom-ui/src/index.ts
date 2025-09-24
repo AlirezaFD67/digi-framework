@@ -30,8 +30,6 @@ export {
   useToast,
   ModalProvider, 
   useModalContext,
-  SidebarProvider,
-  useSidebar
 } from "./contexts"
 
 // Export providers
@@ -62,7 +60,6 @@ export { useLocalStorage, useDebounce, useToggle, useModal } from "./hooks"
 export type { ModalConfig, ModalType, ModalState, ModalContextType } from "./types/modal"
 export type { FieldError, AppError, ErrorContextType } from "./types/error"
 export type { Toast, ToastType } from "./components/error/error-toast"
-export type { SidebarContextType } from "./contexts"
 
 // Export map components
 export { default as Map } from "./components/map/map"
