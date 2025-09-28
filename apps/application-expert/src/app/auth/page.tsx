@@ -5,10 +5,10 @@ import Link from "next/link"
 import { Button } from "@workspace/ui/components/button"
 import { Input } from "@workspace/ui/components/input"
 import { Label } from "@workspace/ui/components/label"
-
+import { useAuthTokenMutation } from "@workspace/framework"
 export default function AuthPage() {
   const [mode, setMode] = React.useState<"login" | "register">("login")
-
+  const { mutate: login } = useAuthTokenMutation()
   return (
     <div className="min-h-dvh w-full flex items-center justify-center p-6">
       <div className="w-full max-w-sm space-y-6">

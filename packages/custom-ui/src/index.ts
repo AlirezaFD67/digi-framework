@@ -74,6 +74,9 @@ export { default as CustomTable } from "./components/table"
 // Export auth components
 export { SignOutButton } from "./components/auth/sign-out-button"
 
+// Export auth components
+export * from "./auth/guard"
+
 // Re-export commonly used UI components for convenience
 export { Button } from "@workspace/ui/components/button"
 export { Card } from "@workspace/ui/components/card"

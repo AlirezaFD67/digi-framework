@@ -5,6 +5,8 @@ export default defineConfig({
     "src/index.ts",
     "src/components/**/*.ts",
     "src/components/**/*.tsx",
+    "src/auth/**/*.tsx",
+    "src/auth/**/*.ts",
     "src/hooks/**/*.ts",
     "src/hooks/**/*.tsx",
   ],

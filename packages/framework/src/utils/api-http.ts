@@ -1,5 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from "axios";
 import { APIError } from "../types";
+import { getAuthToken, removeAuthToken, clearAuthTokens } from "./cookie-utils";
 
 /**
  * HTTP Client configuration
@@ -17,10 +18,8 @@ const APIHttp: AxiosInstance = axios.create({
  */
 APIHttp.interceptors.request.use(
   (config: InternalAxiosRequestConfig) => {
-    // Get token from localStorage or cookie
-    const token = typeof window !== "undefined" 
-      ? localStorage.getItem("auth_token") || sessionStorage.getItem("auth_token")
-      : null;
+    // Get token from cookie utilities
+    const token = getAuthToken();
 
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -51,10 +50,9 @@ APIHttp.interceptors.response.use(
 
     // Handle specific error cases
     if (error.response?.status === 401) {
-      // Unauthorized - redirect to login or refresh token
+      // Unauthorized - clear auth tokens and redirect to login
+      clearAuthTokens();
       if (typeof window !== "undefined") {
-        localStorage.removeItem("auth_token");
-        sessionStorage.removeItem("auth_token");
         // You can dispatch a logout action here or redirect to login
         window.location.href = "/login";
       }

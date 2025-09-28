@@ -2,14 +2,15 @@
 
 import * as React from "react"
 import { ThemeProvider as NextThemesProvider } from "next-themes"
-import { 
-  ModalProvider, 
+import {
+  ModalProvider,
   ErrorProvider,
   ToastProvider,
 } from "../contexts"
 import { ModalManager } from "../components/modal"
 import { ToastContainer } from "../components/error"
 import { SidebarProvider } from "@workspace/ui/components/sidebar"
+import { AuthProvider } from "../contexts/auth/auth-provider"
 export type AppMode = "dashboard" | "web-app"
 
 export interface CustomUIProviderProps {
@@ -29,14 +30,18 @@ export interface CustomUIProviderProps {
     defaultOpen?: boolean
     defaultCollapsed?: boolean
   }
+  loginRoute?: string
+  appRoute?: string
 }
 
-export function CustomUIProvider({ 
-  children, 
+export function CustomUIProvider({
+  children,
   mode = "web-app",
   themeConfig = {},
   toastConfig = {},
-  sidebarConfig = {}
+  sidebarConfig = {},
+  loginRoute,
+  appRoute
 }: CustomUIProviderProps) {
   const {
     attribute = "class",
@@ -64,15 +69,17 @@ export function CustomUIProvider({
       disableTransitionOnChange={disableTransitionOnChange}
       enableColorScheme={enableColorScheme}
     >
-      <ErrorProvider>
-        <ToastProvider>
-          <ModalProvider>
-            {children}
-            <ModalManager />
-            <ToastContainer position={position} />
-          </ModalProvider>
-        </ToastProvider>
-      </ErrorProvider>
+      <AuthProvider loginRoute={loginRoute} appRoute={appRoute}>
+        <ErrorProvider>
+          <ToastProvider>
+            <ModalProvider>
+              {children}
+              <ModalManager />
+              <ToastContainer position={position} />
+            </ModalProvider>
+          </ToastProvider>
+        </ErrorProvider>
+      </AuthProvider>
     </NextThemesProvider>
   )
 

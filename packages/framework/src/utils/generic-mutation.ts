@@ -10,7 +10,7 @@ import { MutationOptions } from "../types";
  * Generic mutation hook for POST/PUT/DELETE requests
  * Provides consistent mutation behavior across the application
  */
-export const useGenericMutation = <TData, TVariables, TError = Error>(
+export const  useGenericMutation = <TData, TVariables, TError = Error>(
   mutationFn: (data: TVariables) => Promise<TData>,
   queryKey: readonly string[],
   options?: MutationOptions<TData, TVariables> & Omit<UseMutationOptions<TData, TError, TVariables>, 'mutationFn'>
