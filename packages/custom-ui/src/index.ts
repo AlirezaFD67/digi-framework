@@ -72,7 +72,7 @@ export { default as CustomPagination } from "./components/pagination"
 export { default as CustomTable } from "./components/table"
 
 // Export auth components
-export { SignOutButton } from "./components/auth/sign-out-button"
+export { SignOutButton, OTPLoginForm, OTPLoginFormExample } from "./components/auth"
 
 // Export auth components
 export * from "./auth/guard"

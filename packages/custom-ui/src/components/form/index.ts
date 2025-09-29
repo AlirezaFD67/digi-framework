@@ -5,6 +5,7 @@ export { RHFTextarea } from "./rhf-textarea"
 export { RHFSelect } from "./rhf-select"
 export { RHFCheckbox } from "./rhf-checkbox"
 export { RHFButton } from "./rhf-button"
+export { RHFOTP } from "./rhf-otp"
 
 // Export form utilities
 export { 

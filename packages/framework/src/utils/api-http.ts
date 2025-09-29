@@ -1,12 +1,12 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig } from "axios";
-import { APIError } from "../types";
+import { APIError, APIHttpType } from "../types";
 import { getAuthToken, removeAuthToken, clearAuthTokens } from "./cookie-utils";
 
 /**
  * HTTP Client configuration
  */
 const APIHttp: AxiosInstance = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_REST_API_ENDPOINT || "/api",
+  baseURL: process.env.NEXT_PUBLIC_REST_API_ENDPOINT + "/api",
   timeout: 70000,
   headers: {
     "Content-Type": "application/json",
@@ -75,67 +75,67 @@ APIHttp.interceptors.response.use(
   }
 );
 
-/**
- * Generic GET request
- */
-export const apiGet = <T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> => {
-  return APIHttp.get<T>(url, config);
-};
+// /**
+//  * Generic GET request
+//  */
+//   export const apiGet = <T>(url: string, config?: AxiosRequestConfig): Promise<APIHttpType<T>> => {
+//   return APIHttp.get<T>(url, config);
+// };
 
-/**
- * Generic POST request
- */
-export const apiPost = <T, D = any>(
-  url: string, 
-  data?: D, 
-  config?: AxiosRequestConfig
-): Promise<AxiosResponse<T>> => {
-  return APIHttp.post<T>(url, data, config);
-};
+// /**
+//  * Generic POST request
+//  */
+// export const apiPost = <T, D = any>(
+//   url: string, 
+//   data?: D, 
+//   config?: AxiosRequestConfig
+// ): Promise<APIHttpType<T>> => {
+//   return APIHttp.post<T>(url, data, config);
+// };
 
-/**
- * Generic PUT request
- */
-export const apiPut = <T, D = any>(
-  url: string, 
-  data?: D, 
-  config?: AxiosRequestConfig
-): Promise<AxiosResponse<T>> => {
-  return APIHttp.put<T>(url, data, config);
-};
+// /**
+//  * Generic PUT request
+//  */
+// export const apiPut = <T, D = any>(
+//   url: string, 
+//   data?: D, 
+//   config?: AxiosRequestConfig
+// ): Promise<APIHttpType<T>> => {
+//   return APIHttp.put<T>(url, data, config);
+// };
 
-/**
- * Generic PATCH request
- */
-export const apiPatch = <T, D = any>(
-  url: string, 
-  data?: D, 
-  config?: AxiosRequestConfig
-): Promise<AxiosResponse<T>> => {
-  return APIHttp.patch<T>(url, data, config);
-};
+// /**
+//  * Generic PATCH request
+//  */
+// export const apiPatch = <T, D = any>(
+//   url: string, 
+//   data?: D, 
+//   config?: AxiosRequestConfig
+// ): Promise<APIHttpType<T>> => {
+//   return APIHttp.patch<T>(url, data, config);
+// };
 
-/**
- * Generic DELETE request
- */
-export const apiDelete = <T>(url: string, config?: AxiosRequestConfig): Promise<AxiosResponse<T>> => {
-  return APIHttp.delete<T>(url, config);
-};
+// /**
+//  * Generic DELETE request
+//  */
+// export const apiDelete = <T>(url: string, config?: AxiosRequestConfig): Promise<APIHttpType<T>> => {
+//   return APIHttp.delete<T>(url, config);
+// };
 
-/**
- * Upload file with progress tracking
- */
-export const apiUpload = <T>(
-  url: string,
-  formData: FormData,
-  onUploadProgress?: (progressEvent: any) => void
-): Promise<AxiosResponse<T>> => {
-  return APIHttp.post<T>(url, formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
-    onUploadProgress,
-  });
-};
+// /**
+//  * Upload file with progress tracking
+//  */
+// export const apiUpload = <T>(
+//   url: string,
+//   formData: FormData,
+//   onUploadProgress?: (progressEvent: any) => void
+// ): Promise<APIHttpType<T>> => {
+//   return APIHttp.post<T>(url, formData, {
+//     headers: {
+//       "Content-Type": "multipart/form-data",
+//     },
+//     onUploadProgress,
+//   });
+// };
 
 export default APIHttp;

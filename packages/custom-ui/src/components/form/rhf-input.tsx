@@ -101,23 +101,24 @@ export function RHFInput({
     if (!value) return value
     const cleaned = value.replace(/\D/g, "")
     
-    // Iranian phone number formatting
+    // Iranian phone number formatting - only format when complete
     if (cleaned.startsWith('98')) {
       const iranianNumber = cleaned.substring(2)
       if (iranianNumber.length === 10) {
         return `+98 ${iranianNumber.substring(0, 4)} ${iranianNumber.substring(4, 7)} ${iranianNumber.substring(7)}`
       }
     } else if (cleaned.startsWith('09')) {
+      // Don't add spaces for incomplete numbers
       if (cleaned.length === 11) {
-        return `${cleaned.substring(0, 4)} ${cleaned.substring(4, 7)} ${cleaned.substring(7)}`
+        return cleaned // Return without spaces for display
       }
     } else if (cleaned.startsWith('9')) {
       if (cleaned.length === 10) {
-        return `0${cleaned.substring(0, 3)} ${cleaned.substring(3, 6)} ${cleaned.substring(6)}`
+        return `0${cleaned}` // Return without spaces for display
       }
     }
     
-    return value
+    return cleaned // Return cleaned number without spaces
   }
 
   function formatCurrency(value: string) {

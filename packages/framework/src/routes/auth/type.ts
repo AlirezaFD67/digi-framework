@@ -3,7 +3,13 @@ export interface AuthTokenRequest {
   password: string; // title: Password, minLength: 1
 }
 
-export type AuthTokenResponse = "NULL"
+export interface AuthTokenResponse {
+  result: {
+    status: string;
+    message: string;
+  };
+  entries: Array<"NULL">;
+}
 
 export interface OTPVerificationRequest {
   userPhone: string;
