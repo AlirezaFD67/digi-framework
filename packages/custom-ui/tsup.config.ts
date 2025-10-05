@@ -1,6 +1,6 @@
 import { defineConfig } from "tsup"
 
-export default defineConfig({
+export default defineConfig((options) => ({
   entry: [
     "src/index.ts",
     "src/components/**/*.ts",
@@ -11,9 +11,18 @@ export default defineConfig({
     "src/hooks/**/*.tsx",
   ],
   format: ["cjs", "esm"],
-  dts: true,
+  dts: {
+    resolve: true,
+    compilerOptions: {
+      maxNodeModuleJsDepth: 0,
+    },
+  },
   splitting: false,
   sourcemap: true,
-  clean: true,
+  clean: !options.watch, // Only clean on build, not on watch
+  outDir: "dist",
   external: ["react", "react-dom", "react-hook-form", "lucide-react"],
-})
+  treeshake: true,
+  // Improve watch mode
+  ignoreWatch: ["**/dist/**", "**/node_modules/**", "**/.turbo/**"],
+}))

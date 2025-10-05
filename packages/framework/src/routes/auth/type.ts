@@ -4,11 +4,9 @@ export interface AuthTokenRequest {
 }
 
 export interface AuthTokenResponse {
-  result: {
-    status: string;
-    message: string;
-  };
-  entries: Array<"NULL">;
+  token: string;
+  refreshToken?: string;
+  expiresIn?: number;
 }
 
 export interface OTPVerificationRequest {
@@ -17,8 +15,10 @@ export interface OTPVerificationRequest {
 }
 
 export interface OTPVerificationResponse {
-  userPhone: string;
-  userOTP: string;
+  "username": string,
+  "userPassword": string,
+  "token": string,
+  "userExistance": boolean
 }
 
 

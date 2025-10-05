@@ -2,7 +2,7 @@
 
 import React from "react"
 import { useFormContext } from "react-hook-form"
-import { Button, buttonVariants, VariantProps } from "@workspace/ui/components/button"
+import { Button, buttonVariants, type VariantProps } from "@workspace/ui/components/button"
 
 // ----------------------------------------------------------------------
 

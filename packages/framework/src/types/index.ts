@@ -8,7 +8,7 @@ export type BaseResponseType<T> = {
     status: string; 
     message: string; 
   };
-  entries: Array<T>;
+  entries: T;
 };
 
 /**

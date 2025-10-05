@@ -14,7 +14,6 @@ import {
   useCreateAuthTokenMutation,
   useUserProfileQuery,
   useVerifyOTPMutation,
-  HookOptions
 } from "@workspace/framework";
 
 import { AuthContext } from "./auth-context";
@@ -108,6 +107,11 @@ export function AuthProvider({ children, loginRoute, appRoute }: Props) {
         return;
       }
 
+      // If we have a valid token, we can stop the initial loading
+      // Profile data can load in the background
+      dispatch({ type: Types.INITIAL, payload: { user: null } });
+      console.log("🔐 AuthProvider: profileData:", profileData);
+      // If profile data is available, use it
       if (profileData && !profileLoading) {
         const user = profileData.data;
         dispatch({
@@ -134,21 +138,28 @@ export function AuthProvider({ children, loginRoute, appRoute }: Props) {
 
   const loginWithToken = useCallback(
     async (data: { username: string; password: string }) => {
-      console.log("Login data received:", data);
+      console.log("🔐 AuthProvider: loginWithToken called with data:", data);
+      console.log("🔐 AuthProvider: createTokenMutation:", createTokenMutation);
       try {
+        console.log("🔐 AuthProvider: Calling createTokenMutation.mutateAsync...");
         const res = await createTokenMutation.mutateAsync(data);
-        const success = res.status === 200;
+        console.log("🔐 AuthProvider: Login response received:", res);
+        
+        // The response is directly the data from the mutation
+        console.log("✅ AuthProvider: Login successful:", res);
+        // When login is successful, OTP code is sent
+        // The user should now enter the OTP code they received
+        // No token is set yet - that happens after OTP verification
 
-        if (success) {
-          console.log("Login successful:", res.data);
-          // When login is successful (status 200), OTP code is sent
-          // The user should now enter the OTP code they received
-          // No token is set yet - that happens after OTP verification
-        }
-
-        return res.data;
-      } catch (error) {
-        console.error("Login failed:", error);
+        return res;
+      } catch (error: any) {
+        console.error("💥 AuthProvider: Login failed with error:", error);
+        console.error("💥 AuthProvider: Error details:", {
+          message: error?.message,
+          response: error?.response,
+          status: error?.status,
+          code: error?.code
+        });
         throw error;
       }
     },
@@ -157,21 +168,26 @@ export function AuthProvider({ children, loginRoute, appRoute }: Props) {
 
   const verifyOTP = useCallback(
     async (data: { userPhone: string; userOTP: string }) => {
-      console.log("OTP verification data received:", data);
       try {
+        console.log("📱 AuthProvider: Calling verifyOTPMutation.mutateAsync...");
         const res = await verifyOTPMutation.mutateAsync(data);
-        const success = res.status === 201;
-
-        if (success) {
-          console.log("OTP verified successfully:", res.data);
-          // After successful OTP verification, complete the authentication
-          // You can set a session token or user data here
-          // For now, we'll just log success - you can add more logic as needed
+        console.log("🔐 AuthProvider: OTP verification response received: on Provider ", res);
+        // After successful OTP verification, complete the authentication
+        // You can set a session token or user data here
+        // For now, we'll just log success - you can add more logic as needed
+        if ((res as any).token) {
+          setAuthToken((res as any).token);
         }
 
-        return res.data;
-      } catch (error) {
-        console.error("OTP verification failed:", error);
+        return res;
+      } catch (error: any) {
+        console.error("💥 AuthProvider: OTP verification failed with error:", error);
+        console.error("💥 AuthProvider: Error details:", {
+          message: error?.message,
+          response: error?.response,
+          status: error?.status,
+          code: error?.code
+        });
         throw error;
       }
     },
@@ -186,14 +202,33 @@ export function AuthProvider({ children, loginRoute, appRoute }: Props) {
     window?.location.reload();
   }, []);
 
-  const status = state.loading ? "loading" : state.user;
+  // Determine loading state more precisely
+  const isLoading = useMemo(() => {
+    // If not on client side yet, show loading
+    if (!isClient) return true;
+    
+    // If the reducer state is still loading, show loading
+    if (state.loading) return true;
+    
+    // If we have a token but profile is still loading, don't show loading
+    // because we can proceed with authentication
+    if (isAuthenticated() && profileLoading) return false;
+    
+    // If we have a token and profile is loaded, we're done loading
+    if (isAuthenticated() && !profileLoading) return false;
+    
+    // If no token, we're done loading (user is not authenticated)
+    if (!isAuthenticated()) return false;
+    
+    return false;
+  }, [isClient, state.loading, profileLoading]);
 
   const memoizedValue = useMemo(
     () => ({
       user: state.user,
       method: "jwt",
-      loading: status === "loading" || !isClient,
-      isAuthenticated: state.user,
+      loading: isLoading,
+      isAuthenticated: !!state.user,
       loginRoute,
       appRoute,
       loginWithToken,
@@ -201,7 +236,7 @@ export function AuthProvider({ children, loginRoute, appRoute }: Props) {
       logout,
       initialize,
     }),
-    [initialize, loginWithToken, verifyOTP, logout, state.user, status, isClient, loginRoute, appRoute]
+    [initialize, loginWithToken, verifyOTP, logout, state.user, isLoading, loginRoute, appRoute]
   );
 
   return (

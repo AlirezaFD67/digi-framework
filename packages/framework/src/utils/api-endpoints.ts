@@ -16,7 +16,7 @@ const AUTH_TOKEN = {
 
 // User management endpoints
 const USER = {
-  PROFILE: "/user/profile",
+  PROFILE: "/getuserprofile",
 } as const;
 
 // Users management (admin)

@@ -1,14 +1,12 @@
-import { UseQueryResult } from "@tanstack/react-query";
 import { useGenericQuery } from "../../utils/generic-query";
-import { AxiosResponse } from "axios";
 import { GetUserProfile } from "./get";
 import { IUserProfile } from "./type";
-import { HookOptions } from "../../types";
+import { HookOptions, APIHttpType } from "../../types";
 
-export const useUserProfileQuery = (options?: HookOptions): UseQueryResult<AxiosResponse<IUserProfile>, Error> => {
-  return useGenericQuery<AxiosResponse<IUserProfile>>(
+export const useUserProfileQuery = (options?: HookOptions):APIHttpType<IUserProfile>=> {
+  return useGenericQuery<APIHttpType<IUserProfile>>(
     () => GetUserProfile(),
-    ["user", "profile"],
+    ["user", "profile"], 
     options
   );
 };
