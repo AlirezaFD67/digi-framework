@@ -57,7 +57,7 @@ const defaultQueryClient = new QueryClient({
 export const FrameworkProvider: React.FC<FrameworkProviderProps> = ({
   children,
   queryClient = defaultQueryClient,
-  enableDevtools = process.env.NODE_ENV === "development",
+  enableDevtools = typeof process !== "undefined" ? process.env.NODE_ENV === "development" : false,
 }) => {
   return (
     <QueryClientProvider client={queryClient}>
@@ -72,8 +72,9 @@ export const FrameworkProvider: React.FC<FrameworkProviderProps> = ({
  * Useful for manual cache operations
  */
 export const useQueryClient = () => {
-  const { useQueryClient: useReactQueryClient } = require("@tanstack/react-query");
-  return useReactQueryClient();
+  // Lazy import to avoid SSR issues and keep types clean in DTS
+  const mod = require("@tanstack/react-query");
+  return mod.useQueryClient();
 };
 
 export default FrameworkProvider;

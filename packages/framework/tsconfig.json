@@ -4,6 +4,8 @@
     "outDir": "dist",
     "rootDir": "src",
     "baseUrl": ".",
+    "moduleResolution": "bundler",
+    "types": ["react", "react-dom", "node"] ,
     "paths": {
       "@/*": ["./src/*"]
     }
