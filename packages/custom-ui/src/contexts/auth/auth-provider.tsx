@@ -95,13 +95,15 @@ export function AuthProvider({ children, loginRoute, appRoute }: Props) {
   const { data: profileData, isLoading: profileLoading } = useUserProfileQuery({ enabled: isAuthenticated() });
   
   const initialize = useCallback(async () => {
+
     const handleError = (error: any) => {
       dispatch({ type: Types.INITIAL, payload: { user: null } });
     };
 
     try {
       const token = getAuthToken();
-
+      console.log("🔐 AuthProvider: token:", token);
+      
       if (!token || !isAuthenticated()) {
         dispatch({ type: Types.INITIAL, payload: { user: null } });
         return;
@@ -110,10 +112,15 @@ export function AuthProvider({ children, loginRoute, appRoute }: Props) {
       // If we have a valid token, we can stop the initial loading
       // Profile data can load in the background
       dispatch({ type: Types.INITIAL, payload: { user: null } });
-      console.log("🔐 AuthProvider: profileData:", profileData);
+      // console.log("🔐 AuthProvider: profileData:", profileData);
       // If profile data is available, use it
+      // console.log("🔐 AuthProvider: profileData.data.entries:", profileData?.data.entries[0]);
+      console.log("🔐 AuthProvider: profileLoading:", profileLoading);
+      
       if (profileData && !profileLoading) {
-        const user = profileData.data;
+        const user = profileData.data.entries[0];
+        console.log("🔐 AuthProvider: user:", user);
+        
         dispatch({
           type: Types.INITIAL,
           payload: {
@@ -138,12 +145,9 @@ export function AuthProvider({ children, loginRoute, appRoute }: Props) {
 
   const loginWithToken = useCallback(
     async (data: { username: string; password: string }) => {
-      console.log("🔐 AuthProvider: loginWithToken called with data:", data);
-      console.log("🔐 AuthProvider: createTokenMutation:", createTokenMutation);
-      try {
-        console.log("🔐 AuthProvider: Calling createTokenMutation.mutateAsync...");
+           try {
+      
         const res = await createTokenMutation.mutateAsync(data);
-        console.log("🔐 AuthProvider: Login response received:", res);
         
         // The response is directly the data from the mutation
         console.log("✅ AuthProvider: Login successful:", res);

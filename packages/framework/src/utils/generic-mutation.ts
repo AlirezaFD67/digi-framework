@@ -1,7 +1,6 @@
 import { 
   useMutation, 
   UseMutationOptions, 
-  UseMutationResult,
   useQueryClient 
 } from "@tanstack/react-query";
 import { MutationOptions } from "../types";
@@ -14,12 +13,12 @@ export const  useGenericMutation = <TData, TVariables, TError = Error>(
   mutationFn: (data: TVariables) => Promise<TData>,
   queryKey: readonly string[],
   options?: MutationOptions<TData, TVariables> & Omit<UseMutationOptions<TData, TError, TVariables>, 'mutationFn'>
-): UseMutationResult<TData, TError, TVariables> => {
+) => {
   const queryClient = useQueryClient();
 
   return useMutation<TData, TError, TVariables>({
     mutationFn,
-    onSuccess: (data, variables) => {
+    onSuccess: (data: TData, variables: TVariables) => {
       // Invalidate related queries
       queryClient.invalidateQueries({ queryKey });
       
@@ -44,12 +43,12 @@ export const useGenericMutationWithOptimisticUpdate = <TData, TVariables, TError
   queryKey: readonly string[],
   optimisticUpdateFn: (oldData: any, variables: TVariables) => any,
   options?: MutationOptions<TData, TVariables> & Omit<UseMutationOptions<TData, TError, TVariables>, 'mutationFn'>
-): UseMutationResult<TData, TError, TVariables> => {
+) => {
   const queryClient = useQueryClient();
 
   return useMutation<TData, TError, TVariables>({
     mutationFn,
-    onMutate: async (variables) => {
+    onMutate: async (variables: TVariables) => {
       // Cancel any outgoing refetches
       await queryClient.cancelQueries({ queryKey });
 
@@ -77,7 +76,7 @@ export const useGenericMutationWithOptimisticUpdate = <TData, TVariables, TError
       // Always refetch after error or success
       queryClient.invalidateQueries({ queryKey });
     },
-    onSuccess: (data, variables) => {
+    onSuccess: (data: TData, variables: TVariables) => {
       // Call custom onSuccess if provided
       options?.onSuccess?.(data, variables);
     },
@@ -94,12 +93,12 @@ export const useGenericUploadMutation = <TData, TVariables, TError = Error>(
   mutationFn: (data: TVariables) => Promise<TData>,
   queryKey: readonly string[],
   options?: MutationOptions<TData, TVariables> & Omit<UseMutationOptions<TData, TError, TVariables>, 'mutationFn'>
-): UseMutationResult<TData, TError, TVariables> => {
+) => {
   const queryClient = useQueryClient();
 
   return useMutation<TData, TError, TVariables>({
     mutationFn,
-    onSuccess: (data, variables) => {
+    onSuccess: (data: TData, variables: TVariables) => {
       // Invalidate related queries
       queryClient.invalidateQueries({ queryKey });
       

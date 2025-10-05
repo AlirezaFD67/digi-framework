@@ -26,7 +26,8 @@ type Props = {
 
 export default function AuthGuard({ children }: Props) {
   const { loading } = useAuthContext();
-
+  console.log("🔐 AuthGuard: loading:", loading);
+  
   if (loading) {
     return <SplashScreen />;
   }

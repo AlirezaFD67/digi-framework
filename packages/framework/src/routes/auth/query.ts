@@ -1,14 +1,13 @@
 import { useGenericMutation } from "../../utils/generic-mutation";
 import { CreateAuthToken, VerifyOTP } from "./post";
 import { AuthTokenRequest, AuthTokenResponse, OTPVerificationRequest, OTPVerificationResponse } from "./type";
-import { APIHttpType } from "../../types";
 
-export const useCreateAuthTokenMutation = ():APIHttpType<AuthTokenResponse>=> {
+export const useCreateAuthTokenMutation = () => {
   return useGenericMutation<AuthTokenResponse, AuthTokenRequest>(
     async (data): Promise<AuthTokenResponse> => {
       const response = await CreateAuthToken(data);
       if (response.data.entries) {
-        return response.data.entries;
+        return response.data.entries as AuthTokenResponse;
       }
       // Fallback to a default response structure
       return {
@@ -21,7 +20,7 @@ export const useCreateAuthTokenMutation = ():APIHttpType<AuthTokenResponse>=> {
   );
 };
 
-  export const useVerifyOTPMutation = (): APIHttpType<OTPVerificationResponse>=>  {
+export const useVerifyOTPMutation = ()=> {
   return useGenericMutation<OTPVerificationResponse, OTPVerificationRequest>(
     async (data): Promise<OTPVerificationResponse> => {
       const response = await VerifyOTP(data);

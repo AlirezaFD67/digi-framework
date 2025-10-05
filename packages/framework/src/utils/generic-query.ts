@@ -1,4 +1,4 @@
-import { useQuery, UseQueryOptions, UseQueryResult } from "@tanstack/react-query";
+import { useQuery, UseQueryOptions } from "@tanstack/react-query";
 import { HookOptions } from "../types";
 
 /**
@@ -9,7 +9,7 @@ export const useGenericQuery = <TData, TError = Error>(
   queryFn: () => Promise<TData>,
   queryKey: readonly [string] | readonly [string, ...string[]],
   options?: HookOptions & Omit<UseQueryOptions<TData, TError>, 'queryKey' | 'queryFn'>
-): UseQueryResult<TData, TError> => {
+) => {
   return useQuery<TData, TError>({
     queryKey,
     queryFn,
@@ -17,7 +17,7 @@ export const useGenericQuery = <TData, TError = Error>(
     staleTime: options?.staleTime || 5 * 60 * 1000, // 5 minutes default
     gcTime: options?.gcTime || 10 * 60 * 1000, // 10 minutes default
     retry: 3,
-    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+    retryDelay: (attemptIndex: number) => Math.min(1000 * 2 ** attemptIndex, 30000),
     ...options,
   });
 };
@@ -31,7 +31,7 @@ export const useGenericQueryWithParams = <TData, TParams = any, TError = Error>(
   queryKey: readonly [string] | readonly [string, ...string[]],
   params: TParams,
   options?: HookOptions & Omit<UseQueryOptions<TData, TError>, 'queryKey' | 'queryFn'>
-): UseQueryResult<TData, TError> => {
+) => {
   return useQuery<TData, TError>({
     queryKey: [...queryKey, JSON.stringify(params)],
     queryFn: () => queryFn(params),
@@ -39,7 +39,7 @@ export const useGenericQueryWithParams = <TData, TParams = any, TError = Error>(
     staleTime: options?.staleTime || 5 * 60 * 1000,
     gcTime: options?.gcTime || 10 * 60 * 1000,
     retry: 3,
-    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+    retryDelay: (attemptIndex: number) => Math.min(1000 * 2 ** attemptIndex, 30000),
     ...options,
   });
 };
@@ -59,7 +59,7 @@ export const useGenericInfiniteQuery = <TData, TError = Error>(
     staleTime: options?.staleTime || 5 * 60 * 1000,
     gcTime: options?.gcTime || 10 * 60 * 1000,
     retry: 3,
-    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
+    retryDelay: (attemptIndex: number) => Math.min(1000 * 2 ** attemptIndex, 30000),
     ...options,
   });
 };
