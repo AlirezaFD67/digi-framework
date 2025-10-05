@@ -20,20 +20,6 @@ type Props = {
 };
 
 
-// ============================================================================
-// COMPONENT
-// ============================================================================
-
-export default function AuthGuard({ children }: Props) {
-  const { loading } = useAuthContext();
-  console.log("🔐 AuthGuard: loading:", loading);
-  
-  if (loading) {
-    return <SplashScreen />;
-  }
-
-  return <Container>{children}</Container>;
-}
 
 // ============================================================================
 // CONTAINER COMPONENT
@@ -41,9 +27,25 @@ export default function AuthGuard({ children }: Props) {
 
 function Container({ children }: Props) {
   const router = useRouter();
-  const { isAuthenticated, method, loading,loginRoute } = useAuthContext();
   const [checked, setChecked] = useState(false);
-  const [isClient, setIsClient] = useState(false);
+  const [contextReady, setContextReady] = useState(false);
+  
+  // Wait for context to be ready
+  useEffect(() => {
+    setContextReady(true);
+  }, []);
+  
+  // Don't access context until we're sure it's ready
+  if (!contextReady) {
+    return <SplashScreen />;
+  }
+  
+  return <AuthChecker checked={checked} setChecked={setChecked}>{children}</AuthChecker>;
+}
+
+function AuthChecker({ children, checked, setChecked }: Props & { checked: boolean; setChecked: (value: boolean) => void }) {
+  const router = useRouter();
+  const { isAuthenticated, loading, loginRoute } = useAuthContext();
 
   const check = useCallback(() => {
     if (loading) {
@@ -51,33 +53,59 @@ function Container({ children }: Props) {
     }
 
     if (!isAuthenticated) {
-      const returnTo = typeof window !== "undefined" ? window.location.pathname : "";
+      const returnTo = window.location.pathname;
       const searchParams = new URLSearchParams({ returnTo }).toString();
-      const loginPath = loginRoute || `/${loginRoute}`;
+      const loginPath = loginRoute || "/auth/login";
       const href = `${loginPath}?${searchParams}`;
-        console.log("auth-guard",href);
+      console.log("auth-guard", href);
       // router.replace(href);
     } else {
       setChecked(true);
     }
-  }, [isAuthenticated, loading, method, router]);
+  }, [isAuthenticated, loading, loginRoute, router, setChecked]);
 
   useEffect(() => {
-    setIsClient(true);
+    const timer = setTimeout(() => {
+      check();
+    }, 500);
 
-    if (typeof window !== "undefined") {
-      const timer = setTimeout(() => {
-        check();
-      }, 500);
-
-      return () => clearTimeout(timer);
-    }
+    return () => clearTimeout(timer);
   }, [check]);
 
-  if (!checked || !isClient) {
+  if (!checked) {
     return <SplashScreen />;
   }
 
   return <>{children}</>;
 }
 
+
+
+
+
+
+// ============================================================================
+// COMPONENT
+// ============================================================================
+
+export default function AuthGuard({ children }: Props) {
+  const [mounted, setMounted] = useState(false);
+  const [ready, setReady] = useState(false);
+  
+  useEffect(() => {
+    setMounted(true);
+    // Add a small delay to ensure context is ready
+    const timer = setTimeout(() => {
+      setReady(true);
+    }, 100);
+    
+    return () => clearTimeout(timer);
+  }, []);
+
+  // During SSR or before mount, show loading screen
+  if (!mounted || !ready) {
+    return <SplashScreen />;
+  }
+
+  return <Container>{children}</Container>;
+}

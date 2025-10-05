@@ -11,4 +11,4 @@ import { JWTContextType } from "./auth-provider";
 // CONTEXT
 // ============================================================================
 
-export const AuthContext = createContext({} as JWTContextType);
+export const AuthContext = createContext<JWTContextType | null>(null);
