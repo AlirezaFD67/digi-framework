@@ -72,10 +72,13 @@ export { default as CustomPagination } from "./components/pagination"
 export { default as CustomTable } from "./components/table"
 
 // Export auth components
-export { SignOutButton, OTPLoginForm, OTPLoginFormExample } from "./components/auth"
+export { SignOutButton, OTPLoginForm, OTPLoginFormExample, AdminLoginForm, AdminLoginFormExample } from "./components/auth"
 
 // Export auth components
 export * from "./auth/guard"
+
+// Export auth hooks
+export { useAuthContext } from "./hooks/use-auth"
 
 // Re-export commonly used UI components for convenience
 export { Button } from "@workspace/ui/components/button"

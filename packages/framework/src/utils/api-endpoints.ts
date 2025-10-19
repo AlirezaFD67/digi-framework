@@ -14,6 +14,11 @@ const AUTH_TOKEN = {
   CREATE: "/api-token-auth",
 } as const;
 
+// Admin token endpoint
+const ADMIN_TOKEN = {
+  CREATE: "/admin-api-token",
+} as const;
+
 // User management endpoints
 const USER = {
   PROFILE: "/getuserprofile",
@@ -38,6 +43,7 @@ const USERS = {
 const API_ENDPOINTS = {
   AUTH,
   AUTH_TOKEN,
+  ADMIN_TOKEN,
   USER,
   USERS,
 
@@ -49,6 +55,7 @@ export default API_ENDPOINTS;
 export {
   AUTH,
   AUTH_TOKEN,
+  ADMIN_TOKEN,
   USER,
   USERS,
 };

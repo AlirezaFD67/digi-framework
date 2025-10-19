@@ -13,9 +13,9 @@ const APIHttp: AxiosInstance = axios.create({
   },
 });
 
-// Debug: Log API configuration
-console.log("🌐 APIHttp: Base URL configured as:", process.env.NEXT_PUBLIC_REST_API_ENDPOINT + "/api");
-console.log("🌐 APIHttp: Environment variable:", process.env.NEXT_PUBLIC_REST_API_ENDPOINT);
+// // Debug: Log API configuration
+// console.log("🌐 APIHttp: Base URL configured as:", process.env.NEXT_PUBLIC_REST_API_ENDPOINT + "/api");
+// console.log("🌐 APIHttp: Environment variable:", process.env.NEXT_PUBLIC_REST_API_ENDPOINT);
 
 /**
  * Request interceptor - Add authentication token
@@ -25,10 +25,10 @@ APIHttp.interceptors.request.use(
     // Get token from cookie utilities
     const token = getAuthToken();
 
-    console.log("📤 APIHttp: Request interceptor - URL:", config.url);
-    console.log("📤 APIHttp: Request interceptor - Method:", config.method);
-    console.log("📤 APIHttp: Request interceptor - Data:", config.data);
-    console.log("📤 APIHttp: Request interceptor - Token:", token ? "Present" : "None");
+    // console.log("📤 APIHttp: Request interceptor - URL:", config.url);
+    // console.log("📤 APIHttp: Request interceptor - Method:", config.method);
+    // console.log("📤 APIHttp: Request interceptor - Data:", config.data);
+    // console.log("📤 APIHttp: Request interceptor - Token:", token ? "Present" : "None");
 
     if (token && config.headers) {
       config.headers.Authorization = `Token ${token}`;
@@ -47,18 +47,18 @@ APIHttp.interceptors.request.use(
  */
 APIHttp.interceptors.response.use(
   (response: AxiosResponse) => {
-    // Handle successful responses
-    console.log("📥 APIHttp: Response interceptor - Status:", response.status);
-    console.log("📥 APIHttp: Response interceptor - URL:", response.config.url);
-    console.log("📥 APIHttp: Response interceptor - Data:", response.data);
+    // // Handle successful responses
+    // console.log("📥 APIHttp: Response interceptor - Status:", response.status);
+    // console.log("📥 APIHttp: Response interceptor - URL:", response.config.url);
+    // console.log("📥 APIHttp: Response interceptor - Data:", response.data);
     return response;
   },
   (error) => {
     // Handle error responses
-    console.error("💥 APIHttp: Response interceptor - Error occurred:", error);
-    console.error("💥 APIHttp: Response interceptor - Error response:", error.response);
-    console.error("💥 APIHttp: Response interceptor - Error status:", error.response?.status);
-    console.error("💥 APIHttp: Response interceptor - Error data:", error.response?.data);
+    // console.error("💥 APIHttp: Response interceptor - Error occurred:", error);
+    // console.error("💥 APIHttp: Response interceptor - Error response:", error.response);
+    // console.error("💥 APIHttp: Response interceptor - Error status:", error.response?.status);
+    // console.error("💥 APIHttp: Response interceptor - Error data:", error.response?.data);
     
     const apiError: APIError = {
       message: error.response?.data?.message || error.message || "An error occurred",

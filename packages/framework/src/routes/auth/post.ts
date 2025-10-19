@@ -1,5 +1,12 @@
 import { API_ENDPOINTS, APIHttp } from "../../utils";
-import { AuthTokenRequest, AuthTokenResponse, OTPVerificationRequest, OTPVerificationResponse } from "./type";
+import { 
+  AuthTokenRequest, 
+  AuthTokenResponse, 
+  OTPVerificationRequest, 
+  OTPVerificationResponse,
+  AdminLoginRequest,
+  AdminLoginResponse
+} from "./type";
 import { APIHttpType, BaseResponseType } from "../../types";
 
 export function CreateAuthToken(
@@ -17,6 +24,13 @@ export function VerifyOTP(
 ): Promise<APIHttpType<OTPVerificationResponse>> {
   
   return APIHttp.post<BaseResponseType<OTPVerificationResponse>>(API_ENDPOINTS.AUTH.OTP_VERIFY, payload);
+}
+
+export function AdminLogin(
+  payload: AdminLoginRequest
+): Promise<APIHttpType<AdminLoginResponse>> {
+  
+  return APIHttp.post<BaseResponseType<AdminLoginResponse>>(API_ENDPOINTS.ADMIN_TOKEN.CREATE, payload);
 }
 
 

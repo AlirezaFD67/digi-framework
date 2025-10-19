@@ -21,5 +21,16 @@ export interface OTPVerificationResponse {
   "userExistance": boolean
 }
 
+export interface AdminLoginRequest {
+  username: string;
+  password: string;
+}
+
+export interface AdminLoginResponse {
+  token: string;
+  user_id: number;
+  email: string;
+}
+
 
 

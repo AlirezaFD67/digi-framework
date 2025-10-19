@@ -1,6 +1,13 @@
 import { useGenericMutation } from "../../utils/generic-mutation";
-import { CreateAuthToken, VerifyOTP } from "./post";
-import { AuthTokenRequest, AuthTokenResponse, OTPVerificationRequest, OTPVerificationResponse } from "./type";
+import { CreateAuthToken, VerifyOTP, AdminLogin } from "./post";
+import { 
+  AuthTokenRequest, 
+  AuthTokenResponse, 
+  OTPVerificationRequest, 
+  OTPVerificationResponse,
+  AdminLoginRequest,
+  AdminLoginResponse
+} from "./type";
 
 export const useCreateAuthTokenMutation = () => {
   return useGenericMutation<AuthTokenResponse, AuthTokenRequest>(
@@ -34,5 +41,22 @@ export const useVerifyOTPMutation = ()=> {
       return data as OTPVerificationResponse;
     },
     ["auth", "otp"]
+  );
+};
+
+export const useAdminLoginMutation = () => {
+  return useGenericMutation<AdminLoginResponse, AdminLoginRequest>(
+    async (data): Promise<AdminLoginResponse> => {
+      const response = await AdminLogin(data);
+      console.log("🔐 AdminLoginMutation: Response:", response);
+      // Admin login returns data directly, not in entries
+      if (response.data) {
+        // @ts-ignore
+        return response.data as AdminLoginResponse;
+      }
+      // Fallback
+      throw new Error("Invalid response from admin login");
+    },
+    ["auth", "admin", "login"]
   );
 };

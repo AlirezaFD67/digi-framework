@@ -1,0 +1,263 @@
+---
+title: Authentication System
+description: Complete OTP-based authentication system documentation
+---
+
+# Authentication System Documentation
+
+## 📖 Overview
+
+The digi-framework uses a secure, two-step OTP (One-Time Password) authentication system for user login. This system provides a seamless and secure authentication experience with phone number verification.
+
+## 📚 Available Documentation
+
+### [Complete Login System Guide](./login-system-prompt.md)
+A comprehensive guide covering the entire authentication system implementation, including:
+- Architecture overview
+- Technical implementation details
+- API endpoints and configurations
+- React components and hooks
+- Authentication flow
+- Security features
+- Usage examples
+- Best practices
+
+## 🚀 Quick Start
+
+### 1. Basic Implementation
+
+```typescript
+import { OTPLoginForm } from "@workspace/custom-ui";
+import { useRouter } from "next/navigation";
+
+export default function LoginPage() {
+  const router = useRouter();
+
+  return (
+    <OTPLoginForm
+      onSuccess={() => router.push('/dashboard')}
+      onError={(error) => console.error(error)}
+    />
+  );
+}
+```
+
+### 2. Wrap Your App with Provider
+
+```typescript
+import { CustomUIProvider } from "@workspace/custom-ui";
+
+export default function RootLayout({ children }) {
+  return (
+    <CustomUIProvider 
+      loginRoute="/auth" 
+      appRoute="/dashboard"
+    >
+      {children}
+    </CustomUIProvider>
+  );
+}
+```
+
+### 3. Protect Your Routes
+
+```typescript
+import { AuthGuard } from "@workspace/custom-ui";
+
+export default function ProtectedPage() {
+  return (
+    <AuthGuard>
+      <YourContent />
+    </AuthGuard>
+  );
+}
+```
+
+## 🔑 Key Features
+
+- ✅ **Two-Step Verification** - Phone number + OTP code
+- ✅ **Secure Token Management** - HTTP-only cookies
+- ✅ **Auto-logout** - Automatic logout on token expiry
+- ✅ **User Profile Fetching** - Automatic profile loading after login
+- ✅ **Modern UI** - Beautiful, responsive login form
+- ✅ **Error Handling** - Comprehensive error management
+- ✅ **Form Validation** - Client-side validation for better UX
+- ✅ **Resend OTP** - Built-in OTP resend with cooldown timer
+
+## 🎯 Authentication Flow
+
+```
+User enters phone → OTP sent → User enters OTP → Token saved → Profile fetched → Redirect to dashboard
+```
+
+## 🛠️ Core Components
+
+### Framework Layer (`@workspace/framework`)
+- API endpoints configuration
+- HTTP client with interceptors
+- React Query mutations
+- Token utilities
+
+### Custom UI Layer (`@workspace/custom-ui`)
+- `AuthProvider` - Authentication context
+- `OTPLoginForm` - Login form component
+- `AuthGuard` - Route protection
+- `useAuthContext` - Authentication hook
+
+### Application Layer
+- Login pages
+- Layout configuration
+- Route setup
+
+## 🔐 Security
+
+- **Token-based authentication** using JWT
+- **HTTP-only cookies** for token storage
+- **Automatic token injection** in API requests
+- **401 handling** with auto-logout
+- **Client-side validation** for phone and OTP
+
+## 📦 Required Environment Variables
+
+```bash
+NEXT_PUBLIC_REST_API_ENDPOINT=https://your-api-endpoint.com
+```
+
+## 🎨 Customization
+
+The `OTPLoginForm` component supports extensive customization:
+
+```typescript
+<OTPLoginForm
+  title="Custom Title"
+  description="Custom description"
+  submitButtonText="Send Code"
+  otpButtonText="Verify"
+  resendButtonText="Resend"
+  resendCooldown={90}
+  heroImageSrc="/hero.jpg"
+  testimonials={[...]}
+  onSuccess={handleSuccess}
+  onError={handleError}
+  className="custom-class"
+/>
+```
+
+## 📡 API Endpoints
+
+| Endpoint | Purpose |
+|----------|---------|
+| `/api/api-token-auth` | Send OTP to phone number |
+| `/api/authenticateOTP` | Verify OTP code and get token |
+| `/api/getuserprofile` | Get authenticated user profile |
+
+## 🔧 Development
+
+### Install Dependencies
+```bash
+pnpm install
+```
+
+### Run Development Server
+```bash
+pnpm dev
+```
+
+### Build for Production
+```bash
+pnpm build
+```
+
+## 📝 Usage in Your App
+
+### Get Authentication State
+
+```typescript
+import { useAuthContext } from "@workspace/custom-ui";
+
+function MyComponent() {
+  const { 
+    user,              // Current user
+    isAuthenticated,   // Auth status
+    loading,           // Loading state
+    logout             // Logout function
+  } = useAuthContext();
+
+  return (
+    <div>
+      {isAuthenticated ? (
+        <p>Welcome, {user?.name}</p>
+      ) : (
+        <p>Please login</p>
+      )}
+    </div>
+  );
+}
+```
+
+### Manual Login
+
+```typescript
+import { useAuthContext } from "@workspace/custom-ui";
+
+function LoginComponent() {
+  const { loginWithToken, verifyOTP } = useAuthContext();
+
+  const handleLogin = async () => {
+    // Step 1: Send OTP
+    await loginWithToken({ 
+      username: "09123456789", 
+      password: "0" 
+    });
+
+    // Step 2: Verify OTP
+    await verifyOTP({ 
+      userPhone: "09123456789", 
+      userOTP: "123456" 
+    });
+  };
+
+  return <button onClick={handleLogin}>Login</button>;
+}
+```
+
+## 🐛 Troubleshooting
+
+### Common Issues:
+
+1. **Token not persisting** - Check cookie configuration
+2. **401 errors** - Verify token format (`Token ${token}`)
+3. **OTP not received** - Check backend endpoint and phone format
+4. **Redirect loop** - Ensure `loginRoute` and `appRoute` are different
+
+See the [complete guide](./login-system-prompt.md) for detailed troubleshooting.
+
+## 🤝 Contributing
+
+When working with the authentication system:
+
+1. Always test both phone and OTP steps
+2. Ensure error handling is comprehensive
+3. Update documentation when making changes
+4. Follow TypeScript best practices
+5. Test token persistence across reloads
+
+## 📚 Related Documentation
+
+- [Framework Documentation](/packages/framework/README.md)
+- [Custom UI Documentation](/packages/custom-ui/README.md)
+- [Error Management System](/packages/custom-ui/ERROR_SYSTEM_USAGE.md)
+
+## 📞 Support
+
+For questions or issues:
+1. Check the [complete guide](./login-system-prompt.md)
+2. Review existing documentation
+3. Contact the development team
+
+---
+
+**Version:** 1.0.0  
+**Last Updated:** October 2025
+
+

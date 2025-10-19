@@ -4,13 +4,30 @@
 
 ## 🚀 Framework Package
 
-### [➕ افزودن Endpoint جدید](./docs/add-endpoint/)
+### [🔐 سیستم Authentication](./framework/auth-system/)
+
+مستندات کامل سیستم احراز هویت مبتنی بر OTP:
+
+- **[⚡ راهنمای فوری](./framework/auth-system/quick-reference.md)** - کدهای آماده کپی-پیست
+- **[📖 راهنمای سریع](./framework/auth-system/index.mdx)** - شروع سریع و مثال‌های کاربردی
+- **[📚 مستندات کامل](./framework/auth-system/login-system-prompt.md)** - راهنمای جامع فنی
+- **[📋 README](./framework/auth-system/README.md)** - راهنمای استفاده از مستندات
+
+ویژگی‌های سیستم:
+- ورود دو مرحله‌ای با OTP
+- ورود ادمین با username و password
+- مدیریت امن توکن‌ها
+- فرم لاگین مدرن و واکنش‌گرا
+- احراز هویت خودکار
+- محافظت از مسیرها
+
+### [➕ افزودن Endpoint جدید](./framework/add-endpoint/)
 
 راهنمای کامل برای افزودن endpoint جدید به framework package:
 
-- **[📖 راهنمای کامل](./docs/add-endpoint/index.mdx)** - راهنمای جامع
-- **[📝 Template](./docs/add-endpoint/template.md)** - قالب آماده
-- **[🚀 Ready-to-Use](./docs/add-endpoint/ready-to-use.md)** - Prompt آماده استفاده
+- **[📖 راهنمای کامل](./framework/add-endpoint/index.mdx)** - راهنمای جامع
+- **[📝 Template](./framework/add-endpoint/template.md)** - قالب آماده
+- **[🚀 Ready-to-Use](./framework/add-endpoint/ready-to-use.md)** - Prompt آماده استفاده
 
 ## 🎨 Documentation System
 
@@ -42,6 +59,78 @@ Prompt را کپی کرده و اطلاعات مورد نیاز خود را جا
 Prompt را به AI بدهید و منتظر نتیجه باشید.
 
 ## 📋 مثال استفاده
+
+### پیاده‌سازی سیستم لاگین:
+
+#### ورود با OTP (کاربران عادی):
+
+```typescript
+// 1. ایجاد صفحه لاگین
+import { OTPLoginForm } from "@workspace/custom-ui";
+import { useRouter } from "next/navigation";
+
+export default function LoginPage() {
+  const router = useRouter();
+  
+  return (
+    <OTPLoginForm
+      onSuccess={() => router.push('/dashboard')}
+      onError={(error) => console.error(error)}
+    />
+  );
+}
+```
+
+#### ورود با Username/Password (ادمین):
+
+```typescript
+// 1. ایجاد صفحه لاگین ادمین
+import { AdminLoginForm } from "@workspace/custom-ui";
+import { useRouter } from "next/navigation";
+
+export default function AdminLoginPage() {
+  const router = useRouter();
+  
+  return (
+    <AdminLoginForm
+      onSuccess={() => router.push('/admin/dashboard')}
+      onError={(error) => console.error(error)}
+    />
+  );
+}
+```
+
+#### تنظیمات مشترک:
+
+```typescript
+// 2. اضافه کردن Provider
+import { CustomUIProvider } from "@workspace/custom-ui";
+
+export default function Layout({ children }) {
+  return (
+    <CustomUIProvider loginRoute="/auth" appRoute="/dashboard">
+      {children}
+    </CustomUIProvider>
+  );
+}
+
+// 3. استفاده از احراز هویت
+import { useAuthContext } from "@workspace/custom-ui";
+
+function MyComponent() {
+  const { user, isAuthenticated, logout, loginAsAdmin } = useAuthContext();
+  
+  return (
+    <div>
+      {isAuthenticated ? (
+        <button onClick={logout}>خروج</button>
+      ) : (
+        <p>لطفا وارد شوید</p>
+      )}
+    </div>
+  );
+}
+```
 
 ### افزودن Endpoint جدید:
 

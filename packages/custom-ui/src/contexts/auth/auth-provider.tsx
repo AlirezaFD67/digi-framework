@@ -14,6 +14,7 @@ import {
   useCreateAuthTokenMutation,
   useUserProfileQuery,
   useVerifyOTPMutation,
+  useAdminLoginMutation,
 } from "@workspace/framework";
 
 import { AuthContext } from "./auth-context";
@@ -27,6 +28,7 @@ type Props = {
   children: React.ReactNode;
   loginRoute?:string
   appRoute?:string
+  userType?:"admin" | "user" |"doctor"
 };
 
 enum Types {
@@ -46,6 +48,7 @@ export type JWTContextType = {
   logout: () => Promise<void>;
   loginWithToken: (data: { username: string; password: string }) => Promise<any>;
   verifyOTP: (data: { userPhone: string; userOTP: string }) => Promise<any>;
+  loginAsAdmin: (data: { username: string; password: string }) => Promise<any>;
 };
 
 // ============================================================================
@@ -92,6 +95,7 @@ export function AuthProvider({ children, loginRoute, appRoute }: Props) {
   const [isClient, setIsClient] = useState(false);
   const createTokenMutation = useCreateAuthTokenMutation();
   const verifyOTPMutation = useVerifyOTPMutation();
+  const adminLoginMutation = useAdminLoginMutation();
   const { data: profileData, isLoading: profileLoading } = useUserProfileQuery({ enabled: isAuthenticated() });
   
   const initialize = useCallback(async () => {
@@ -198,6 +202,34 @@ export function AuthProvider({ children, loginRoute, appRoute }: Props) {
     [verifyOTPMutation]
   );
 
+  const loginAsAdmin = useCallback(
+    async (data: { username: string; password: string }) => {
+      try {
+        console.log("🔑 AuthProvider: Calling adminLoginMutation.mutateAsync...");
+        const res = await adminLoginMutation.mutateAsync(data);
+        console.log("🔐 AuthProvider: Admin login response received:", res);
+        
+        // Set the token after successful admin login
+        if ((res as any).token) {
+          setAuthToken((res as any).token);
+          console.log("✅ AuthProvider: Admin token set successfully");
+        }
+
+        return res;
+      } catch (error: any) {
+        console.error("💥 AuthProvider: Admin login failed with error:", error);
+        console.error("💥 AuthProvider: Error details:", {
+          message: error?.message,
+          response: error?.response,
+          status: error?.status,
+          code: error?.code
+        });
+        throw error;
+      }
+    },
+    [adminLoginMutation]
+  );
+
   const logout = useCallback(async () => {
     clearAuthTokens();
     dispatch({
@@ -237,10 +269,11 @@ export function AuthProvider({ children, loginRoute, appRoute }: Props) {
       appRoute,
       loginWithToken,
       verifyOTP,
+      loginAsAdmin,
       logout,
       initialize,
     }),
-    [initialize, loginWithToken, verifyOTP, logout, state.user, isLoading, loginRoute, appRoute]
+    [initialize, loginWithToken, verifyOTP, loginAsAdmin, logout, state.user, isLoading, loginRoute, appRoute]
   );
 
   return (
