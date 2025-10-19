@@ -1,0 +1,361 @@
+---
+title: Toast Notifications
+description: A complete toast notification system with success, error, warning, and info variants
+component: true
+---
+
+## Overview
+
+سیستم Toast Notifications کامل برای نمایش پیام‌های موفقیت، خطا، هشدار و اطلاعات به کاربران.
+
+## Usage
+
+Toast system به صورت خودکار در `CustomUIProvider` فعال است و نیازی به setup اضافی ندارد.
+
+```tsx
+import { useToast } from "@workspace/custom-ui"
+
+function MyComponent() {
+  const { success, error, warning, info } = useToast()
+
+  return (
+    <div>
+      <button onClick={() => success('عملیات با موفقیت انجام شد')}>
+        Success
+      </button>
+      <button onClick={() => error('خطایی رخ داد')}>
+        Error
+      </button>
+      <button onClick={() => warning('لطفا دقت کنید')}>
+        Warning
+      </button>
+      <button onClick={() => info('اطلاعات جدید')}>
+        Info
+      </button>
+    </div>
+  )
+}
+```
+
+## Features
+
+- **4 نوع Toast**: Success, Error, Warning, Info
+- **Auto-dismiss**: با زمان قابل تنظیم
+- **Manual dismiss**: دکمه بستن
+- **Animation**: ورود و خروج نرم
+- **RTL Support**: پشتیبانی کامل از راست به چپ
+- **Positioning**: 6 موقعیت مختلف
+- **Max Toasts**: محدودیت تعداد toast های نمایشی
+
+## API Reference
+
+### useToast Hook
+
+| Method | Type | Description |
+|--------|------|-------------|
+| `success` | `(message: string, title?: string) => void` | نمایش toast موفقیت (5 ثانیه) |
+| `error` | `(message: string, title?: string) => void` | نمایش toast خطا (7 ثانیه) |
+| `warning` | `(message: string, title?: string) => void` | نمایش toast هشدار (6 ثانیه) |
+| `info` | `(message: string, title?: string) => void` | نمایش toast اطلاعات (5 ثانیه) |
+| `addToast` | `(toast: ToastConfig) => void` | اضافه کردن toast سفارشی |
+| `removeToast` | `(id: string) => void` | حذف toast خاص |
+| `clearToasts` | `() => void` | حذف همه toast ها |
+
+### Toast Interface
+
+```tsx
+interface Toast {
+  id: string              // شناسه یکتا (خودکار)
+  type: ToastType         // success | error | warning | info
+  title?: string          // عنوان اختیاری
+  message: string         // متن پیام (الزامی)
+  duration?: number       // مدت زمان نمایش (میلی‌ثانیه)
+  dismissible?: boolean   // قابلیت بستن (پیش‌فرض: true)
+  timestamp?: number      // زمان ایجاد (خودکار)
+}
+```
+
+## Examples
+
+### Basic Usage
+
+```tsx
+import { useToast } from "@workspace/custom-ui"
+
+function SaveButton() {
+  const { success, error } = useToast()
+
+  const handleSave = async () => {
+    try {
+      await api.save()
+      success('داده‌ها با موفقیت ذخیره شد')
+    } catch (err) {
+      error('خطا در ذخیره داده‌ها')
+    }
+  }
+
+  return <button onClick={handleSave}>ذخیره</button>
+}
+```
+
+### With Title
+
+```tsx
+import { useToast } from "@workspace/custom-ui"
+
+function DeleteButton() {
+  const { success, warning } = useToast()
+
+  const handleDelete = () => {
+    warning(
+      'این عمل قابل بازگشت نیست',
+      'هشدار'
+    )
+  }
+
+  return <button onClick={handleDelete}>حذف</button>
+}
+```
+
+### Custom Toast
+
+```tsx
+import { useToast } from "@workspace/custom-ui"
+
+function CustomNotification() {
+  const { addToast } = useToast()
+
+  const showCustomToast = () => {
+    addToast({
+      type: 'info',
+      title: 'به‌روزرسانی موجود است',
+      message: 'نسخه جدید برنامه منتشر شده است',
+      duration: 10000,  // 10 ثانیه
+      dismissible: true
+    })
+  }
+
+  return <button onClick={showCustomToast}>نمایش</button>
+}
+```
+
+### Form Submission
+
+```tsx
+import { useToast } from "@workspace/custom-ui"
+import { useAddAdminLearningList } from "@workspace/framework"
+
+function ArticleForm() {
+  const { success, error } = useToast()
+  const mutation = useAddAdminLearningList()
+
+  const handleSubmit = async (data) => {
+    try {
+      await mutation.mutateAsync(data)
+      success('مقاله با موفقیت ایجاد شد', 'موفقیت')
+    } catch (err) {
+      error('خطا در ایجاد مقاله', 'خطا')
+    }
+  }
+
+  return <form onSubmit={handleSubmit}>...</form>
+}
+```
+
+### Sequential Toasts
+
+```tsx
+import { useToast } from "@workspace/custom-ui"
+
+function MultiStepProcess() {
+  const { success, info } = useToast()
+
+  const handleProcess = async () => {
+    info('در حال پردازش...')
+    
+    await step1()
+    success('مرحله 1 تکمیل شد')
+    
+    await step2()
+    success('مرحله 2 تکمیل شد')
+    
+    await step3()
+    success('همه مراحل با موفقیت انجام شد', 'تکمیل')
+  }
+
+  return <button onClick={handleProcess}>شروع</button>
+}
+```
+
+## Configuration
+
+### Toast Position
+
+موقعیت toast ها را در `CustomUIProvider` تنظیم کنید:
+
+```tsx
+<CustomUIProvider
+  mode="dashboard"
+  toastConfig={{
+    position: "top-right"  // یا: top-left, top-center, bottom-right, bottom-left, bottom-center
+  }}
+>
+  {children}
+</CustomUIProvider>
+```
+
+### Max Toasts
+
+تعداد حداکثر toast های نمایشی:
+
+```tsx
+// در CustomUIProvider می‌توانید maxToasts را تنظیم کنید
+// یا مستقیماً در ToastContainer
+<ToastContainer position="top-right" maxToasts={5} />
+```
+
+## Styling
+
+Toast ها با رنگ‌های مناسب هر نوع نمایش داده می‌شوند:
+
+- **Success**: سبز (`bg-green-50 border-green-200 text-green-800`)
+- **Error**: قرمز (`bg-red-50 border-red-200 text-red-800`)
+- **Warning**: زرد (`bg-yellow-50 border-yellow-200 text-yellow-800`)
+- **Info**: آبی (`bg-blue-50 border-blue-200 text-blue-800`)
+
+## Best Practices
+
+1. **استفاده از متن‌های مختصر و واضح**: پیام‌های toast باید کوتاه و قابل فهم باشند
+2. **استفاده درست از انواع**: هر نوع toast برای موقعیت خاصی مناسب است
+   - `success`: عملیات موفق
+   - `error`: خطا یا شکست
+   - `warning`: هشدار یا توجه
+   - `info`: اطلاعات عمومی
+3. **تنظیم duration مناسب**: برای پیام‌های مهم duration بیشتر تنظیم کنید
+4. **عدم استفاده بیش از حد**: از toast برای هر عملیات کوچک استفاده نکنید
+5. **ترکیب با Error Handling**: برای خطاهای form از Field Errors استفاده کنید
+
+## Integration با Error System
+
+Toast system با سیستم Error Management یکپارچه است:
+
+```tsx
+import { useToast, useAppError, useFieldError } from "@workspace/custom-ui"
+
+function CompleteExample() {
+  const { success, error: toastError } = useToast()
+  const { addAppError } = useAppError()
+  const { addFieldError } = useFieldError('email')
+
+  const handleSubmit = async (data) => {
+    try {
+      await api.submit(data)
+      success('فرم با موفقیت ارسال شد')
+    } catch (err) {
+      // خطای field-specific
+      if (err.field === 'email') {
+        addFieldError('email', {
+          message: 'ایمیل نامعتبر است',
+          type: 'validation'
+        })
+      }
+      
+      // خطای app-level
+      addAppError({
+        message: 'خطا در ارتباط با سرور',
+        type: 'network'
+      })
+      
+      // Toast برای feedback سریع
+      toastError('ارسال فرم ناموفق بود')
+    }
+  }
+}
+```
+
+## Common Use Cases
+
+### 1. CRUD Operations
+
+```tsx
+// Create
+const handleCreate = async () => {
+  try {
+    await create()
+    success('ایجاد شد')
+  } catch {
+    error('خطا در ایجاد')
+  }
+}
+
+// Update
+const handleUpdate = async () => {
+  try {
+    await update()
+    success('به‌روزرسانی شد')
+  } catch {
+    error('خطا در به‌روزرسانی')
+  }
+}
+
+// Delete
+const handleDelete = async () => {
+  warning('این عمل قابل بازگشت نیست', 'هشدار')
+  try {
+    await delete()
+    success('حذف شد')
+  } catch {
+    error('خطا در حذف')
+  }
+}
+```
+
+### 2. File Upload
+
+```tsx
+const handleUpload = async (files) => {
+  info('در حال آپلود...')
+  
+  try {
+    await upload(files)
+    success('فایل‌ها با موفقیت آپلود شدند')
+  } catch {
+    error('خطا در آپلود فایل‌ها')
+  }
+}
+```
+
+### 3. API Errors
+
+```tsx
+const handleApiCall = async () => {
+  try {
+    const response = await api.call()
+    success(response.message || 'عملیات موفق')
+  } catch (err) {
+    if (err.status === 401) {
+      error('لطفا دوباره وارد شوید', 'خطای احراز هویت')
+    } else if (err.status === 403) {
+      warning('شما دسترسی ندارید', 'عدم دسترسی')
+    } else if (err.status >= 500) {
+      error('مشکل در سرور', 'خطای سرور')
+    } else {
+      error(err.message || 'خطایی رخ داد')
+    }
+  }
+}
+```
+
+## Accessibility
+
+- Toast ها با `aria-label` برای screen readers مناسب هستند
+- دکمه dismiss با `aria-label="Dismiss notification"` مشخص شده
+- زمان نمایش داده می‌شود برای context بیشتر
+
+## Notes
+
+- Toast system بخشی از Custom UI Provider است و خودکار راه‌اندازی می‌شود
+- نیازی به import جداگانه `ToastContainer` نیست
+- می‌توانید در هر کامپوننت از `useToast` استفاده کنید
+- Toast ها در `position` تنظیم شده در provider نمایش داده می‌شوند
+

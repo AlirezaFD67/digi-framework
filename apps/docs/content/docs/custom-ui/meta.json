@@ -31,6 +31,11 @@
       "title": "Table",
       "href": "/docs/custom-ui/table",
       "description": "A comprehensive table component with pagination, sorting, and row selection"
+    },
+    {
+      "title": "Toast Notifications",
+      "href": "/docs/custom-ui/toast",
+      "description": "Complete toast notification system with success, error, warning, and info variants"
     }
   ]
 }
