@@ -1,0 +1,670 @@
+---
+title: اضافه کردن داکیومنت Framework
+description: Prompt برای اضافه کردن داکیومنت جدید به Framework Package
+source: add-framework-docs
+---
+
+# 🚀 اضافه کردن داکیومنت Framework
+
+این prompt برای اضافه کردن داکیومنت endpoint جدید به Framework Package استفاده می‌شه.
+
+## 📋 دستورالعمل کلی
+
+```
+من می‌خوام یک endpoint جدید به framework package اضافه کنم و داکیومنتش رو کامل بنویسم. لطفا مراحل زیر رو به ترتیب انجام بده:
+
+1. **تحلیل endpoint**: endpoint رو بررسی کن و مشخصاتش رو تعیین کن
+2. **افزودن به API_ENDPOINTS**: endpoint رو به api-endpoints.ts اضافه کن
+3. **ایجاد Route Structure**: فولدر و فایل‌های مورد نیاز رو بساز
+4. **تعریف Types**: تمام interfaceها و typeهای مربوط به endpoint رو تعریف کن
+5. **ایجاد توابع API**: توابع GET، POST، PUT، DELETE رو بساز
+6. **ایجاد React Query Hooks**: هوک‌های مربوط به endpoint رو بساز
+7. **Export و Build**: endpoint رو export کن و build کن
+8. **ایجاد داکیومنت کامل**: فایل MDX داکیومنت‌اسیون رو بساز
+9. **آپدیت سایر فایل‌های داکیومنت**: meta.json، index.mdx و سایر فایل‌ها رو آپدیت کن
+10. **ایجاد CHANGELOG**: تغییرات رو در CHANGELOG ثبت کن
+```
+
+## 📁 ساختار فایل‌ها
+
+### 1. Framework Package Structure
+
+```
+packages/framework/
+├── src/
+│   ├── utils/
+│   │   └── api-endpoints.ts          # اضافه کردن endpoints
+│   ├── routes/
+│   │   └── [endpoint-name]/          # فولدر endpoint جدید
+│   │       ├── type.ts               # Types & Interfaces
+│   │       ├── get.ts                # GET functions
+│   │       ├── post.ts               # POST/PUT functions
+│   │       ├── update.ts             # UPDATE functions (optional)
+│   │       ├── delete.ts             # DELETE functions (optional)
+│   │       ├── query.ts              # React Query hooks
+│   │       └── index.ts              # Exports
+│   └── index.ts                       # Main exports (آپدیت)
+├── CHANGELOG.md                       # ثبت تغییرات
+└── README.md                          # آپدیت با endpoint جدید
+```
+
+### 2. Documentation Structure
+
+```
+apps/docs/content/docs/framework/
+├── meta.json                          # آپدیت navigation
+├── index.mdx                          # آپدیت لینک‌ها
+├── adding-endpoints.mdx               # آپدیت با مثال واقعی
+└── [endpoint-name]-endpoint.mdx       # داکیومنت کامل endpoint جدید
+```
+
+## 🔧 مراحل پیاده‌سازی
+
+### مرحله 1: افزودن به API_ENDPOINTS
+
+```typescript
+// packages/framework/src/utils/api-endpoints.ts
+
+// اضافه کردن const جدید
+const [ENDPOINT_NAME] = {
+  LIST: "/[endpoint-path]/list",
+  DETAIL: "/[endpoint-path]/detail",
+  CREATE: "/[endpoint-path]/create",
+  UPDATE: "/[endpoint-path]/update",
+  DELETE: "/[endpoint-path]/delete",
+  // سایر endpoints مورد نیاز...
+} as const;
+
+// اضافه کردن به API_ENDPOINTS
+const API_ENDPOINTS = {
+  AUTH,
+  USER,
+  USERS,
+  ARTICLES,
+  [ENDPOINT_NAME], // ← اضافه کردن
+} as const;
+
+// اضافه کردن به exports
+export {
+  AUTH,
+  USER,
+  USERS,
+  ARTICLES,
+  [ENDPOINT_NAME], // ← اضافه کردن
+};
+```
+
+### مرحله 2: ایجاد Types
+
+```typescript
+// packages/framework/src/routes/[endpoint-name]/type.ts
+
+// ============================================================================
+// TYPES & INTERFACES
+// ============================================================================
+
+/**
+ * Main interface for [endpoint-name] item
+ */
+export interface I[EndpointName]Item {
+  id: string;
+  name: string;
+  // سایر فیلدها...
+  createdAt: string;
+  updatedAt: string;
+}
+
+/**
+ * Create request interface
+ */
+export interface ICreate[EndpointName]Request {
+  name: string;
+  // فیلدهای مورد نیاز...
+}
+
+/**
+ * Update request interface
+ */
+export interface IUpdate[EndpointName]Request {
+  id: string;
+  name?: string;
+  // فیلدهای قابل ویرایش...
+}
+
+/**
+ * Query parameters interface
+ */
+export interface Get[EndpointName]ListParams {
+  pageNo?: number;
+  rowCount?: number;
+  search?: string;
+  // سایر پارامترها...
+}
+```
+
+### مرحله 3: ایجاد GET Functions
+
+```typescript
+// packages/framework/src/routes/[endpoint-name]/get.ts
+
+import type { I[EndpointName]Item, Get[EndpointName]ListParams } from "./type";
+import type { APIHttpPaginatedType } from "../../types";
+import API_ENDPOINTS from "../../utils/api-endpoints";
+import APIHttp from "../../utils/api-http";
+
+// ============================================================================
+// CONSTANTS
+// ============================================================================
+
+const DEFAULT_PAGE_NO = 1;
+const DEFAULT_ROW_COUNT = 10;
+
+// ============================================================================
+// FUNCTIONS
+// ============================================================================
+
+export function Get[EndpointName]List(
+  params?: Get[EndpointName]ListParams,
+): Promise<APIHttpPaginatedType<I[EndpointName]Item>> {
+  const { pageNo = DEFAULT_PAGE_NO, rowCount = DEFAULT_ROW_COUNT, search } = params || {};
+  
+  return APIHttp.get(API_ENDPOINTS.[ENDPOINT_NAME].LIST, {
+    params: {
+      pageNo,
+      rowCount,
+      ...(search ? { search } : {}),
+    },
+  });
+}
+
+export function Get[EndpointName]Detail(id: string): Promise<{ data: any }> {
+  return APIHttp.get(`${API_ENDPOINTS.[ENDPOINT_NAME].DETAIL}/${id}`);
+}
+```
+
+### مرحله 4: ایجاد POST Functions
+
+```typescript
+// packages/framework/src/routes/[endpoint-name]/post.ts
+
+import APIHttp from "../../utils/api-http";
+import API_ENDPOINTS from "../../utils/api-endpoints";
+import { ICreate[EndpointName]Request, IUpdate[EndpointName]Request } from "./type";
+import { APIHttpType } from "../../types";
+
+export function Create[EndpointName](
+  data: ICreate[EndpointName]Request
+): Promise<APIHttpType<any>> {
+  return APIHttp.post(API_ENDPOINTS.[ENDPOINT_NAME].CREATE, data);
+}
+
+export function Update[EndpointName](
+  data: IUpdate[EndpointName]Request
+): Promise<APIHttpType<any>> {
+  const { id, ...updateData } = data;
+  return APIHttp.put(`${API_ENDPOINTS.[ENDPOINT_NAME].UPDATE}/${id}`, updateData);
+}
+```
+
+### مرحله 5: ایجاد React Query Hooks
+
+```typescript
+// packages/framework/src/routes/[endpoint-name]/query.ts
+
+import { useGenericQuery } from "../../utils/generic-query";
+import { useGenericMutation } from "../../utils/generic-mutation";
+
+import {
+  Get[EndpointName]List,
+  Get[EndpointName]Detail,
+} from "./get";
+
+import {
+  Create[EndpointName],
+  Update[EndpointName],
+} from "./post";
+
+import type { Get[EndpointName]ListParams } from "./type";
+
+// ============================================================================
+// QUERIES
+// ============================================================================
+
+export const use[EndpointName]ListQuery = (params?: Get[EndpointName]ListParams) =>
+  useGenericQuery(
+    () => Get[EndpointName]List(params),
+    [
+      "get-[endpoint-name]-list",
+      String(params?.pageNo ?? 1),
+      String(params?.rowCount ?? 10),
+      String(params?.search ?? "")
+    ]
+  );
+
+export const use[EndpointName]DetailQuery = (id: string) =>
+  useGenericQuery(
+    () => Get[EndpointName]Detail(id),
+    ["get-[endpoint-name]-detail", id],
+    { enabled: Boolean(id) }
+  );
+
+// ============================================================================
+// MUTATIONS
+// ============================================================================
+
+export const useCreate[EndpointName]Mutation = () =>
+  useGenericMutation(Create[EndpointName], ["get-[endpoint-name]-list"]);
+
+export const useUpdate[EndpointName]Mutation = () =>
+  useGenericMutation(Update[EndpointName], ["get-[endpoint-name]-list", "get-[endpoint-name]-detail"]);
+```
+
+### مرحله 6: Export در index.ts
+
+```typescript
+// packages/framework/src/routes/[endpoint-name]/index.ts
+
+// Export all types
+export * from "./type";
+
+// Export all GET functions
+export * from "./get";
+
+// Export all POST functions
+export * from "./post";
+
+// Export all UPDATE functions (if exists)
+export * from "./update";
+
+// Export all DELETE functions (if exists)
+export * from "./delete";
+
+// Export all React Query hooks
+export * from "./query";
+```
+
+### مرحله 7: Export در main index.ts
+
+```typescript
+// packages/framework/src/index.ts
+
+// Export routes
+export * from "./routes/auth";
+export * from "./routes/user";
+export * from "./routes/article";
+export * from "./routes/[endpoint-name]"; // ← اضافه کردن
+```
+
+### مرحله 8: Build Package
+
+```bash
+cd packages/framework
+pnpm build
+```
+
+### مرحله 9: ایجاد داکیومنت MDX
+
+```markdown
+---
+title: [EndpointName] Endpoint
+description: Complete guide for [EndpointName] endpoint implementation in framework package
+---
+
+# 📝 [EndpointName] Endpoint
+
+توضیح کامل درباره endpoint و کاربرد آن.
+
+## 🎯 Overview
+
+توضیح کلی از endpoint و ویژگی‌های اصلی.
+
+## 📋 API Endpoints
+
+\`\`\`typescript
+const [ENDPOINT_NAME] = {
+  LIST: "/[endpoint-path]/list",
+  DETAIL: "/[endpoint-path]/detail",
+  CREATE: "/[endpoint-path]/create",
+  UPDATE: "/[endpoint-path]/update",
+  DELETE: "/[endpoint-path]/delete",
+} as const;
+\`\`\`
+
+## 🏗️ File Structure
+
+\`\`\`
+packages/framework/src/routes/[endpoint-name]/
+├── type.ts           # All interfaces and types
+├── get.ts            # GET functions
+├── post.ts           # POST/PUT functions
+├── query.ts          # React Query hooks
+└── index.ts          # Exports
+\`\`\`
+
+## 📝 Types & Interfaces
+
+### [EndpointName] Item
+
+\`\`\`typescript
+export interface I[EndpointName]Item {
+  id: string;
+  name: string;
+  // سایر فیلدها...
+}
+\`\`\`
+
+[ادامه با سایر types و interfaces...]
+
+## 🔍 GET Functions
+
+### Get [EndpointName] List
+
+\`\`\`typescript
+import { Get[EndpointName]List } from "@workspace/framework";
+
+const items = await Get[EndpointName]List({
+  pageNo: 1,
+  rowCount: 10,
+  search: "term"
+});
+\`\`\`
+
+[ادامه با سایر توابع GET...]
+
+## ✏️ POST/PUT Functions
+
+### Create [EndpointName]
+
+\`\`\`typescript
+import { Create[EndpointName] } from "@workspace/framework";
+
+const result = await Create[EndpointName]({
+  name: "Name",
+  // سایر فیلدها...
+});
+\`\`\`
+
+[ادامه با سایر توابع POST/PUT...]
+
+## 🎣 React Query Hooks
+
+### List [EndpointName]s
+
+\`\`\`typescript
+import { use[EndpointName]ListQuery } from "@workspace/framework";
+
+function [EndpointName]List() {
+  const { data, isLoading, error } = use[EndpointName]ListQuery({
+    pageNo: 1,
+    rowCount: 10
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
+  return (
+    <div>
+      {data?.data?.entries.map((item) => (
+        <div key={item.id}>
+          <h3>{item.name}</h3>
+        </div>
+      ))}
+    </div>
+  );
+}
+\`\`\`
+
+[ادامه با سایر hooks...]
+
+## 🎨 Complete Example
+
+یک مثال کامل از صفحه مدیریت با تمام ویژگی‌ها.
+
+## 🎯 Best Practices
+
+1. **Query Keys**: همیشه از query keys معنادار استفاده کنید
+2. **Error Handling**: خطاها را به درستی مدیریت کنید
+3. **Loading States**: حالت loading را نمایش دهید
+
+## 🚨 Common Issues
+
+مشکلات رایج و راه‌حل‌ها.
+
+## 📋 Available Hooks
+
+جدول خلاصه تمام hooks موجود.
+
+---
+
+**Ready to use? Check out [Examples](./examples)! 🚀**
+```
+
+### مرحله 10: آپدیت meta.json
+
+```json
+// apps/docs/content/docs/framework/meta.json
+{
+  "items": [
+    {
+      "title": "Adding New Endpoints",
+      "href": "/docs/framework/adding-endpoints",
+      "description": "..."
+    },
+    {
+      "title": "[EndpointName] Endpoint",
+      "href": "/docs/framework/[endpoint-name]-endpoint",
+      "description": "Complete guide for [EndpointName] endpoint - real implementation example"
+    },
+    {
+      "title": "Examples",
+      "href": "/docs/framework/examples",
+      "description": "..."
+    }
+  ]
+}
+```
+
+### مرحله 11: آپدیت index.mdx
+
+```markdown
+// apps/docs/content/docs/framework/index.mdx
+
+### [📝 [EndpointName] Endpoint](./framework/[endpoint-name]-endpoint)
+Complete real-world implementation example
+```
+
+### مرحله 12: آپدیت adding-endpoints.mdx
+
+```markdown
+// افزودن بخش Real-World Example
+
+## 🌟 Real-World Examples
+
+### [EndpointName] Endpoint
+
+The **[EndpointName] endpoint** is a complete real-world implementation...
+
+👉 **[Visit [EndpointName] Endpoint Documentation](./[endpoint-name]-endpoint)**
+```
+
+### مرحله 13: آپدیت README.md
+
+```markdown
+// packages/framework/README.md
+
+### [EndpointName] Routes
+\`\`\`typescript
+import { 
+  use[EndpointName]ListQuery,
+  use[EndpointName]DetailQuery,
+  useCreate[EndpointName]Mutation,
+  useUpdate[EndpointName]Mutation 
+} from "@workspace/framework";
+\`\`\`
+
+**[📖 مستندات کامل [EndpointName] Endpoint](../../apps/docs/content/docs/framework/[endpoint-name]-endpoint.mdx)**
+```
+
+### مرحله 14: ایجاد/آپدیت CHANGELOG
+
+```markdown
+// packages/framework/CHANGELOG.md
+
+## [Unreleased]
+
+### Added
+- **[EndpointName] Routes**: Complete implementation of [EndpointName] management endpoints
+  - `use[EndpointName]ListQuery` - Get paginated list
+  - `use[EndpointName]DetailQuery` - Get single item
+  - `useCreate[EndpointName]Mutation` - Create new item
+  - `useUpdate[EndpointName]Mutation` - Update existing item
+
+### Types Added
+- `I[EndpointName]Item` - Item interface
+- `ICreate[EndpointName]Request` - Create request
+- `IUpdate[EndpointName]Request` - Update request
+- `Get[EndpointName]ListParams` - List query parameters
+
+### Functions Added
+- `Get[EndpointName]List` - Fetch items with pagination
+- `Get[EndpointName]Detail` - Fetch single item
+- `Create[EndpointName]` - Create new item
+- `Update[EndpointName]` - Update item
+
+### API Endpoints Added
+- `/[endpoint-path]/list` - List endpoint
+- `/[endpoint-path]/detail` - Detail endpoint
+- `/[endpoint-path]/create` - Create endpoint
+- `/[endpoint-path]/update` - Update endpoint
+
+### Documentation Added
+- Complete [EndpointName] endpoint documentation
+- Updated `adding-endpoints.mdx` with [EndpointName] example
+- Updated `meta.json` with [EndpointName] entry
+- Updated main framework `index.mdx`
+- Updated package `README.md`
+
+---
+
+**Date**: [تاریخ]
+**Author**: Framework Team
+```
+
+## 📝 قوانین مهم
+
+### 1. **Naming Conventions**
+- Folder: `kebab-case` (article, user-profile)
+- Files: `kebab-case` (type.ts, get.ts, post.ts)
+- Interfaces: `PascalCase` با prefix `I` (IArticle, ICreateArticleRequest)
+- Functions: `PascalCase` (GetArticleList, CreateArticle)
+- Hooks: `camelCase` با prefix `use` (useArticleListQuery, useCreateArticleMutation)
+
+### 2. **File Organization**
+```
+routes/[endpoint-name]/
+├── type.ts      # تمام interfaces و types
+├── get.ts       # فقط توابع GET
+├── post.ts      # توابع POST و PUT برای create/update
+├── update.ts    # توابع PUT خاص (optional)
+├── delete.ts    # توابع DELETE (optional)
+├── query.ts     # فقط React Query hooks
+└── index.ts     # Export همه چیز
+```
+
+### 3. **Documentation Structure**
+هر داکیومنت endpoint باید شامل این بخش‌ها باشه:
+1. **Overview** - معرفی و ویژگی‌ها
+2. **API Endpoints** - لیست کامل endpoints
+3. **File Structure** - ساختار فایل‌ها
+4. **Types & Interfaces** - همه interfaces با مثال
+5. **GET Functions** - توابع GET با مثال
+6. **POST/PUT Functions** - توابع POST/PUT با مثال
+7. **React Query Hooks** - hooks با مثال
+8. **Complete Example** - یک مثال کامل
+9. **Best Practices** - نکات مهم
+10. **Common Issues** - مشکلات رایج
+11. **Available Hooks Table** - جدول خلاصه
+
+### 4. **Code Examples**
+- همه مثال‌ها باید کامل و قابل اجرا باشند
+- از syntax highlighting استفاده کن
+- مثال‌های واقعی و کاربردی بنویس
+- شامل error handling و loading states
+
+### 5. **Query Keys Convention**
+```typescript
+// Format: ["action-resource-detail", ...params]
+["get-article-list", String(pageNo), String(rowCount), String(search)]
+["get-article-detail", articleId]
+["create-article"]
+```
+
+### 6. **Documentation Links**
+- همیشه لینک به بخش‌های مرتبط بده
+- از relative paths استفاده کن
+- لینک‌های Examples، API Reference، Usage Guide
+
+## 🎯 مثال کامل - Article Endpoint
+
+برای مشاهده یک مثال کامل واقعی:
+
+**[📖 Article Endpoint Documentation](../../../apps/docs/content/docs/framework/article-endpoint.mdx)**
+
+این مثال شامل:
+- ✅ 13 API Endpoints
+- ✅ 7 Interfaces
+- ✅ 15 Functions
+- ✅ 11 React Query Hooks
+- ✅ مثال کامل Article Management Page
+- ✅ Best Practices
+- ✅ Common Issues
+- ✅ Available Hooks Table
+
+## ✅ چک‌لیست نهایی
+
+### Framework Package:
+- [ ] Endpoints اضافه شده به `api-endpoints.ts`
+- [ ] فولدر route ایجاد شده
+- [ ] `type.ts` با تمام interfaces
+- [ ] `get.ts` با توابع GET
+- [ ] `post.ts` با توابع POST/PUT
+- [ ] `update.ts` یا `delete.ts` (در صورت نیاز)
+- [ ] `query.ts` با React Query hooks
+- [ ] `index.ts` با exports
+- [ ] Export در main `index.ts`
+- [ ] Build موفق
+- [ ] بدون linter errors
+
+### Documentation:
+- [ ] فایل `[endpoint-name]-endpoint.mdx` ایجاد شده
+- [ ] `meta.json` آپدیت شده
+- [ ] `index.mdx` آپدیت شده
+- [ ] `adding-endpoints.mdx` آپدیت شده
+- [ ] `README.md` آپدیت شده
+- [ ] `CHANGELOG.md` آپدیت/ایجاد شده
+
+### Content Quality:
+- [ ] همه بخش‌های داکیومنت کامل هستند
+- [ ] مثال‌های کد کامل و قابل اجرا
+- [ ] Best practices نوشته شده
+- [ ] Common issues و راه‌حل‌ها
+- [ ] جدول Available Hooks
+- [ ] لینک‌های مناسب به بخش‌های دیگر
+
+## 🚨 نکات مهم
+
+1. **همیشه از API_ENDPOINTS استفاده کن** - هاردکد ممنوع
+2. **Type Safety کامل** - هیچ `any` مجاز نیست
+3. **Generic Hooks** - همیشه از generic hooks استفاده کن
+4. **Query Keys** - باید unique و معنادار باشند
+5. **Documentation** - کامل، واضح و با مثال‌های عملی
+6. **CHANGELOG** - همه تغییرات ثبت شوند
+7. **Build** - قبل از commit حتماً build کن
+8. **Linter** - بدون linter error
+9. **Examples** - مثال‌های واقعی و کاربردی
+10. **Links** - لینک‌های صحیح و کارآمد
+
+---
+
+**آماده برای شروع؟ اطلاعات endpoint جدید رو بهم بده! 🚀**
+

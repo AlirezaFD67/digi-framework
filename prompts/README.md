@@ -47,6 +47,10 @@
 
 برای کار با سیستم Build و Registry
 
+### [📚 افزودن داکیومنت Framework](./docs/add-framework-docs/)
+
+برای افزودن endpoint جدید و داکیومنت کامل به Framework Package
+
 ## 🎯 نحوه استفاده
 
 ### 1. **انتخاب Prompt مناسب**
