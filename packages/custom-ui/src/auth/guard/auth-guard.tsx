@@ -57,8 +57,7 @@ function AuthChecker({ children, checked, setChecked }: Props & { checked: boole
       const searchParams = new URLSearchParams({ returnTo }).toString();
       const loginPath = loginRoute || "/auth/login";
       const href = `${loginPath}?${searchParams}`;
-      console.log("auth-guard", href);
-      // router.replace(href);
+      router.replace(href);
     } else {
       setChecked(true);
     }

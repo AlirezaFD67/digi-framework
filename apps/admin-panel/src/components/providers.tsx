@@ -9,7 +9,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
 
     <FrameworkProvider>
-      <CustomUIProvider loginRoute="/auth/login" appRoute="/" mode="dashboard" themeConfig={{ attribute: "class" }} sidebarConfig={{ defaultOpen: true }}>
+      <CustomUIProvider loginRoute="/auth" appRoute="/" mode="dashboard" themeConfig={{ attribute: "class" }} sidebarConfig={{ defaultOpen: true }}>
 
         <NextThemesProvider
           attribute="class"
