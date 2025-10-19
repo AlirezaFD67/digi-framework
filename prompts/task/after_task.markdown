@@ -8,34 +8,114 @@
 - [منابع مرتبط](#منابع-مرتبط)
 
 ## چک‌لیست بعد از تسک
-- [ ] **مستندسازی تسک**:
-  - منطق تسک و جزئیات آن را در `docs/tasks/[shamsiDate]-[TaskID]-[TaskName].md` طبق TASK_DOCUMENTATION_GUIDELINES.markdown ثبت کنید.
+
+### 1. چک Build و Type
+- [ ] **Build موفقیت‌آمیز**:
+  ```bash
+  # از ریشه monorepo
+  pnpm build
+  
+  # یا فقط برای یک package/app
+  pnpm build --filter [app-name]
+  pnpm build --filter @workspace/[package-name]
+  ```
+
+- [ ] **TypeScript errors نداشته باشد**:
+  ```bash
+  pnpm typecheck
+  ```
+
+- [ ] **Lint errors برطرف شده**:
+  ```bash
+  pnpm lint
+  ```
+
+### 2. مستندسازی تسک
+- [ ] **داکیومنت تسک** (در صورت نیاز):
+  - اگر تسک پیچیده بود، در `docs/tasks/` مستند کنید
+  - فرمت: `[shamsiDate]-[TaskID]-[TaskName].md`
   - مثال: `docs/tasks/1404-05-01-T123-UserManagement.md`
-- [ ] **مستندسازی APIها**:
-  - اگر endpoint جدیدی اضافه شده، یک فایل جدید در `docs/api/endpoints/` با جزئیات ورودی، پاسخ، و فلگ `requiresAuth` طبق API_DOCUMENTATION.markdown ایجاد کنید.
-- [ ] **تست‌نویسی**:
-  - تست‌های واحد یا یکپارچه را در `tests/__tests__/[FeatureName].test.tsx` طبق TESTING_GUIDELINES.markdown بنویسید.
-  - پوشش تست حداقل 80% باشد (با `pnpm jest --coverage` بررسی کنید).
-- [ ] **به‌روزرسانی داکیومنت‌ها**:
-  - کامپوننت‌های جدید را به COMPONENT_GUIDELINES.markdown اضافه کنید.
-  - ارورهای جدید را به `lib/utils/errorHandler.ts` طبق GENERAL_GUIDELINES.markdown اضافه کنید.
-  - نکات عملکردی جدید را به PERFORMANCE_GUIDELINES.markdown اضافه کنید.
-  - نکات SEO جدید را به SEO_GUIDELINES.markdown اضافه کنید.
+
+### 3. مستندسازی API (اگر endpoint جدید اضافه شد)
+- [ ] **اگر در `@workspace/framework` endpoint جدید ایجاد کردید**:
+  - مستندات در `apps/docs/content/docs/framework/` اضافه شود
+  - مثال‌های استفاده در داکیومنت باشد
+  - تایپ‌ها و پاسخ‌ها مستند شوند
+
+### 4. مستندسازی کامپوننت (اگر کامپوننت گلوبال اضافه شد)
+- [ ] **اگر در `@workspace/custom-ui` کامپوننت جدید ایجاد کردید**:
+  - کامپوننت را به `COMPONENT_GUIDELINES.markdown` اضافه کنید
+  - نحوه استفاده و props را مستند کنید
+
+- [ ] **اگر در `@workspace/ui` کامپوننت shadcn اضافه کردید**:
+  - در `COMPONENT_GUIDELINES.markdown` لیست کنید
+
+### 5. تست‌نویسی
+- [ ] **تست‌ها نوشته شده**:
+  - تست کامپوننت اپ: `apps/[app-name]/src/__tests__/`
+  - تست کامپوننت گلوبال: `packages/custom-ui/src/__tests__/`
+  - تست API: `packages/framework/src/__tests__/`
+
+- [ ] **تست‌ها پاس می‌شوند**:
+  ```bash
+  pnpm test
+  
+  # با coverage
+  pnpm test --coverage
+  ```
+
+### 6. Export و Re-export
+- [ ] **اگر در package تغییر دادید، export کنید**:
+  - در `packages/framework/src/index.ts`
+  - در `packages/custom-ui/src/index.ts`
+  - در `packages/ui/src/index.ts`
+
+### 7. به‌روزرسانی CHANGELOG (در صورت نیاز)
+- [ ] **اگر تغییرات مهمی در package بود**:
+  - `packages/framework/CHANGELOG.md` را به‌روزرسانی کنید
+  - نسخه package را در `package.json` افزایش دهید (اگر نیاز بود)
+### 8. کامیت و Push
 - [ ] **پیشنهاد عنوان کامیت**:
-  - وقتی گفته می‌شود "کامیت بده"، یک عنوان کامیت استاندارد به انگلیسی با فرمت `[نوع تغییر]: [توضیح مختصر]` پیشنهاد دهید.
-  - انواع تغییر: `Feat`, `Fix`, `Add`, `Update`, `Refactor`, `Remove`.
-  - مثال: `Feat: Add user management`
-  - دستور نمونه (برای کامیت تغییرات):
+  - فرمت: `[type]([scope]): [short description]`
+  - **type**: feat, fix, refactor, chore, docs
+  - **scope**: نام package یا app
+  - مثال‌ها:
     ```bash
-    git commit -m "Feat: Add user management"  # کامیت با عنوان استاندارد
+    feat(admin-panel): add user management table
+    fix(framework): resolve auth token refresh issue
+    chore(ui): add new button variant
+    refactor(custom-ui): improve error boundary logic
     ```
-- [ ] **بررسی کیفیت**:
-  - از Google Lighthouse برای تست عملکرد و SEO استفاده کنید (طبق PERFORMANCE_GUIDELINES.markdown و SEO_GUIDELINES.markdown).
-  - فایل‌های اضافی یا غیرضروری را حذف کنید.
-- [ ] **تأیید کاربر**:
-  - قبل از push یا merge، تأیید کاربر (صاحب پروژه) را دریافت کنید.
-- [ ] **اطلاع‌رسانی به تیم**:
-  - تغییرات را از طریق pull request یا کامیت به تیم اطلاع دهید.
+
+- [ ] **Stage و Commit**:
+  ```bash
+  git add .
+  git commit -m "feat(admin-panel): add user management"
+  ```
+
+- [ ] **تأیید کاربر برای Push**:
+  - قبل از push، تأیید بگیرید
+  ```bash
+  git push origin [branch-name]
+  ```
+
+### 9. بررسی کیفیت (اختیاری)
+- [ ] **Performance** (برای صفحات جدید):
+  - از Lighthouse برای تست عملکرد استفاده کنید
+  
+- [ ] **SEO** (برای صفحات عمومی):
+  - metadata، canonical URLs، og:image چک شوند
+
+### 10. تمیز کاری
+- [ ] **فایل‌های موقت حذف شوند**
+- [ ] **console.log های debug حذف شوند**
+- [ ] **import های استفاده نشده حذف شوند**
+
+### 11. اطلاع‌رسانی به تیم
+- [ ] **Pull Request ایجاد شود**:
+  - توضیحات واضح از تغییرات
+  - اگر breaking change هست، مشخص شود
+  - screenshot/gif اگر UI تغییر کرده
 
 ## نکات
 - از اضافه کردن پکیج‌ها یا کامپوننت‌های غیراستاندارد پرهیز کنید.

@@ -11,31 +11,89 @@
 - [۶. نکات](#۶-نکات)
 - [منابع مرتبط](#منابع-مرتبط)
 
-## ۱. محل ایجاد فایل‌های جدید
-- **صفحات جدید**:
-  - صفحات سایت اصلی در `app/(main)/` با نام فولدر kebab-case (مثل `users-management/`) ایجاد شوند.
-  - صفحات داشبورد در `app/dashboard/` با نام فولدر kebab-case (مثل `users-management/`) ایجاد شوند.
-  - فایل `page.tsx` برای صفحه اصلی route ایجاد شود.
-  - مثال: `app/(main)/users-management/page.tsx` یا `app/dashboard/users-management/page.tsx`
-- **کامپوننت‌های جدید**:
-  - کامپوننت‌های عمومی (مثل Button): در `components/ui/` با shadcn ایجاد شوند.
-  - کامپوننت‌های خاص فیچر (مثل UserForm): در `components/features/` با نام PascalCase (مثل `UserForm.tsx`؛ اگر خاص سایت یا داشبورد، در نام‌گذاری مشخص کنید مثل `DashboardUserForm.tsx`).
-  - کامپوننت‌های layout (مثل Navbar): در `components/layout/` با نام PascalCase (مثل `Navbar.tsx`؛ اگر خاص سایت یا داشبورد، جدا تعریف کنید مثل `MainNavbar.tsx` یا `DashboardSidebar.tsx`).
-  - برای انتخاب کامپوننت‌ها، به COMPONENT_GUIDELINES.markdown مراجعه کنید.
-- **توابع API جدید**:
-  - در `lib/api/` با نام kebab-case (مثل `users.ts`) ایجاد شوند.
-  - از apiClient در `lib/api/client.ts` استفاده شود.
-  - مستندات API را در `docs/api/endpoints/` طبق API_DOCUMENTATION.markdown اضافه کنید.
-- **هوک‌های جدید**:
-  - در `lib/hooks/` با نام `use[FeatureName].ts` (مثل `useUsers.ts`) ایجاد شوند.
-  - از React Query برای queries/mutations استفاده شود.
-- **تایپ‌های جدید**:
-  - در `types/` با نام kebab-case (مثل `user.ts`) ایجاد شوند.
-  - در `types/index.ts` export شوند.
-- **ثابت‌های جدید**:
-  - در `constants/index.ts` یا `constants/endpoints.ts` اضافه شوند.
-- **تست‌های جدید**:
-  - در `tests/__tests__/` با نام `[FeatureName].test.tsx` (مثل `AuthForm.test.tsx`) ایجاد شوند.
+## ۱. محل ایجاد فایل‌های جدید (Monorepo)
+
+### 1.1. صفحات جدید (در apps/)
+- **تعیین اپلیکیشن**: ابتدا مشخص کنید صفحه برای کدام اپ است (مثل `admin-panel` یا `application-expert`)
+- **مسیر**: `apps/[app-name]/src/app/` با نام فولدر kebab-case (مثل `users-management/`)
+- **فایل**: `page.tsx` برای صفحه اصلی route
+- **مثال**: `apps/admin-panel/src/app/users-management/page.tsx`
+
+### 1.2. کامپوننت‌های جدید
+**قبل از ایجاد کامپوننت، تصمیم بگیرید:**
+
+#### آیا کامپوننت در بیش از یک اپلیکیشن نیاز است?
+- **بله (گلوبال)** → `packages/custom-ui/src/components/`
+  - مثال: `packages/custom-ui/src/components/UserCard.tsx`
+  - Import: `import { UserCard } from '@workspace/custom-ui'`
+  
+- **خیر (خاص یک اپ)** → `apps/[app-name]/src/components/`
+  - مثال: `apps/admin-panel/src/components/AdminDashboard.tsx`
+  - Import: `import AdminDashboard from '@/components/AdminDashboard'`
+
+#### آیا کامپوننت UI پایه است (بدون business logic)?
+- **بله** → `packages/ui/src/components/` (shadcn/ui)
+  - مثال: `packages/ui/src/components/button.tsx`
+  - Import: `import { Button } from '@workspace/ui'`
+  - **نکته**: از shadcn CLI استفاده کنید: `pnpm dlx shadcn@latest add button`
+
+**نام‌گذاری کامپوننت‌ها**: PascalCase (مثل `UserForm.tsx`, `AdminNavbar.tsx`)
+
+### 1.3. API و Endpoints جدید
+**تمام API logic در `@workspace/framework`:**
+- **مسیر**: `packages/framework/src/routes/[feature-name]/`
+- **فایل‌ها**:
+  - `get.ts`: توابع خام GET
+  - `post.ts`: توابع خام POST/PUT/DELETE
+  - `query.ts`: React Query hooks
+  - `type.ts`: تایپ‌های مرتبط
+- **Endpoints**: در `packages/framework/src/utils/endpoints.ts` اضافه کنید
+- **Export**: در `packages/framework/src/index.ts`
+- **مستندات**: در `apps/docs/content/docs/framework/` + `prompts/framework/add-endpoint/`
+- **مثال**: `packages/framework/src/routes/user/`
+
+❌ **ممنوع**: ایجاد API call مستقیم در `apps/` - همیشه از `@workspace/framework` استفاده کنید
+
+### 1.4. هوک‌های جدید
+#### هوک‌های API (React Query):
+- **مسیر**: `packages/framework/src/routes/[feature]/query.ts`
+- **نام**: `use[Feature][Action]` (مثل `useUsersQuery`, `useCreateUserMutation`)
+
+#### هوک‌های گلوبال (غیر API):
+- **مسیر**: `packages/custom-ui/src/hooks/`
+- **نام**: `use[FeatureName].ts` (مثل `useAuth.ts`)
+
+#### هوک‌های خاص اپ:
+- **مسیر**: `apps/[app-name]/src/hooks/`
+
+### 1.5. تایپ‌های جدید
+#### تایپ‌های API:
+- **مسیر**: `packages/framework/src/routes/[feature]/type.ts`
+- **مثال**: `packages/framework/src/routes/user/type.ts`
+
+#### تایپ‌های گلوبال:
+- **مسیر**: `packages/custom-ui/src/types/`
+- **Export**: در `packages/custom-ui/src/types/index.ts`
+
+#### تایپ‌های خاص اپ:
+- **مسیر**: `apps/[app-name]/src/types/`
+- **Export**: در `apps/[app-name]/src/types/index.ts`
+
+### 1.6. ثابت‌های جدید
+#### ثابت‌های API (endpoints):
+- **مسیر**: `packages/framework/src/utils/endpoints.ts`
+
+#### ثابت‌های گلوبال:
+- **مسیر**: `packages/custom-ui/src/constants/`
+
+#### ثابت‌های خاص اپ:
+- **مسیر**: `apps/[app-name]/src/constants/`
+
+### 1.7. تست‌های جدید
+- **تست‌های کامپوننت اپ**: `apps/[app-name]/src/__tests__/`
+- **تست‌های کامپوننت گلوبال**: `packages/custom-ui/src/__tests__/`
+- **تست‌های framework**: `packages/framework/src/__tests__/`
+- **نام**: `[FeatureName].test.tsx` (مثل `UserForm.test.tsx`)
 
 ## ۲. روش‌های نام‌گذاری
 - **فایل‌ها و کامپوننت‌ها**: PascalCase (مثل `AuthForm.tsx`, `Navbar.tsx`).
@@ -53,31 +111,110 @@
   - برای CSS modules، از camelCase استفاده شود (مثل `buttonWrapper.module.css`).
   - نام فایل CSS module: `[ComponentName].module.css` (مثل `UserForm.module.css`).
 
-## ۳. استفاده از ابزارهای عمومی
-- **کامپوننت‌های UI**:
-  - از کامپوننت‌های استاندارد در COMPONENT_GUIDELINES.markdown استفاده شود.
-  - مثال:
-    ```typescript
-    import { Button } from '@/components/ui';
-    <Button>کلیک کن</Button>
-    ```
-- **توابع API**:
-  - از `lib/api/client.ts` برای درخواست‌ها استفاده شود.
-  - مثال:
-    ```typescript
-    import apiClient from '@/lib/api/client';
-    const data = await apiClient.get('/users');
-    ```
-- **هوک‌ها**:
-  - از هوک‌های موجود در `lib/hooks/` استفاده شود.
-  - برای فیچر جدید، هوک جدید ایجاد شود.
-- **Context**:
-  - برای stateهای global (مثل auth) از `lib/context/AuthContext.tsx` استفاده شود.
-  - مثال:
-    ```typescript
-    import { useAuth } from '@/lib/hooks/useAuth';
-    const { user, setUser } = useAuth();
-    ```
+## ۳. استفاده از ابزارهای عمومی (Monorepo)
+
+### 3.1. کامپوننت‌های UI
+#### کامپوننت‌های shadcn/ui (پایه):
+```typescript
+import { Button, Input, Dialog } from '@workspace/ui';
+
+<Button variant="default">کلیک کن</Button>
+<Input placeholder="ایمیل" />
+```
+
+#### کامپوننت‌های گلوبال (با business logic):
+```typescript
+import { UserCard, AdminLogin } from '@workspace/custom-ui';
+
+<UserCard userId="123" />
+<AdminLogin onSuccess={() => {}} />
+```
+
+#### کامپوننت‌های خاص اپ:
+```typescript
+import AdminDashboard from '@/components/AdminDashboard';
+
+<AdminDashboard />
+```
+
+### 3.2. API Calls
+**همیشه از `@workspace/framework` استفاده کنید:**
+
+#### استفاده از Hooks (توصیه می‌شود):
+```typescript
+import { useUserProfileQuery, useUpdateUserProfileMutation } from '@workspace/framework';
+
+function MyComponent() {
+  const { data: user, isLoading } = useUserProfileQuery();
+  const updateProfile = useUpdateUserProfileMutation();
+
+  const handleUpdate = async () => {
+    await updateProfile.mutateAsync({ name: 'جدید' });
+  };
+}
+```
+
+#### استفاده از توابع خام (فقط در صورت نیاز):
+```typescript
+import { getUserProfile, updateUserProfile } from '@workspace/framework';
+
+const user = await getUserProfile();
+await updateUserProfile({ name: 'جدید' });
+```
+
+❌ **ممنوع**: API call مستقیم
+```typescript
+// اشتباه - هرگز این کار را نکنید
+const response = await fetch('/api/users');
+```
+
+### 3.3. هوک‌ها
+#### هوک‌های API (از framework):
+```typescript
+import { useUsersQuery, useCreateUserMutation } from '@workspace/framework';
+```
+
+#### هوک‌های گلوبال (از custom-ui):
+```typescript
+import { useAuth, useToast } from '@workspace/custom-ui';
+
+const { user, isAuthenticated } = useAuth();
+const toast = useToast();
+```
+
+#### هوک‌های UI (از ui):
+```typescript
+import { useMediaQuery, useDebounce } from '@workspace/ui';
+```
+
+### 3.4. Context و Providers
+#### Setup در اپلیکیشن:
+```typescript
+// apps/[app-name]/src/app/layout.tsx
+import { FrameworkProvider } from '@workspace/framework';
+import { CustomUIProvider } from '@workspace/custom-ui';
+
+export default function RootLayout({ children }) {
+  return (
+    <html>
+      <body>
+        <FrameworkProvider>
+          <CustomUIProvider>
+            {children}
+          </CustomUIProvider>
+        </FrameworkProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+#### استفاده از Auth Context:
+```typescript
+import { useAuth } from '@workspace/custom-ui';
+
+const { user, setUser, isAuthenticated } = useAuth();
+```
 
 ## ۴. نکات TypeScript
 - تایپ‌های ورودی و خروجی را در `types/` تعریف کنید.

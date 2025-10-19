@@ -12,20 +12,87 @@
 - [۷. نکات](#۷-نکات)
 - [منابع مرتبط](#منابع-مرتبط)
 
-## ۱. نصب پکیج‌ها
-- همه پکیج‌ها را با pnpm نصب کنید:
-  ```bash
-  pnpm install [package-name]
-  ```
-- برای پکیج‌های توسعه:
-  ```bash
-  pnpm add -D [package-name]
-  ```
-- مثال برای پکیج‌های اصلی:
-  ```bash
-  pnpm install next typescript @tanstack/react-query tailwindcss postcss autoprefixer @types/react-hook-form
-  pnpm add -D jest @testing-library/react @testing-library/jest-dom
-  ```
+## ۱. نصب پکیج‌ها (Monorepo)
+
+### 1.1. قوانین نصب در Monorepo
+**قبل از نصب، چک کنید:**
+1. آیا پکیج در workspace packages (`@workspace/*`) وجود دارد؟
+2. آیا پکیج باید در ریشه یا در یک اپ/پکیج خاص نصب شود؟
+3. آیا پکیج به صورت global در تمام workspace نیاز است؟
+
+### 1.2. نصب در ریشه Monorepo (Global)
+برای پکیج‌هایی که در تمام workspace نیاز هستند:
+```bash
+# از ریشه monorepo
+pnpm add -w [package-name]
+
+# مثال: نصب turbo
+pnpm add -w turbo
+```
+
+### 1.3. نصب در یک اپلیکیشن خاص
+```bash
+# از ریشه monorepo
+pnpm add [package-name] --filter [app-name]
+
+# مثال: نصب در admin-panel
+pnpm add axios --filter admin-panel
+
+# یا رفتن به پوشه اپ
+cd apps/admin-panel
+pnpm add axios
+```
+
+### 1.4. نصب در یک پکیج workspace
+```bash
+# از ریشه monorepo
+pnpm add [package-name] --filter @workspace/[package-name]
+
+# مثال: نصب در framework
+pnpm add axios --filter @workspace/framework
+
+# یا رفتن به پوشه پکیج
+cd packages/framework
+pnpm add axios
+```
+
+### 1.5. استفاده از workspace packages
+برای استفاده از پکیج‌های داخلی workspace:
+```json
+// در package.json اپلیکیشن
+{
+  "dependencies": {
+    "@workspace/framework": "workspace:*",
+    "@workspace/custom-ui": "workspace:*",
+    "@workspace/ui": "workspace:*"
+  }
+}
+```
+
+### 1.6. پکیج‌های توسعه (dev dependencies)
+```bash
+# global dev dependency
+pnpm add -D -w [package-name]
+
+# dev dependency برای یک اپ
+pnpm add -D [package-name] --filter [app-name]
+```
+
+### 1.7. مثال‌های واقعی
+```bash
+# نصب React Query در framework (قبلا نصب شده)
+pnpm add @tanstack/react-query --filter @workspace/framework
+
+# نصب shadcn component در ui
+cd packages/ui
+pnpm dlx shadcn@latest add button
+
+# نصب پکیج تست در admin-panel
+pnpm add -D vitest --filter admin-panel
+
+# نصب TypeScript در کل workspace
+pnpm add -D -w typescript
+```
 
 ## ۲. متغیرهای محیطی
 - متغیرهای محیطی را در `.env` تعریف کنید.

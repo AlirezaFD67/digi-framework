@@ -1,124 +1,329 @@
-# راهنمای اتصال به API
+# راهنمای اتصال به API (با @workspace/framework)
 
-این سند دستورات لازم برای اتصال به API و استفاده از apiClient برای عملیات CRUD را مشخص می‌کند.
+این سند دستورات لازم برای استفاده از `@workspace/framework` برای مدیریت API calls را مشخص می‌کند.
 
 ## فهرست محتوا (TOC)
-- [۱. تنظیمات اولیه](#۱-تنظیمات-اولیه)
-- [۲. تعریف توابع API](#۲-تعریف-توابع-api)
-- [۳. عملیات CRUD](#۳-عملیات-crud)
-- [۴. استفاده از React Query](#۴-استفاده-از-react-query)
-- [۵. مدیریت مسیرهای API](#۵-مدیریت-مسیرهای-api)
+- [۱. معرفی Framework](#۱-معرفی-framework)
+- [۲. Setup اولیه](#۲-setup-اولیه)
+- [۳. استفاده از Hooks (توصیه می‌شود)](#۳-استفاده-از-hooks-توصیه-می‌شود)
+- [۴. استفاده از توابع خام](#۴-استفاده-از-توابع-خام)
+- [۵. اضافه کردن Endpoint جدید](#۵-اضافه-کردن-endpoint-جدید)
 - [۶. تایپ‌ها](#۶-تایپها)
-- [۷. نکات](#۷-نکات)
+- [۷. قوانین مهم](#۷-قوانین-مهم)
 - [منابع مرتبط](#منابع-مرتبط)
 
-## ۱. تنظیمات اولیه
-- فایل `lib/api/client.ts` را برای wrapper fetch با interceptor ایجاد کنید.
-- قابلیت‌های apiClient:
-  - افزودن Authorization header با token از localStorage.
-  - مدیریت refresh token (اگر `ENABLE_REFRESH_TOKEN` در `constants/index.ts` برابر true باشد).
-  - پشتیبانی از عملیات GET، POST، PUT، DELETE.
+## ۱. معرفی Framework
+**تمام API logic در `@workspace/framework` متمرکز شده است.**
 
-## ۲. تعریف توابع API
-- برای هر فیچر، فایل جدید در `lib/api/` ایجاد کنید (مثل `auth.ts`, `users.ts`).
-- از apiClient برای درخواست‌ها استفاده کنید.
-- مثال:
-  ```typescript
-  import apiClient from '@/lib/api/client';
-  import { AuthResponse, LoginForm } from '@/types/auth';
+### ویژگی‌های کلیدی:
+- ✅ **React Query Integration**: کش هوشمند و background updates
+- ✅ **HTTP Client مرکزی**: مدیریت token و error handling
+- ✅ **Generic Hooks**: قابلیت استفاده مجدد
+- ✅ **TypeScript کامل**: تمام تایپ‌ها و interfaceها
+- ✅ **Centralized Endpoints**: تمام URLها در یک جا
 
-  export const login = (data: LoginForm) => apiClient.post<AuthResponse>('/auth/login', data);
-  ```
+### ساختار Framework:
+```
+packages/framework/src/
+├── routes/              # API endpoints
+│   ├── auth/           # Authentication
+│   │   ├── get.ts      # توابع خام GET
+│   │   ├── post.ts     # توابع خام POST/PUT/DELETE
+│   │   ├── query.ts    # React Query hooks
+│   │   └── type.ts     # تایپ‌های مرتبط
+│   ├── user/           # User management
+│   └── article/        # Articles
+├── providers/          # FrameworkProvider
+├── utils/              # APIHttp, endpoints, generic hooks
+└── types/              # Base types
+```
 
-## ۳. عملیات CRUD
-- توابع CRUD را در فایل‌های مربوطه در `lib/api/` تعریف کنید (مثل `users.ts`).
-- ساختار استاندارد:
-  - GET: برای دریافت داده (لیست یا تک آیتم).
-  - POST: برای ایجاد آیتم جدید.
-  - PUT: برای به‌روزرسانی آیتم.
-  - DELETE: برای حذف آیتم.
-- مثال:
-  ```typescript
-  import apiClient from '@/lib/api/client';
-  import { User, CreateUserForm, UpdateUserForm } from '@/types/user';
+## ۲. Setup اولیه
 
-  export const getUsers = () => apiClient.get<User[]>('/users');
-  export const getUserById = (id: string) => apiClient.get<User>(`/users/${id}`);
-  export const createUser = (data: CreateUserForm) => apiClient.post<User>('/users', data);
-  export const updateUser = (id: string, data: UpdateUserForm) => apiClient.put<User>(`/users/${id}`, data);
-  export const deleteUser = (id: string) => apiClient.delete<void>(`/users/${id}`);
-  ```
+### 2.1. نصب در اپلیکیشن
+اپلیکیشن‌های موجود در `apps/` از قبل `@workspace/framework` را در `package.json` دارند:
+```json
+{
+  "dependencies": {
+    "@workspace/framework": "workspace:*"
+  }
+}
+```
 
-## ۴. استفاده از React Query
-- برای queries (GET) و mutations (POST، PUT، DELETE) از React Query استفاده کنید.
-- هوک‌های مربوطه را در `lib/hooks/` ایجاد کنید.
-- نام‌گذاری هوک‌ها: `use[Feature][Action]` (مثل `useUsers`, `useCreateUser`).
-- مثال:
-  ```typescript
-  import { useQuery, useMutation } from '@tanstack/react-query';
-  import { getUsers, createUser } from '@/lib/api/users';
-  import { useAuth } from '@/lib/hooks/useAuth';
+### 2.2. Setup Provider
+در `app/layout.tsx` هر اپلیکیشن:
+```typescript
+import { FrameworkProvider } from '@workspace/framework';
 
-  export const useUsers = () => {
-    return useQuery({
-      queryKey: ['users'],
-      queryFn: getUsers,
-    });
+export default function RootLayout({ children }) {
+  return (
+    <html>
+      <body>
+        <FrameworkProvider>
+          {children}
+        </FrameworkProvider>
+      </body>
+    </html>
+  );
+}
+```
+
+## ۳. استفاده از Hooks (توصیه می‌شود)
+
+### 3.1. Query (GET) - دریافت داده
+```typescript
+import { useUserProfileQuery } from '@workspace/framework';
+
+function ProfilePage() {
+  const { data: user, isLoading, error, refetch } = useUserProfileQuery();
+
+  if (isLoading) return <div>در حال بارگذاری...</div>;
+  if (error) return <div>خطا در دریافت اطلاعات</div>;
+
+  return <div>{user?.name}</div>;
+}
+```
+
+### 3.2. Mutation (POST/PUT/DELETE) - تغییر داده
+```typescript
+import { useUpdateUserProfileMutation } from '@workspace/framework';
+
+function EditProfilePage() {
+  const updateProfile = useUpdateUserProfileMutation();
+
+  const handleSubmit = async (formData) => {
+    try {
+      await updateProfile.mutateAsync({
+        name: formData.name,
+        email: formData.email
+      });
+      // موفقیت
+    } catch (error) {
+      // خطا
+    }
   };
 
-  export const useCreateUser = () => {
-    const { setUser } = useAuth();
-    return useMutation({
-      mutationFn: createUser,
-      onSuccess: (data) => {
-        // به‌روزرسانی state یا cache
-      },
-    });
-  };
-  ```
+  return (
+    <form onSubmit={handleSubmit}>
+      {updateProfile.isPending && <div>در حال ارسال...</div>}
+      {/* فرم */}
+    </form>
+  );
+}
+```
 
-## ۵. مدیریت مسیرهای API
-- مسیرهای API را در `constants/endpoints.ts` تعریف کنید.
-- مثال:
-  ```typescript
-  export const ENDPOINTS = {
-    AUTH: {
-      LOGIN: '/auth/login',
-      REFRESH_TOKEN: '/auth/refresh',
-    },
-    USERS: {
-      BASE: '/users',
-      BY_ID: (id: string) => `/users/${id}`,
-    },
-  };
-  ```
+### 3.3. Query با Parameters
+```typescript
+import { useAdminLearningDetail } from '@workspace/framework';
+
+function ArticleDetailPage({ id }: { id: string }) {
+  const { data: article } = useAdminLearningDetail(id);
+
+  return <div>{article?.title}</div>;
+}
+```
+
+### 3.4. Mutation با Optimistic Update
+```typescript
+import { useGenericMutationWithOptimisticUpdate } from '@workspace/framework';
+
+const deleteMutation = useGenericMutationWithOptimisticUpdate(
+  (id: string) => deleteArticle(id),
+  ['articles'], // query key to invalidate
+  {
+    onSuccess: () => {
+      toast.success('مقاله حذف شد');
+    }
+  }
+);
+```
+
+## ۴. استفاده از توابع خام
+
+### 4.1. زمان استفاده
+فقط در موارد زیر از توابع خام استفاده کنید:
+- Server Components در Next.js
+- API Routes
+- Server Actions
+- زمانی که به React Query دسترسی ندارید
+
+### 4.2. مثال
+```typescript
+import { getUserProfile, updateUserProfile } from '@workspace/framework';
+
+// در Server Component
+async function ServerProfilePage() {
+  const user = await getUserProfile();
+
+  return <div>{user.name}</div>;
+}
+
+// در Server Action
+async function updateProfile(formData: FormData) {
+  'use server';
+  
+  const result = await updateUserProfile({
+    name: formData.get('name') as string
+  });
+
+  return result;
+}
+```
+
+## ۵. اضافه کردن Endpoint جدید
+
+### 5.1. ساختار فایل‌ها
+```bash
+packages/framework/src/routes/[feature-name]/
+├── get.ts      # توابع خام GET
+├── post.ts     # توابع خام POST/PUT/DELETE
+├── query.ts    # React Query hooks
+└── type.ts     # تایپ‌های TypeScript
+```
+
+### 5.2. مثال کامل
+
+#### Step 1: تعریف تایپ‌ها (`type.ts`)
+```typescript
+export interface Product {
+  id: string;
+  name: string;
+  price: number;
+}
+
+export interface CreateProductInput {
+  name: string;
+  price: number;
+}
+```
+
+#### Step 2: اضافه کردن endpoint (`utils/endpoints.ts`)
+```typescript
+export const API_ENDPOINTS = {
+  // ...
+  PRODUCT: {
+    LIST: '/products',
+    DETAIL: (id: string) => `/products/${id}`,
+    CREATE: '/products',
+  }
+};
+```
+
+#### Step 3: توابع خام (`get.ts`, `post.ts`)
+```typescript
+// get.ts
+import { APIHttp } from '../../utils/client';
+import { API_ENDPOINTS } from '../../utils/endpoints';
+import { Product } from './type';
+
+export const getProducts = () => 
+  APIHttp.get<Product[]>(API_ENDPOINTS.PRODUCT.LIST);
+
+export const getProductById = (id: string) => 
+  APIHttp.get<Product>(API_ENDPOINTS.PRODUCT.DETAIL(id));
+
+// post.ts
+import { CreateProductInput, Product } from './type';
+
+export const createProduct = (data: CreateProductInput) =>
+  APIHttp.post<Product>(API_ENDPOINTS.PRODUCT.CREATE, data);
+```
+
+#### Step 4: React Query Hooks (`query.ts`)
+```typescript
+import { useQuery, useMutation } from '@tanstack/react-query';
+import { getProducts, createProduct } from './get';
+import type { CreateProductInput } from './type';
+
+export const useProductsQuery = () => {
+  return useQuery({
+    queryKey: ['products'],
+    queryFn: getProducts,
+  });
+};
+
+export const useCreateProductMutation = () => {
+  return useMutation({
+    mutationFn: createProduct,
+  });
+};
+```
+
+#### Step 5: Export در `index.ts`
+```typescript
+// packages/framework/src/index.ts
+export * from './routes/product/get';
+export * from './routes/product/post';
+export * from './routes/product/query';
+export type * from './routes/product/type';
+```
+
+### 5.3. راهنمای کامل
+برای راهنمای مفصل اضافه کردن endpoint به این‌ها مراجعه کنید:
+- `packages/framework/README.md`
+- `packages/framework/ADD_ENDPOINT_PROMPT.md`
+- `prompts/framework/add-endpoint/`
 
 ## ۶. تایپ‌ها
-- تایپ‌های ورودی و خروجی API را در `types/` تعریف کنید.
-- تایپ‌های فرم (مثل `CreateUserForm`) را جدا از مدل اصلی (مثل `User`) تعریف کنید.
-- مثال:
-  ```typescript
-  export interface User {
-    id: string;
-    email: string;
-    name: string;
-  }
 
-  export interface CreateUserForm {
-    email: string;
-    password: string;
-    name: string;
-  }
-  ```
-- تایپ‌ها را در `types/index.ts` export کنید:
-  ```typescript
-  export * from './auth';
-  export * from './user';
-  ```
+### 6.1. Base Types
+```typescript
+import type { 
+  BaseResponseType,
+  PaginatedResponse,
+  APIHttpType
+} from '@workspace/framework';
 
-## ۷. نکات
-- از `ENABLE_REFRESH_TOKEN` در `constants/index.ts` برای فعال/غیرفعال کردن refresh token استفاده کنید.
-- از تایپ‌های دقیق برای ورودی و خروجی API استفاده کنید و از `any` پرهیز کنید.
+// استفاده
+interface MyResponse extends BaseResponseType {
+  data: MyData;
+}
+```
+
+### 6.2. محل تایپ‌ها
+- **تایپ‌های API**: `packages/framework/src/routes/[feature]/type.ts`
+- **تایپ‌های گلوبال**: `packages/custom-ui/src/types/`
+- **تایپ‌های خاص اپ**: `apps/[app-name]/src/types/`
+
+## ۷. قوانین مهم
+
+### ✅ باید انجام دهید:
+1. **همیشه از `API_ENDPOINTS` استفاده کنید**
+   ```typescript
+   // ✅ درست
+   APIHttp.get(API_ENDPOINTS.USER.PROFILE);
+   ```
+
+2. **در UI از Hooks استفاده کنید**
+   ```typescript
+   // ✅ درست
+   const { data } = useUserProfileQuery();
+   ```
+
+3. **تایپ‌های دقیق تعریف کنید**
+   ```typescript
+   // ✅ درست
+   interface User { id: string; name: string; }
+   ```
+
+### ❌ نباید انجام دهید:
+1. **هاردکد endpoint**
+   ```typescript
+   // ❌ اشتباه
+   APIHttp.get('/api/users');
+   ```
+
+2. **API call مستقیم در اپ**
+   ```typescript
+   // ❌ اشتباه
+   const response = await fetch('/api/users');
+   ```
+
+3. **استفاده از `any`**
+   ```typescript
+   // ❌ اشتباه
+   const data: any = await getUsers();
+   ```
 
 ---
 
