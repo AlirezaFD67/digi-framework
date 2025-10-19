@@ -71,6 +71,9 @@ export { default as CustomPagination } from "./components/pagination"
 // Export table component
 export { default as CustomTable } from "./components/table"
 
+// Export search component
+export { SearchInput } from "./components/search"
+
 // Export auth components
 export { SignOutButton, OTPLoginForm, OTPLoginFormExample, AdminLoginForm, AdminLoginFormExample } from "./components/auth"
 

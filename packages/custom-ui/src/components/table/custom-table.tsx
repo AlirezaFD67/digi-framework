@@ -35,6 +35,7 @@ interface CustomTableProps<T extends Record<string, any>> {
   totalPages?: number;
   currentPage?: number;
   onSort?: (key: string) => void;
+  onPageChange?: (page: number) => void;
 }
 
 // ============================================================================
@@ -49,6 +50,7 @@ function CustomTable<T extends Record<string, any>>({
   totalPages,
   currentPage = 1,
   onSort,
+  onPageChange,
 }: CustomTableProps<T>) {
   // ============================================================================
   // HOOKS & STATE
@@ -69,10 +71,11 @@ function CustomTable<T extends Record<string, any>>({
   // FUNCTIONS
   // ============================================================================
 
-  const paginatedData = data.slice(
-    (localPage - 1) * pageSize,
-    localPage * pageSize
-  );
+  // If onPageChange is provided, use server-side pagination (no slicing)
+  // Otherwise, use client-side pagination (slice data)
+  const paginatedData = onPageChange 
+    ? data 
+    : data.slice((localPage - 1) * pageSize, localPage * pageSize);
 
   const toggleRowSelection = (index: number) => {
     const newSelectedRows = new Set(selectedRows);
@@ -181,7 +184,7 @@ function CustomTable<T extends Record<string, any>>({
         <CustomPagination
           totalPages={totalPages}
           currentPage={localPage}
-          onPageChange={setLocalPage}
+          onPageChange={onPageChange || setLocalPage}
         />
       )}
     </div>

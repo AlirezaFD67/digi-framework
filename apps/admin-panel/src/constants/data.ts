@@ -29,13 +29,13 @@ export const navItems: NavItem[] = [
     items: [
       {
         title: 'مقاله جدید',
-        url: '/articles/new',
+        url: '/article/new',
       },
       {
-        title: 'مقالات',
-        url: '/articles',
+        title: 'لیست مقالات',
+        url: '/article',
       },
-    ] // آرایه خالی چون هیچ آیتم فرزندی برای داشبورد وجود ندارد
+    ]
   },
   {
     title: 'حساب کاربری',
