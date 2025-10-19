@@ -1,0 +1,757 @@
+---
+title: Article Endpoint
+description: Complete guide for Article endpoint implementation in framework package
+---
+
+# 📝 Article Endpoint
+
+Complete documentation for Article (Learning) endpoint that manages articles, categories, authors, and content.
+
+## 🎯 Overview
+
+The Article endpoint provides a complete solution for managing learning content including:
+
+- **Article Management** - Create, read, update, and publish articles
+- **Category Management** - Organize articles by categories
+- **Author Management** - Manage article authors
+- **Content Management** - Rich content with blocks
+- **File Management** - Upload and manage article files
+- **Publication Control** - Accept/reject article publication
+
+## 📋 API Endpoints
+
+```typescript
+const ARTICLES = {
+  ADMIN_LEARNING_LIST: "/adminlearninglist",
+  ADD_ARTICLE: "/admininsertlearningbase1",
+  ADD_ARTICLE_BASE2: "/admininsertlearningbase2",
+  UPDATE_ARTICLE: "/adminupdatelearning",
+  GET_LEARNING_CAT_LIST: "/getlearningcatlist",
+  UPLOAD_THUMBNAIL: "/adminuploadlearningimage",
+  ADMIN_LEARNING_DETAIL: "/adminlearningbasedetails",
+  ADMIN_LEARNING_BODY_DETAILS: "/adminlearningbodydetails",
+  SEARCH_DOCS: "/adminlearningsearchdoc",
+  ADMIN_FILE_MANAGER_LIST: "/adminfilemanagerlist",
+  SAVE_CONTENT: "/admininsertlearningbody",
+  ACCEPT_LEARNING: "/adminacceptlearning",
+  UPLOAD_FILE: "/adminuploadnewfile",
+} as const;
+```
+
+## 🏗️ File Structure
+
+```
+packages/framework/src/routes/article/
+├── type.ts           # All interfaces and types
+├── get.ts            # GET functions
+├── post.ts           # POST/PUT functions (create, update, upload)
+├── update.ts         # PUT functions (accept/reject)
+├── query.ts          # React Query hooks
+└── index.ts          # Exports
+```
+
+## 📝 Types & Interfaces
+
+### Article List Item
+
+```typescript
+export interface IAdminLearningListItem {
+  itm_ID: string;
+  cat_ID: number;
+  itm_Cat: string;
+  itm_Title: string;
+  itm_Minimal: string;
+  img_Path: string;
+  itm_Img: string;
+  itm_View: number;
+  DateOfCreation: string;
+  itm_Acc: number;
+}
+```
+
+### Article Detail
+
+```typescript
+export interface IArticle {
+  itm_Title: string;
+  itm_Minimal: string;
+  img_Path: string;
+  itm_Img: string;
+  itm_View: number;
+  itm_Acc: number;
+  itm_Desc: string;
+}
+```
+
+### Create Article Request
+
+```typescript
+export interface IAddArticleRequest {
+  catID: number;
+  itmTitle: string;
+  itmSlug: string;
+}
+```
+
+### Article Details Request
+
+```typescript
+export interface IAddArticleDetailsRequest {
+  catID: number;
+  itmTitle: string;
+  itmID: string;
+  narID: number;
+  docID: number;
+  readTime?: string;
+  itmMetaDesc: string;
+  itmSlug: string;
+  itmMinimal: string;
+  coverImage?: File | null;
+  thumbImage?: File | null;
+}
+```
+
+### Query Parameters
+
+```typescript
+export interface GetAdminLearningListParams {
+  isAccepted?: number;
+  pageNo?: number;
+  rowCount?: number;
+  itmTitle?: string;
+}
+```
+
+### Accept/Reject Request
+
+```typescript
+export interface AcceptLearningRequest {
+  itmID: string;
+  isAccepted: number;
+}
+
+export interface AcceptLearningResponse {
+  success: boolean;
+  message: string;
+}
+```
+
+## 🔍 GET Functions
+
+### Get Article List
+
+```typescript
+import { GetAdminLearningList } from "@workspace/framework";
+
+const articles = await GetAdminLearningList({
+  isAccepted: 1,
+  pageNo: 1,
+  rowCount: 10,
+  itmTitle: "search term"
+});
+```
+
+### Get Article Detail
+
+```typescript
+import { GetAdminLearningDetail } from "@workspace/framework";
+
+const article = await GetAdminLearningDetail("article-id");
+```
+
+### Get Categories
+
+```typescript
+import { GetLearningCategoryList } from "@workspace/framework";
+
+const categories = await GetLearningCategoryList();
+```
+
+### Get Authors
+
+```typescript
+import { GetAuthorsList } from "@workspace/framework";
+
+const authors = await GetAuthorsList("search query");
+```
+
+### Get Article Content
+
+```typescript
+import { GetArticleContent } from "@workspace/framework";
+
+const content = await GetArticleContent("article-id");
+```
+
+### Get Article Files
+
+```typescript
+import { GetArticleFiles } from "@workspace/framework";
+
+const files = await GetArticleFiles("article-id");
+```
+
+## ✏️ POST/PUT Functions
+
+### Create Article
+
+```typescript
+import { addArticle } from "@workspace/framework";
+
+const result = await addArticle({
+  catID: 1,
+  itmTitle: "Article Title",
+  itmSlug: "article-title"
+});
+```
+
+### Update Article
+
+```typescript
+import { updateArticle } from "@workspace/framework";
+
+const result = await updateArticle({
+  catID: 1,
+  itmTitle: "Updated Title",
+  itmSlug: "updated-title"
+});
+```
+
+### Add Article Details
+
+```typescript
+import { addArticleDetails } from "@workspace/framework";
+
+const result = await addArticleDetails({
+  catID: 1,
+  itmTitle: "Article Title",
+  itmID: "article-id",
+  narID: 1,
+  docID: 1,
+  readTime: "5",
+  itmMetaDesc: "Meta description",
+  itmSlug: "article-slug",
+  itmMinimal: "Article summary",
+  coverImage: coverImageFile,
+  thumbImage: thumbImageFile
+});
+```
+
+### Save Article Content
+
+```typescript
+import { saveArticleContent } from "@workspace/framework";
+
+const result = await saveArticleContent({
+  itmID: "article-id",
+  itmDesc: "Article content in HTML/JSON"
+});
+```
+
+### Upload Article File
+
+```typescript
+import { uploadArticleFile } from "@workspace/framework";
+
+const result = await uploadArticleFile(file, "article-id");
+```
+
+### Upload Article File with Chunks
+
+```typescript
+import { uploadArticleFileChunked } from "@workspace/framework";
+
+await uploadArticleFileChunked(
+  file,
+  "article-id",
+  5 * 1024 * 1024, // 5MB chunks
+  (progress) => {
+    console.log(`Upload progress: ${progress}%`);
+  }
+);
+```
+
+### Accept/Reject Article
+
+```typescript
+import { AcceptLearning } from "@workspace/framework";
+
+// Accept article
+const result = await AcceptLearning({
+  itmID: "article-id",
+  isAccepted: 1
+});
+
+// Reject article
+const result = await AcceptLearning({
+  itmID: "article-id",
+  isAccepted: 0
+});
+```
+
+## 🎣 React Query Hooks
+
+### List Articles
+
+```typescript
+import { useAdminLearningListQuery } from "@workspace/framework";
+
+function ArticlesList() {
+  const { data, isLoading, error } = useAdminLearningListQuery({
+    isAccepted: 1,
+    pageNo: 1,
+    rowCount: 10,
+    itmTitle: searchTerm
+  });
+
+  if (isLoading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error.message}</div>;
+
+  return (
+    <div>
+      {data?.data?.entries.map((article) => (
+        <div key={article.itm_ID}>
+          <h3>{article.itm_Title}</h3>
+          <p>{article.itm_Minimal}</p>
+        </div>
+      ))}
+    </div>
+  );
+}
+```
+
+### Get Categories
+
+```typescript
+import { useAdminCategoryListQuery } from "@workspace/framework";
+
+function CategorySelector() {
+  const { data: categories } = useAdminCategoryListQuery();
+
+  return (
+    <select>
+      {categories?.data?.entries.map((cat) => (
+        <option key={cat.id} value={cat.id}>
+          {cat.name}
+        </option>
+      ))}
+    </select>
+  );
+}
+```
+
+### Get Article Detail
+
+```typescript
+import { useAdminLearningDetail } from "@workspace/framework";
+
+function ArticleDetail({ id }: { id: string }) {
+  const { data, isLoading } = useAdminLearningDetail(id);
+
+  if (isLoading) return <div>Loading article...</div>;
+
+  return (
+    <div>
+      <h1>{data?.data?.itm_Title}</h1>
+      <p>{data?.data?.itm_Desc}</p>
+    </div>
+  );
+}
+```
+
+### Create Article Mutation
+
+```typescript
+import { useAddAdminLearningList } from "@workspace/framework";
+
+function CreateArticleForm() {
+  const createArticle = useAddAdminLearningList();
+
+  const handleSubmit = async (formData) => {
+    try {
+      const result = await createArticle.mutateAsync({
+        catID: formData.categoryId,
+        itmTitle: formData.title,
+        itmSlug: formData.slug
+      });
+      
+      console.log("Article created:", result);
+    } catch (error) {
+      console.error("Failed to create article:", error);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      {/* Form fields */}
+      <button 
+        type="submit" 
+        disabled={createArticle.isPending}
+      >
+        {createArticle.isPending ? "Creating..." : "Create Article"}
+      </button>
+    </form>
+  );
+}
+```
+
+### Accept/Reject Article Mutation
+
+```typescript
+import { useAcceptLearningMutation } from "@workspace/framework";
+
+function ArticleActions({ articleId, isAccepted }: Props) {
+  const acceptMutation = useAcceptLearningMutation();
+
+  const handleToggleStatus = async () => {
+    try {
+      await acceptMutation.mutateAsync({
+        itmID: articleId,
+        isAccepted: isAccepted ? 0 : 1
+      });
+      
+      alert("Article status updated!");
+    } catch (error) {
+      console.error("Failed to update status:", error);
+    }
+  };
+
+  return (
+    <button 
+      onClick={handleToggleStatus}
+      disabled={acceptMutation.isPending}
+    >
+      {isAccepted ? "Unpublish" : "Publish"}
+    </button>
+  );
+}
+```
+
+## 🎨 Complete Example - Article Management Page
+
+```tsx
+"use client";
+
+import { useState, useEffect, useCallback } from "react";
+import { useRouter } from "next/navigation";
+import {
+  useAdminLearningListQuery,
+  useAcceptLearningMutation,
+  useAdminCategoryListQuery
+} from "@workspace/framework";
+
+export default function ArticleManagementPage() {
+  const router = useRouter();
+  const [isAccepted, setIsAccepted] = useState<number>(1);
+  const [currentPage, setCurrentPage] = useState<number>(1);
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  // Queries
+  const { data, isLoading, error } = useAdminLearningListQuery({
+    isAccepted,
+    pageNo: currentPage,
+    rowCount: 10,
+    itmTitle: searchTerm || undefined
+  });
+
+  const { data: categories } = useAdminCategoryListQuery();
+
+  // Mutations
+  const acceptMutation = useAcceptLearningMutation();
+
+  // Handlers
+  const handleAcceptLearning = useCallback(
+    async (itmID: string, newStatus: number) => {
+      try {
+        await acceptMutation.mutateAsync({ 
+          itmID, 
+          isAccepted: newStatus 
+        });
+      } catch (error) {
+        console.error("Failed to update article status:", error);
+      }
+    },
+    [acceptMutation]
+  );
+
+  const handleEdit = useCallback(
+    (id: string) => {
+      router.push(`/article/edit/${id}`);
+    },
+    [router]
+  );
+
+  const handlePageChange = useCallback((page: number) => {
+    setCurrentPage(page);
+  }, []);
+
+  const handleTabChange = useCallback((newIsAccepted: number) => {
+    setIsAccepted(newIsAccepted);
+    setCurrentPage(1);
+  }, []);
+
+  // Reset page when search changes
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [searchTerm]);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <div className="text-lg">Loading articles...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-red-500">
+        Error loading articles: {error.message}
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-full space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold">Article Management</h1>
+        <button
+          onClick={() => router.push("/article/create")}
+          className="px-4 py-2 bg-blue-600 text-white rounded-lg"
+        >
+          Create New Article
+        </button>
+      </div>
+
+      {/* Search */}
+      <div className="flex gap-4">
+        <input
+          type="text"
+          placeholder="Search articles..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="flex-1 px-4 py-2 border rounded-lg"
+        />
+      </div>
+
+      {/* Tabs */}
+      <div className="flex gap-2">
+        <button
+          onClick={() => handleTabChange(1)}
+          className={`px-4 py-2 rounded-lg ${
+            isAccepted === 1
+              ? "bg-blue-600 text-white"
+              : "bg-gray-200"
+          }`}
+        >
+          Published Articles
+        </button>
+        <button
+          onClick={() => handleTabChange(0)}
+          className={`px-4 py-2 rounded-lg ${
+            isAccepted === 0
+              ? "bg-blue-600 text-white"
+              : "bg-gray-200"
+          }`}
+        >
+          Pending Review
+        </button>
+      </div>
+
+      {/* Articles List */}
+      <div className="grid gap-4">
+        {data?.data?.entries?.map((article) => (
+          <div
+            key={article.itm_ID}
+            className="border rounded-lg p-4 hover:shadow-lg transition"
+          >
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <h3 className="text-xl font-semibold">
+                  {article.itm_Title}
+                </h3>
+                <p className="text-gray-600 mt-2">
+                  {article.itm_Minimal}
+                </p>
+                <div className="flex items-center gap-4 mt-4 text-sm text-gray-500">
+                  <span>Category: {article.itm_Cat}</span>
+                  <span>Views: {article.itm_View}</span>
+                  <span>
+                    {new Date(article.DateOfCreation).toLocaleDateString()}
+                  </span>
+                </div>
+              </div>
+
+              <div className="flex gap-2">
+                <button
+                  onClick={() => handleEdit(article.itm_ID)}
+                  className="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300"
+                >
+                  Edit
+                </button>
+                <button
+                  onClick={() =>
+                    handleAcceptLearning(
+                      article.itm_ID,
+                      article.itm_Acc === 1 ? 0 : 1
+                    )
+                  }
+                  disabled={acceptMutation.isPending}
+                  className={`px-3 py-1 rounded ${
+                    article.itm_Acc === 1
+                      ? "bg-red-500 text-white hover:bg-red-600"
+                      : "bg-green-500 text-white hover:bg-green-600"
+                  }`}
+                >
+                  {article.itm_Acc === 1 ? "Unpublish" : "Publish"}
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Pagination */}
+      {data?.data?.metadata && (
+        <div className="flex items-center justify-center gap-2 mt-6">
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="px-4 py-2 border rounded disabled:opacity-50"
+          >
+            Previous
+          </button>
+          <span className="px-4">
+            Page {currentPage} of {data.data.metadata.pageCount}
+          </span>
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage >= data.data.metadata.pageCount}
+            className="px-4 py-2 border rounded disabled:opacity-50"
+          >
+            Next
+          </button>
+        </div>
+      )}
+    </div>
+  );
+}
+```
+
+## 🎯 Best Practices
+
+### 1. **Always Use Query Keys**
+
+```typescript
+// ✅ Good
+const { data } = useAdminLearningListQuery({
+  isAccepted: 1,
+  pageNo: 1,
+  rowCount: 10
+});
+
+// ❌ Bad - Missing parameters in query key
+```
+
+### 2. **Handle Loading and Error States**
+
+```typescript
+const { data, isLoading, error } = useAdminLearningListQuery(params);
+
+if (isLoading) return <LoadingSpinner />;
+if (error) return <ErrorMessage error={error} />;
+if (!data) return <EmptyState />;
+```
+
+### 3. **Use Optimistic Updates for Better UX**
+
+```typescript
+const acceptMutation = useAcceptLearningMutation();
+
+// The mutation automatically invalidates cache
+// and refetches the list
+```
+
+### 4. **Validate Before Mutations**
+
+```typescript
+const handleCreateArticle = async (formData) => {
+  // Validate
+  if (!formData.title || !formData.slug) {
+    alert("Please fill all required fields");
+    return;
+  }
+
+  try {
+    await createArticle.mutateAsync(formData);
+  } catch (error) {
+    console.error(error);
+  }
+};
+```
+
+## 🚨 Common Issues
+
+### 1. **Article Not Found**
+
+```typescript
+const { data, error } = useAdminLearningDetail(id);
+
+if (error?.response?.status === 404) {
+  return <div>Article not found</div>;
+}
+```
+
+### 2. **File Upload Progress**
+
+```typescript
+await uploadArticleFileChunked(
+  file,
+  articleId,
+  5 * 1024 * 1024,
+  (progress) => {
+    setUploadProgress(progress);
+  }
+);
+```
+
+### 3. **Query Invalidation**
+
+```typescript
+// Manually invalidate after external changes
+import { useQueryClient } from "@workspace/framework";
+
+const queryClient = useQueryClient();
+
+queryClient.invalidateQueries({
+  queryKey: ["get-admin-learning-list"]
+});
+```
+
+## 📋 Available Hooks
+
+| Hook | Purpose | Params |
+|------|---------|--------|
+| `useAdminLearningListQuery` | Get articles list | `GetAdminLearningListParams` |
+| `useAdminCategoryListQuery` | Get categories | - |
+| `useAuthorsListQuery` | Search authors | `query: string` |
+| `useAdminLearningDetail` | Get article detail | `id: string` |
+| `useArticleFilesList` | Get article files | `itmID: string` |
+| `useArticleContent` | Get article content | `itmID: string` |
+| `useAddAdminLearningList` | Create article | - |
+| `useUpdateAdminLearningList` | Update article | - |
+| `useAddArticleDetails` | Add article details | - |
+| `useSaveArticleContent` | Save content | - |
+| `useAcceptLearningMutation` | Accept/reject article | - |
+
+## 🎯 Next Steps
+
+- **[Examples](./examples#article-management)** - More practical examples
+- **[API Reference](./api-reference#article)** - Complete API reference
+- **[Usage Guide](./usage)** - General usage patterns
+
+---
+
+**Ready to manage articles? Check out [Examples](./examples)! 🚀**
+

@@ -22,17 +22,31 @@ export const navItems: NavItem[] = [
     items: [] // آرایه خالی چون هیچ آیتم فرزندی برای داشبورد وجود ندارد
   },
   {
+    title: 'مقالات',
+    url: '#',
+    icon: 'post',
+    isActive: false,
+    items: [
+      {
+        title: 'مقاله جدید',
+        url: '/articles/new',
+      },
+      {
+        title: 'مقالات',
+        url: '/articles',
+      },
+    ] // آرایه خالی چون هیچ آیتم فرزندی برای داشبورد وجود ندارد
+  },
+  {
     title: 'حساب کاربری',
     url: '#', // نگهدارنده چون هیچ لینک مستقیمی برای والد وجود ندارد
     icon: 'billing',
-    isActive: true,
-
+    isActive: false,
     items: [
       {
         title: 'پروفایل',
         url: '/profile',
         icon: 'userPen',
-        shortcut: ['m', 'm']
       },
     ]
   }

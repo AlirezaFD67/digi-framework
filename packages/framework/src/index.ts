@@ -10,3 +10,4 @@ export * from "./providers";
 // Export routes
 export * from "./routes/auth";
 export * from "./routes/user";
+export * from "./routes/article";

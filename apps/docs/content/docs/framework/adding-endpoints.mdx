@@ -720,6 +720,62 @@ export function OrderManagement() {
 - Error handling
 - Success callbacks
 
+## 🌟 Real-World Example - Article Endpoint
+
+The **Article (Learning) endpoint** is a complete real-world implementation in our framework package. It demonstrates all best practices and patterns.
+
+### 📦 What's Included
+
+```typescript
+// Endpoints
+const ARTICLES = {
+  ADMIN_LEARNING_LIST: "/adminlearninglist",
+  ADD_ARTICLE: "/admininsertlearningbase1",
+  ADD_ARTICLE_BASE2: "/admininsertlearningbase2",
+  UPDATE_ARTICLE: "/adminupdatelearning",
+  GET_LEARNING_CAT_LIST: "/getlearningcatlist",
+  UPLOAD_THUMBNAIL: "/adminuploadlearningimage",
+  ADMIN_LEARNING_DETAIL: "/adminlearningbasedetails",
+  ADMIN_LEARNING_BODY_DETAILS: "/adminlearningbodydetails",
+  SEARCH_DOCS: "/adminlearningsearchdoc",
+  ADMIN_FILE_MANAGER_LIST: "/adminfilemanagerlist",
+  SAVE_CONTENT: "/admininsertlearningbody",
+  ACCEPT_LEARNING: "/adminacceptlearning",
+  UPLOAD_FILE: "/adminuploadnewfile",
+} as const;
+```
+
+### ✨ Features Demonstrated
+
+1. **List with Pagination** - `useAdminLearningListQuery`
+2. **Detail View** - `useAdminLearningDetail`
+3. **Create/Update** - `useAddAdminLearningList`, `useUpdateAdminLearningList`
+4. **File Upload** - `uploadArticleFile`, `uploadArticleFileChunked`
+5. **Content Management** - `useSaveArticleContent`
+6. **Status Control** - `useAcceptLearningMutation`
+7. **Categories & Authors** - `useAdminCategoryListQuery`, `useAuthorsListQuery`
+
+### 📚 Full Documentation
+
+For complete documentation of Article endpoint including:
+- All types and interfaces
+- GET/POST/PUT functions
+- React Query hooks
+- Complete usage examples
+- Best practices
+- Common patterns
+
+👉 **[Visit Article Endpoint Documentation](./article-endpoint)**
+
+### 🎯 Key Takeaways from Article Endpoint
+
+1. **Organized Structure** - Clear separation of concerns
+2. **Full Type Safety** - No `any` types
+3. **Generic Hooks** - Reusable patterns
+4. **File Upload** - Chunked upload implementation
+5. **Cache Management** - Proper query key structure
+6. **Error Handling** - Consistent error management
+
 ## 🎯 Next Steps
 
 After adding new endpoint, you can:

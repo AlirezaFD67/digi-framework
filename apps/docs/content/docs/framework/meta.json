@@ -28,6 +28,11 @@
       "description": "Step-by-step guide for adding new endpoints to framework package"
     },
     {
+      "title": "Article Endpoint",
+      "href": "/docs/framework/article-endpoint",
+      "description": "Complete guide for Article endpoint - real implementation example"
+    },
+    {
       "title": "Examples",
       "href": "/docs/framework/examples",
       "description": "Practical examples and real-world use cases"

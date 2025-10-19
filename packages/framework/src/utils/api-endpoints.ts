@@ -34,7 +34,22 @@ const USERS = {
   EXPORT: "/admin/users/export",
 } as const;
 
-
+// Articles management endpoints
+const ARTICLES = {
+  ADMIN_LEARNING_LIST: "/adminlearninglist",
+  ADD_ARTICLE: "/admininsertlearningbase1",
+  ADD_ARTICLE_BASE2: "/admininsertlearningbase2",
+  UPDATE_ARTICLE: "/adminupdatelearning",
+  GET_LEARNING_CAT_LIST: "/getlearningcatlist",
+  UPLOAD_THUMBNAIL: "/adminuploadlearningimage",
+  ADMIN_LEARNING_DETAIL: "/adminlearningbasedetails",
+  ADMIN_LEARNING_BODY_DETAILS: "/adminlearningbodydetails",
+  SEARCH_DOCS: "/adminlearningsearchdoc",
+  ADMIN_FILE_MANAGER_LIST: "/adminfilemanagerlist",
+  SAVE_CONTENT: "/admininsertlearningbody",
+  ACCEPT_LEARNING: "/adminacceptlearning",
+  UPLOAD_FILE: "/adminuploadnewfile",
+} as const;
 
 /**
  * Main API endpoints object
@@ -46,7 +61,7 @@ const API_ENDPOINTS = {
   ADMIN_TOKEN,
   USER,
   USERS,
-
+  ARTICLES,
 } as const;
 
 export default API_ENDPOINTS;
@@ -58,4 +73,5 @@ export {
   ADMIN_TOKEN,
   USER,
   USERS,
+  ARTICLES,
 };

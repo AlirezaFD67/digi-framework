@@ -103,6 +103,40 @@ import {
 import { FrameworkProvider, useQueryClient } from "@workspace/framework";
 ```
 
+## 📍 Available Routes
+
+### Auth Routes
+```typescript
+import { 
+  useCreateAuthTokenMutation,
+  useVerifyOTPMutation,
+  useAdminLoginMutation 
+} from "@workspace/framework";
+```
+
+### User Routes
+```typescript
+import { 
+  useUserProfileQuery,
+  useUpdateUserProfileMutation 
+} from "@workspace/framework";
+```
+
+### Article Routes
+```typescript
+import { 
+  useAdminLearningListQuery,
+  useAdminLearningDetail,
+  useAdminCategoryListQuery,
+  useAuthorsListQuery,
+  useAddAdminLearningList,
+  useUpdateAdminLearningList,
+  useAcceptLearningMutation 
+} from "@workspace/framework";
+```
+
+**[📖 مستندات کامل Article Endpoint](../../apps/docs/content/docs/framework/article-endpoint.mdx)**
+
 ## 🎯 افزودن Endpoint جدید
 
 برای افزودن endpoint جدید، از prompt آماده استفاده کنید:
