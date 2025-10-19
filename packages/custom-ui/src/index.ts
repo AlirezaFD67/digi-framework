@@ -74,6 +74,16 @@ export { default as CustomTable } from "./components/table"
 // Export search component
 export { SearchInput } from "./components/search"
 
+// Export searchable-select component
+export { SearchableSelect } from "./components/searchable-select"
+export type { Option } from "./components/searchable-select"
+
+// Export rich-editor component
+export { SimpleRichEditor } from "./components/rich-editor"
+
+// Export upload-box component
+export { UploadBox } from "./components/upload-box"
+
 // Export auth components
 export { SignOutButton, OTPLoginForm, OTPLoginFormExample, AdminLoginForm, AdminLoginFormExample } from "./components/auth"
 
