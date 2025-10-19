@@ -12,6 +12,7 @@ export default defineConfig((options) => ({
   ],
   format: ["cjs", "esm"],
   dts: {
+    entry: "src/index.ts", // Only generate types for the main entry point
     resolve: true,
     compilerOptions: {
       maxNodeModuleJsDepth: 0,

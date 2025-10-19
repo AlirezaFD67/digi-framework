@@ -84,6 +84,47 @@ export { SimpleRichEditor } from "./components/rich-editor"
 // Export upload-box component
 export { UploadBox } from "./components/upload-box"
 
+// Export BlockEditor components
+export { BlockEditor, DragHandle } from "./components/block-editor"
+export { 
+  BlockRenderer, 
+  HeadingBlock, 
+  ParagraphBlock, 
+  VideoBlock, 
+  ImageBlock, 
+  CallToActionBlock, 
+  QuoteBlock, 
+  TableBlock, 
+  FAQBlock, 
+  AudioBlock, 
+  MapBlock, 
+  ListBlock, 
+  ReferencesBlock, 
+  TableOfContentsBlock 
+} from "./components/blocks"
+// RichTextEditor is not exported due to styled-jsx TypeScript issues
+// Import directly from: @workspace/custom-ui/dist/components/rich-text-editor/rich-text-editor
+
+// Export BlockEditor types
+export type {
+  ContentBlock,
+  ContentBlockType,
+  HeadingBlock as HeadingBlockType,
+  ParagraphBlock as ParagraphBlockType,
+  VideoBlock as VideoBlockType,
+  ImageBlock as ImageBlockType,
+  CallToActionBlock as CallToActionBlockType,
+  QuoteBlock as QuoteBlockType,
+  TableBlock as TableBlockType,
+  FAQBlock as FAQBlockType,
+  AudioBlock as AudioBlockType,
+  MapBlock as MapBlockType,
+  ListBlock as ListBlockType,
+  ReferencesBlock as ReferencesBlockType,
+  TableOfContentsBlock as TableOfContentsBlockType,
+  Article
+} from "./types/content-blocks"
+
 // Export auth components
 export { SignOutButton, OTPLoginForm, OTPLoginFormExample, AdminLoginForm, AdminLoginFormExample } from "./components/auth"
 
