@@ -51,6 +51,11 @@ const ARTICLES = {
   UPLOAD_FILE: "/adminuploadnewfile",
 } as const;
 
+// File upload endpoints
+const FILE = {
+  UPLOAD_CHUNK: "/adminuploadnewfile",
+} as const;
+
 /**
  * Main API endpoints object
  * Add new endpoint groups here
@@ -62,6 +67,7 @@ const API_ENDPOINTS = {
   USER,
   USERS,
   ARTICLES,
+  FILE,
 } as const;
 
 export default API_ENDPOINTS;
@@ -74,4 +80,5 @@ export {
   USER,
   USERS,
   ARTICLES,
+  FILE,
 };

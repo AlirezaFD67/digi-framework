@@ -11,3 +11,4 @@ export * from "./providers";
 export * from "./routes/auth";
 export * from "./routes/user";
 export * from "./routes/article";
+export * from "./routes/file";
