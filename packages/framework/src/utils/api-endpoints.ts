@@ -56,6 +56,11 @@ const FILE = {
   UPLOAD_CHUNK: "/adminuploadnewfile",
 } as const;
 
+// Doctors endpoints
+const DOCTORS = {
+  GET_DOCTORS: "/getdoctors",
+} as const;
+
 /**
  * Main API endpoints object
  * Add new endpoint groups here
@@ -68,6 +73,7 @@ const API_ENDPOINTS = {
   USERS,
   ARTICLES,
   FILE,
+  DOCTORS,
 } as const;
 
 export default API_ENDPOINTS;
@@ -81,4 +87,5 @@ export {
   USERS,
   ARTICLES,
   FILE,
+  DOCTORS,
 };
