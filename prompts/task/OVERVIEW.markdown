@@ -29,16 +29,17 @@ digi-framework/
 - **[after_update.markdown](after_update.markdown)**: چک‌لیست بعد از آپدیت تسک.
 
 ### راهنمایی‌های فنی
-- **[API_GUIDELINES.markdown](API_GUIDELINES.markdown)**: نحوه اتصال به API و استفاده از React Query.
+- **[API_GUIDELINES.markdown](API_GUIDELINES.markdown)**: نحوه اتصال به API و استفاده از `@workspace/framework`.
 - **[API_DOCUMENTATION.markdown](API_DOCUMENTATION.markdown)**: قالب مستندسازی endpointهای API.
-- **[ARCHITECTURE.markdown](ARCHITECTURE.markdown)**: معماری کلی پروژه و ساختار فولدرها.
-- **[AUTH_GUIDELINES.markdown](AUTH_GUIDELINES.markdown)**: پیاده‌سازی احراز هویت و کنترل دسترسی.
-- **[CODING_GUIDELINES.markdown](CODING_GUIDELINES.markdown)**: نام‌گذاری، محل ایجاد فایل‌ها، و بهترین روش‌ها.
-- **[COMPONENT_GUIDELINES.markdown](COMPONENT_GUIDELINES.markdown)**: لیست کامپوننت‌های استاندارد (اجباری برای استفاده).
-- **[GENERAL_GUIDELINES.markdown](GENERAL_GUIDELINES.markdown)**: تنظیمات عمومی مثل پکیج‌ها، متغیرهای محیطی، و مدیریت خطاها.
-- **[PERFORMANCE_GUIDELINES.markdown](PERFORMANCE_GUIDELINES.markdown)**: بهینه‌سازی عملکرد (لود تصاویر، درخواست‌ها، باندل).
-- **[SEO_GUIDELINES.markdown](SEO_GUIDELINES.markdown)**: بهینه‌سازی SEO (metadata، sitemap، structured data).
-- **[TESTING_GUIDELINES.markdown](TESTING_GUIDELINES.markdown)**: نحوه نوشتن تست‌ها با Jest و React Testing Library.
+- **[ARCHITECTURE.markdown](ARCHITECTURE.markdown)**: معماری Monorepo و ساختار workspace.
+- **[AUTH_GUIDELINES.markdown](AUTH_GUIDELINES.markdown)**: احراز هویت با `@workspace/custom-ui` و `@workspace/framework`.
+- **[CODING_GUIDELINES.markdown](CODING_GUIDELINES.markdown)**: نام‌گذاری، محل فایل‌ها در Monorepo، workspace packages.
+- **[COMPONENT_GUIDELINES.markdown](COMPONENT_GUIDELINES.markdown)**: کامپوننت‌های `@workspace/ui` و `@workspace/custom-ui`.
+- **[GENERAL_GUIDELINES.markdown](GENERAL_GUIDELINES.markdown)**: نصب پکیج‌ها با pnpm workspace، تنظیمات.
+- **[PERFORMANCE_GUIDELINES.markdown](PERFORMANCE_GUIDELINES.markdown)**: بهینه‌سازی عملکرد در Monorepo.
+- **[SEO_GUIDELINES.markdown](SEO_GUIDELINES.markdown)**: بهینه‌سازی SEO برای هر اپلیکیشن.
+- **[TESTING_GUIDELINES.markdown](TESTING_GUIDELINES.markdown)**: تست‌نویسی در Monorepo با Vitest و MSW.
+- **[COMPLETE_TESTING_GUIDE.markdown](COMPLETE_TESTING_GUIDE.markdown)**: ⭐ راهنمای کامل تست‌نویسی بعد از هر تسک.
 
 ### مستندسازی
 - **[TASK_DOCUMENTATION_GUIDELINES.markdown](TASK_DOCUMENTATION_GUIDELINES.markdown)**: قالب مستندسازی تسک‌ها و آپدیت‌ها.
