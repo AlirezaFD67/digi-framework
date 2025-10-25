@@ -1,4 +1,5 @@
 import { NavItem } from '@workspace/custom-ui/types';
+import { routes } from './routes';
 
 export type Product = {
   photo_url: string;
@@ -15,7 +16,7 @@ export type Product = {
 export const navItems: NavItem[] = [
   {
     title: 'داشبورد',
-    url: '/dashboard',
+    url: routes.home,
     icon: 'dashboard',
     isActive: false,
     shortcut: ['d', 'd'],
@@ -30,7 +31,7 @@ export const navItems: NavItem[] = [
     items: [
       {
         title: 'پروفایل',
-        url: '/dashboard/profile',
+        url: routes.profile,
         icon: 'userPen',
         shortcut: ['m', 'm']
       },
