@@ -32,6 +32,7 @@ export interface CustomUIProviderProps {
   }
   loginRoute?: string
   appRoute?: string
+  userType?: "admin" | "user" | "doctor"
 }
 
 export function CustomUIProvider({
@@ -41,7 +42,8 @@ export function CustomUIProvider({
   toastConfig = {},
   sidebarConfig = {},
   loginRoute,
-  appRoute
+  appRoute,
+  userType
 }: CustomUIProviderProps) {
   const {
     attribute = "class",
@@ -69,7 +71,7 @@ export function CustomUIProvider({
       disableTransitionOnChange={disableTransitionOnChange}
       enableColorScheme={enableColorScheme}
     >
-      <AuthProvider loginRoute={loginRoute} appRoute={appRoute}>
+      <AuthProvider loginRoute={loginRoute} appRoute={appRoute} userType={userType}>
         <ErrorProvider>
           <ToastProvider>
             <ModalProvider>

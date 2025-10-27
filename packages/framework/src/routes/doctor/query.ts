@@ -4,10 +4,10 @@
 
 import { useGenericQuery } from "../../utils/generic-query";
 import { useGenericMutation } from "../../utils/generic-mutation";
-import { GetDoctors } from "./get";
+import { GetDoctors, GetDoctorProfile } from "./get";
 import { insertDoctorProfile } from "./post";
-import { GetDoctorsParams, GetDoctorsResponse, IInsertDoctorProfileRequest, IInsertDoctorProfileResponse } from "./type";
-import { APIHttpType } from "../../types";
+import { GetDoctorsParams, GetDoctorsResponse, IInsertDoctorProfileRequest, IInsertDoctorProfileResponse, IDoctorProfile } from "./type";
+import { APIHttpType, HookOptions } from "../../types";
 
 // ============================================================================
 // HOOKS
@@ -19,6 +19,14 @@ export const useDoctorsListQuery = (searchTerm?: string) => {
   return useGenericQuery<GetDoctorsResponse>(
     () => GetDoctors(params),
     ["get-doctors", searchTerm || "all"]
+  );
+};
+
+export const useDoctorProfileQuery = (options?: HookOptions) => {
+  return useGenericQuery<APIHttpType<IDoctorProfile[]>>(
+    () => GetDoctorProfile(),
+    ["doctor", "profile"], 
+    options
   );
 };
 

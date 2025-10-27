@@ -1,6 +1,7 @@
 "use client";
 
 import { useForm } from "react-hook-form";
+import { useEffect } from "react";
 import { 
   Button, 
   useAuthContext,
@@ -17,40 +18,71 @@ import { LogOutIcon, UserIcon } from "lucide-react";
 import { IInsertDoctorProfileRequest } from "@workspace/framework";
 
 export default function ProfilePage() {
-  const { user, logout } = useAuthContext();
+  const { user, doctor, userType, logout } = useAuthContext();
   const { success, error } = useToast();
   const insertDoctorMutation = useInsertDoctorProfileMutation();
 
   const methods = useForm<IInsertDoctorProfileRequest>({
     defaultValues: {
-      proID: 0,
-      stateID: 0,
-      cityID: 0,
-      docNezam: 0,
-      docMelli: "",
-      docName: "",
-      docNameEn: "",
-      docFamily: "",
-      docFamilyEn: "",
-      docSex: 1,
-      docSpc: 0,
-      docsub: 0,
-      docTel: "",
-      docExp: 0,
-      visitPrice: 0,
-      accCall: 0,
-      accChat: 0,
-      accOffice: 0,
+      proID: doctor?.pro_ID || 0,
+      stateID: doctor?.state_ID || 0,
+      cityID: doctor?.city_ID || 0,
+      docNezam: doctor?.doc_Nezam || 0,
+      docMelli: doctor?.doc_Melli || "",
+      docName: doctor?.doc_Name || "",
+      docNameEn: doctor?.doc_NameEn || "",
+      docFamily: doctor?.doc_Family || "",
+      docFamilyEn: doctor?.doc_FamilyEn || "",
+      docSex: doctor?.doc_Sex || 1,
+      docSpc: doctor?.doc_Spc || 0,
+      docsub: doctor?.doc_sub || 0,
+      docTel: doctor?.doc_Tel || "",
+      docExp: doctor?.doc_Exp || 0,
+      visitPrice: doctor?.vis_Price || 0,
+      accCall: doctor?.acc_Call || 0,
+      accChat: doctor?.acc_Chat || 0,
+      accOffice: doctor?.acc_Office || 0,
     }
   });
+
+  // Update form values when doctor data changes
+  useEffect(() => {
+    if (doctor) {
+      methods.reset({
+        proID: doctor.pro_ID || 0,
+        stateID: doctor.state_ID || 0,
+        cityID: doctor.city_ID || 0,
+        docNezam: doctor.doc_Nezam || 0,
+        docMelli: doctor.doc_Melli || "",
+        docName: doctor.doc_Name || "",
+        docNameEn: doctor.doc_NameEn || "",
+        docFamily: doctor.doc_Family || "",
+        docFamilyEn: doctor.doc_FamilyEn || "",
+        docSex: doctor.doc_Sex || 1,
+        docSpc: doctor.doc_Spc || 0,
+        docsub: doctor.doc_sub || 0,
+        docTel: doctor.doc_Tel || "",
+        docExp: doctor.doc_Exp || 0,
+        visitPrice: doctor.vis_Price || 0,
+        accCall: doctor.acc_Call || 0,
+        accChat: doctor.acc_Chat || 0,
+        accOffice: doctor.acc_Office || 0,
+      });
+    }
+  }, [doctor, methods]);
 
   const onSubmit = async (data: IInsertDoctorProfileRequest) => {
     try {
       await insertDoctorMutation.mutateAsync(data);
-      success("پروفایل پزشک با موفقیت ثبت شد", "موفقیت");
-      methods.reset();
+      const message = doctor ? "پروفایل پزشک با موفقیت به‌روزرسانی شد" : "پروفایل پزشک با موفقیت ثبت شد";
+      success(message, "موفقیت");
+      // Don't reset form if updating existing profile
+      if (!doctor) {
+        methods.reset();
+      }
     } catch (err) {
-      error("خطا در ثبت پروفایل پزشک", "خطا");
+      const errorMessage = doctor ? "خطا در به‌روزرسانی پروفایل پزشک" : "خطا در ثبت پروفایل پزشک";
+      error(errorMessage, "خطا");
     }
   };
 
@@ -75,15 +107,31 @@ export default function ProfilePage() {
           </h1>
         </div>
         <div className="space-y-2">
-          <p className="text-lg">
-            <span className="font-semibold">نام:</span> {user?.user_Name || ""}
-          </p>
-          <p className="text-lg">
-            <span className="font-semibold">نام خانوادگی:</span> {user?.user_Family || ""}
-          </p>
-          <p className="text-lg">
-            <span className="font-semibold">شماره تماس:</span> {user?.user_Phone || ""}
-          </p>
+          {userType === "doctor" ? (
+            <>
+              <p className="text-lg">
+                <span className="font-semibold">نام:</span> {doctor?.doc_Name || ""}
+              </p>
+              <p className="text-lg">
+                <span className="font-semibold">نام خانوادگی:</span> {doctor?.doc_Family || ""}
+              </p>
+              <p className="text-lg">
+                <span className="font-semibold">شماره تماس:</span> {doctor?.doc_Tel || ""}
+              </p>
+            </>
+          ) : (
+            <>
+              <p className="text-lg">
+                <span className="font-semibold">نام:</span> {user?.user_Name || ""}
+              </p>
+              <p className="text-lg">
+                <span className="font-semibold">نام خانوادگی:</span> {user?.user_Family || ""}
+              </p>
+              <p className="text-lg">
+                <span className="font-semibold">شماره تماس:</span> {user?.user_Phone || ""}
+              </p>
+            </>
+          )}
         </div>
         <Button 
           onClick={logout}
@@ -98,7 +146,7 @@ export default function ProfilePage() {
       {/* Doctor Profile Form */}
       <div className="bg-white rounded-lg shadow-sm border p-6">
         <h2 className="text-xl font-bold text-gray-900 mb-6">
-          ثبت پروفایل پزشک
+          {doctor ? "ویرایش پروفایل پزشک" : "ثبت پروفایل پزشک"}
         </h2>
 
         <FormProvider 
@@ -271,7 +319,7 @@ export default function ProfilePage() {
               loading={insertDoctorMutation.isPending}
               loadingText="در حال ثبت..."
             >
-              ثبت پروفایل پزشک
+              {doctor ? "به‌روزرسانی پروفایل" : "ثبت پروفایل پزشک"}
             </RHFButton>
           </div>
         </FormProvider>

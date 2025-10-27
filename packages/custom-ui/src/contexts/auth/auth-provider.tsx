@@ -13,9 +13,11 @@ import {
   isAuthenticated,
   useCreateAuthTokenMutation,
   useUserProfileQuery,
+  useDoctorProfileQuery,
   useVerifyOTPMutation,
   useAdminLoginMutation,
   IUserProfile,
+  IDoctorProfile,
 } from "@workspace/framework";
 
 import { AuthContext } from "./auth-context";
@@ -29,7 +31,7 @@ type Props = {
   children: React.ReactNode;
   loginRoute?:string
   appRoute?:string
-  userType?:"admin" | "user" |"doctor"
+  userType?:"admin" | "user" | "doctor"
 };
 
 enum Types {
@@ -40,11 +42,13 @@ enum Types {
 
 export type JWTContextType = {
   user: IUserProfile | null;
+  doctor: IDoctorProfile | null;
   method: string;
   loading: boolean;
   isAuthenticated: boolean;
   loginRoute?: string;
   appRoute?: string;
+  userType?: "admin" | "user" | "doctor";
   initialize: () => Promise<void>;
   logout: () => Promise<void>;
   loginWithToken: (data: { username: string; password: string }) => Promise<any>;
@@ -57,7 +61,8 @@ export type JWTContextType = {
 // ============================================================================
 
 const initialState = {
-  user: {} as IUserProfile | null,
+  user: null as IUserProfile | null,
+  doctor: null as IDoctorProfile | null,
   loading: true,
 } as JWTContextType;
 
@@ -65,24 +70,27 @@ const initialState = {
 // REDUCER
 // ============================================================================
 
-  const reducer = (state: JWTContextType, action: { type: Types; payload?: { user: IUserProfile | null } }) => {
+  const reducer = (state: JWTContextType, action: { type: Types; payload?: { user?: IUserProfile | null; doctor?: IDoctorProfile | null } }) => {
   if (action.type === Types.INITIAL) {
     return {
       ...state,
       loading: false,
       user: action.payload?.user || null,
+      doctor: action.payload?.doctor || null,
     };
   }
   if (action.type === Types.LOGIN) {
     return {
       ...state,
       user: action.payload?.user || null,
+      doctor: action.payload?.doctor || null,
     };
   }
   if (action.type === Types.LOGOUT) {
     return {
       ...state,
       user: null,
+      doctor: null,
     };
   }
   return state;
@@ -92,18 +100,29 @@ const initialState = {
 // COMPONENT
 // ============================================================================
 
-export function AuthProvider({ children, loginRoute, appRoute }: Props) {
+export function AuthProvider({ children, loginRoute, appRoute, userType }: Props) {
   const [state, dispatch] = useReducer(reducer, initialState);
   const [isClient, setIsClient] = useState(false);
   const createTokenMutation = useCreateAuthTokenMutation();
   const verifyOTPMutation = useVerifyOTPMutation();
   const adminLoginMutation = useAdminLoginMutation();
-  const { data: profileData, isLoading: profileLoading } = useUserProfileQuery({ enabled: isAuthenticated() });
+  
+  // Conditional profile queries based on userType
+  const { data: userProfileData, isLoading: userProfileLoading } = useUserProfileQuery({ 
+    enabled: isAuthenticated() && userType !== "doctor" 
+  });
+  const { data: doctorProfileData, isLoading: doctorProfileLoading } = useDoctorProfileQuery({ 
+    enabled: isAuthenticated() && userType === "doctor" 
+  });
+  
+  // Determine which profile data to use
+  const profileData = userType === "doctor" ? doctorProfileData : userProfileData;
+  const profileLoading = userType === "doctor" ? doctorProfileLoading : userProfileLoading;
   
   const initialize = useCallback(async () => {
 
     const handleError = (error: any) => {
-      dispatch({ type: Types.INITIAL, payload: { user: null } });
+      dispatch({ type: Types.INITIAL, payload: { user: null, doctor: null } });
     };
 
     try {
@@ -111,29 +130,39 @@ export function AuthProvider({ children, loginRoute, appRoute }: Props) {
       console.log("🔐 AuthProvider: token:", token);
       
       if (!token || !isAuthenticated()) {
-        dispatch({ type: Types.INITIAL, payload: { user: null } });
+        dispatch({ type: Types.INITIAL, payload: { user: null, doctor: null } });
         return;
       }
 
       // If we have a valid token, we can stop the initial loading
       // Profile data can load in the background
-      dispatch({ type: Types.INITIAL, payload: { user: null } });
+      dispatch({ type: Types.INITIAL, payload: { user: null, doctor: null } });
       // console.log("🔐 AuthProvider: profileData:", profileData);
       // If profile data is available, use it
       // console.log("🔐 AuthProvider: profileData.data.entries:", profileData?.data.entries[0]);
       console.log("🔐 AuthProvider: profileLoading:", profileLoading);
       
       if (profileData && !profileLoading) {
-        const user = profileData.data.entries[0];
-        console.log("🔐 AuthProvider: user:", user);
+        let userProfile: IUserProfile | null = null;
+        let doctorProfile: IDoctorProfile | null = null;
         
-        // Ensure user is a single IUserProfile object, not an array
-        const userProfile = Array.isArray(user) ? user[0] : user;
+        if (userType === "doctor") {
+          // Handle doctor profile data
+          const doctorData = profileData.data.entries[0] as IDoctorProfile;
+          console.log("🔐 AuthProvider: doctor profile:", doctorData);
+          doctorProfile = Array.isArray(doctorData) ? doctorData[0] || null : doctorData || null;
+        } else {
+          // Handle user profile data
+          const userData = profileData.data.entries[0] as IUserProfile;
+          console.log("🔐 AuthProvider: user profile:", userData);
+          userProfile = Array.isArray(userData) ? userData[0] || null : userData || null;
+        }
         
         dispatch({
           type: Types.INITIAL,
           payload: {
-            user: userProfile || null,
+            user: userProfile,
+            doctor: doctorProfile,
           },
         });
       }
@@ -267,18 +296,20 @@ export function AuthProvider({ children, loginRoute, appRoute }: Props) {
   const memoizedValue = useMemo(
     () => ({
       user: state.user,
+      doctor: state.doctor,
       method: "jwt",
       loading: isLoading,
-      isAuthenticated: !!state.user,
+      isAuthenticated: !!(state.user || state.doctor),
       loginRoute,
       appRoute,
+      userType,
       loginWithToken,
       verifyOTP,
       loginAsAdmin,
       logout,
       initialize,
     }),
-    [initialize, loginWithToken, verifyOTP, loginAsAdmin, logout, state.user, isLoading, loginRoute, appRoute]
+    [initialize, loginWithToken, verifyOTP, loginAsAdmin, logout, state.user, state.doctor, isLoading, loginRoute, appRoute, userType]
   );
 
   return (

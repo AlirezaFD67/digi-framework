@@ -85,3 +85,41 @@ export interface IInsertDoctorProfileResponse {
   };
 }
 
+// ============================================================================
+// DOCTOR PROFILE GET TYPES
+// ============================================================================
+
+export interface IDoctorProfile {
+  state_ID: number;
+  city_ID: number;
+  pro_ID: number;
+  doc_Nezam: number;
+  doc_Melli: string;
+  doc_Name: string;
+  doc_Family: string;
+  doc_NameEn: string;
+  doc_FamilyEn: string;
+  doc_Sex: number;
+  doc_Spc: number;
+  doc_sub: number;
+  doc_Exp: number;
+  vis_Price: number;
+  doc_Tel: string;
+  acc_Call: number;
+  acc_Chat: number;
+  acc_Office: number;
+  doc_Img_Path: string;
+  doc_Img: string;
+}
+
+export interface IDoctorProfileResponse {
+  result: {
+    status: string;
+    message: string;
+  };
+  entries: IDoctorProfile[];
+  profileInfo: {
+    is_Completed: boolean;
+  };
+}
+

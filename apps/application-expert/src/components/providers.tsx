@@ -9,7 +9,14 @@ import { routes } from "@/constants/routes"
 export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <FrameworkProvider>
-      <CustomUIProvider loginRoute={routes.auth.login} appRoute={routes.home} mode="dashboard" themeConfig={{ attribute: "class" }} sidebarConfig={{ defaultOpen: true }}>
+      <CustomUIProvider 
+      loginRoute={routes.auth.login}
+       appRoute={routes.home}
+       userType="doctor"
+       mode="dashboard"
+       themeConfig={{ attribute: "class" }}
+       sidebarConfig={{ defaultOpen: true }}
+       >
         <NextThemesProvider
           attribute="class"
           defaultTheme="system"

@@ -64,6 +64,7 @@ const DOCTORS = {
 // Doctor profile endpoints
 const DOCTOR_PROFILE = {
   INSERT: "/insertdoctorprofile",
+  GET_PROFILE: "/getdoctorsprofile",
 } as const;
 
 /**
