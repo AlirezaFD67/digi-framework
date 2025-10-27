@@ -11,7 +11,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <FrameworkProvider>
       <CustomUIProvider 
       loginRoute={routes.auth.login}
-       appRoute={routes.home}
+       appRoute={routes.dashboard.root}
        userType="doctor"
        mode="dashboard"
        themeConfig={{ attribute: "class" }}
