@@ -26,7 +26,11 @@
       "@tailwindcss/oxide",
       "core-js-pure",
       "esbuild",
+      "msw",
       "sharp"
     ]
+  },
+  "dependencies": {
+    "react-hook-form": "^7.62.0"
   }
 }

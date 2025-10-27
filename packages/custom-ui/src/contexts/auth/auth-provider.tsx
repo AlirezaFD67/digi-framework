@@ -15,6 +15,7 @@ import {
   useUserProfileQuery,
   useVerifyOTPMutation,
   useAdminLoginMutation,
+  IUserProfile,
 } from "@workspace/framework";
 
 import { AuthContext } from "./auth-context";
@@ -38,7 +39,7 @@ enum Types {
 }
 
 export type JWTContextType = {
-  user: null;
+  user: IUserProfile | null;
   method: string;
   loading: boolean;
   isAuthenticated: boolean;
@@ -56,25 +57,26 @@ export type JWTContextType = {
 // ============================================================================
 
 const initialState = {
-  user: null,
+  user: {} as IUserProfile | null,
   loading: true,
-};
+} as JWTContextType;
 
 // ============================================================================
 // REDUCER
 // ============================================================================
 
-const reducer = (state: any, action: any) => {
+  const reducer = (state: JWTContextType, action: { type: Types; payload?: { user: IUserProfile | null } }) => {
   if (action.type === Types.INITIAL) {
     return {
+      ...state,
       loading: false,
-      user: action.payload.user,
+      user: action.payload?.user || null,
     };
   }
   if (action.type === Types.LOGIN) {
     return {
       ...state,
-      user: action.payload.user,
+      user: action.payload?.user || null,
     };
   }
   if (action.type === Types.LOGOUT) {
@@ -125,10 +127,13 @@ export function AuthProvider({ children, loginRoute, appRoute }: Props) {
         const user = profileData.data.entries[0];
         console.log("🔐 AuthProvider: user:", user);
         
+        // Ensure user is a single IUserProfile object, not an array
+        const userProfile = Array.isArray(user) ? user[0] : user;
+        
         dispatch({
           type: Types.INITIAL,
           payload: {
-            user: user,
+            user: userProfile || null,
           },
         });
       }

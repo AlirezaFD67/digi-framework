@@ -61,6 +61,11 @@ const DOCTORS = {
   GET_DOCTORS: "/getdoctors",
 } as const;
 
+// Doctor profile endpoints
+const DOCTOR_PROFILE = {
+  INSERT: "/insertdoctorprofile",
+} as const;
+
 /**
  * Main API endpoints object
  * Add new endpoint groups here
@@ -74,6 +79,7 @@ const API_ENDPOINTS = {
   ARTICLES,
   FILE,
   DOCTORS,
+  DOCTOR_PROFILE,
 } as const;
 
 export default API_ENDPOINTS;
@@ -88,4 +94,5 @@ export {
   ARTICLES,
   FILE,
   DOCTORS,
+  DOCTOR_PROFILE,
 };

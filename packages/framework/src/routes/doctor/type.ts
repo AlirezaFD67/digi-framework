@@ -49,3 +49,39 @@ export interface GetDoctorsParams {
 
 export type GetDoctorsResponse = DoctorsResponse;
 
+// ============================================================================
+// DOCTOR PROFILE TYPES
+// ============================================================================
+
+export interface IInsertDoctorProfileRequest {
+  proID: number;
+  stateID: number;
+  cityID: number;
+  docNezam: number;
+  docMelli: string;
+  docName: string;
+  docNameEn: string;
+  docFamily: string;
+  docFamilyEn: string;
+  docSex: number;
+  docSpc: number;
+  docsub: number;
+  docTel: string;
+  docExp: number;
+  visitPrice: number;
+  accCall: number;
+  accChat: number;
+  accOffice: number;
+}
+
+export interface IInsertDoctorProfileResponse {
+  result: {
+    status: string;
+    message: string;
+  };
+  entries: {
+    doctorId?: number;
+    success: boolean;
+  };
+}
+

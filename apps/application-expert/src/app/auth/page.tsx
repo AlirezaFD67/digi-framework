@@ -3,6 +3,7 @@
 import { OTPLoginForm } from "@workspace/custom-ui"
 import * as React from "react"
 import { useRouter } from "next/navigation"
+import { routes } from "@/constants/routes"
 export default function AuthPage() {
   const router = useRouter()
 
@@ -36,7 +37,7 @@ export default function AuthPage() {
       <OTPLoginForm
       heroImageSrc="https://images.unsplash.com/photo-1642615835477-d303d7dc9ee9?w=2160&q=80"
       testimonials={sampleTestimonials}
-      onSuccess={() => router.push('/dashboard')}
+      onSuccess={() => router.push(routes.home)}
       onError={(error: any) => console.log(error)}
       />
       </div>
