@@ -1,5 +1,5 @@
 import { render, screen } from '../utils/test-utils';
-import DashboardPage from '@/app/(dashboard)/page';
+import DashboardPage from '@/app/(dashboard)/dashboard/page';
 import { describe, it, expect } from 'vitest';
 
 describe('DashboardPage', () => {

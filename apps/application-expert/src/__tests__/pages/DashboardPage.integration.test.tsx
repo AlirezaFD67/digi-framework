@@ -1,5 +1,5 @@
 import { render, screen, waitFor } from '../utils/test-utils';
-import DashboardPage from '@/app/(dashboard)/page';
+import DashboardPage from '@/app/(dashboard)/dashboard/page';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 // Mock Next.js router

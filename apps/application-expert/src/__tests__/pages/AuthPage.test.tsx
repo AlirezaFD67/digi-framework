@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from '../utils/test-utils';
-import AuthPage from '@/app/auth/page';
+import AuthPage from '@/app/(auth)/auth/page';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 // Mock Next.js router
