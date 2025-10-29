@@ -12,7 +12,7 @@ export default function DashboardLayout({
 }) {
   return (
       <AuthGuard>
-        <div className="flex min-h-dvh w-full">
+        <div className="flex min-h-dvh w-full p-3">
           <AppSidebar navItems={navItems} />
           <div className="flex flex-1 flex-col">
             <DashboardHeader navItems={navItems} />

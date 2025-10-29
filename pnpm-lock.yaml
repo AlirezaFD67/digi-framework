@@ -77,7 +77,7 @@ importers:
         specifier: ^5.9.2
         version: 5.9.3
 
-  apps/application-expert:
+  apps/digimoragheb:
     dependencies:
       '@fontsource/vazir':
         specifier: ^4.5.4

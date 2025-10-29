@@ -16,7 +16,7 @@ export type Product = {
 export const navItems: NavItem[] = [
   {
     title: 'داشبورد',
-    url: routes.home,
+    url: routes.dashboard.root,
     icon: 'dashboard',
     isActive: false,
     shortcut: ['d', 'd'],
@@ -31,12 +31,86 @@ export const navItems: NavItem[] = [
     items: [
       {
         title: 'پروفایل',
+        url: routes.dashboard.articles.root,
+        icon: 'userPen',
+        shortcut: ['m', 'm']
+      }, {
+        title: 'پروفایل',
         url: routes.profile,
+        icon: 'userPen',
+        shortcut: ['m', 'm']
+      }, {
+        title: 'پروفایل',
+        url: routes.dashboard.articles.root,
+        icon: 'userPen',
+        shortcut: ['m', 'm']
+      }, {
+        title: 'پروفایل',
+        url: routes.dashboard.articles.root,
+        icon: 'userPen',
+        shortcut: ['m', 'm']
+      }, {
+        title: 'پروفایل',
+        url: routes.dashboard.articles.root,
         icon: 'userPen',
         shortcut: ['m', 'm']
       },
     ]
-  }
+  },
+  {
+    title: 'حساب کاربری',
+    url: '#', // نگهدارنده چون هیچ لینک مستقیمی برای والد وجود ندارد
+    icon: 'billing',
+    isActive: true,
+
+    items: [
+      {
+        title: 'پروفایل',
+        url: routes.dashboard.articles.root,
+        icon: 'userPen',
+        shortcut: ['m', 'm']
+      }, {
+        title: 'پروفایل',
+        url: routes.dashboard.articles.root,
+        icon: 'userPen',
+        shortcut: ['m', 'm']
+      }, {
+        title: 'پروفایل',
+        url: routes.dashboard.articles.root,
+        icon: 'userPen',
+        shortcut: ['m', 'm']
+      }, {
+        title: 'پروفایل',
+        url: routes.dashboard.articles.root,
+        icon: 'userPen',
+        shortcut: ['m', 'm']
+      },
+    ]
+  },
+  {
+    title: 'داشبورد',
+    url: routes.dashboard.root,
+    icon: 'billing',
+    isActive: false,
+    shortcut: ['d', 'd'],
+    items: [] // آرایه خالی چون هیچ آیتم فرزندی برای داشبورد وجود ندارد
+  },
+  {
+    title: 'داشبورد',
+    url: routes.dashboard.root,
+    icon: 'dashboard',
+    isActive: false,
+    shortcut: ['d', 'd'],
+    items: [] // آرایه خالی چون هیچ آیتم فرزندی برای داشبورد وجود ندارد
+  },
+  {
+    title: 'داشبورد',
+    url: routes.dashboard.root,
+    icon: 'dashboard',
+    isActive: false,
+    shortcut: ['d', 'd'],
+    items: [] // آرایه خالی چون هیچ آیتم فرزندی برای داشبورد وجود ندارد
+  },
 ];
 
 export interface SaleUser {
