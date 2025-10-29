@@ -1,4 +1,3 @@
-import { FileUploaderProps } from '@/components/file-uploader';
 import { Control, FieldPath, FieldValues } from 'react-hook-form';
 
 // Base props that all form components will share
@@ -23,7 +22,7 @@ export interface FormOption {
 }
 
 // File upload specific types
-export interface FileUploadConfig extends FileUploaderProps {
+export interface FileUploadConfig {
   acceptedTypes?: string[];
 }
 

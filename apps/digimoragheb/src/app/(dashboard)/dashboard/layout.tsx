@@ -4,7 +4,7 @@ import * as React from "react"
 import AppSidebar from "@workspace/custom-ui/components/layout/dashboard/sidebar"
 import DashboardHeader from "@workspace/custom-ui/components/layout/dashboard/header"
 import { navItems } from "@/constants/data"
-import { CustomUIProvider, AuthGuard } from "@workspace/custom-ui"
+import {  AuthGuard } from "@workspace/custom-ui"
 export default function DashboardLayout({
   children,
 }: {

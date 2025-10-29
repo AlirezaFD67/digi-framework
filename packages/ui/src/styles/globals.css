@@ -106,28 +106,28 @@
   --purple-900: #30145A;
 
   /* Blue (Brand Primary) */
-  --blue-50:  #EAF9FD;
-  --blue-100: #C8EFF9;
-  --blue-200: #8EDBF1;
-  --blue-300: #4EB9DA;
-  --blue-400: #2EA0C6;
-  --blue-500: #0E91B2;
-  --blue-600: #0B7F9C;
-  --blue-700: #086C85;
-  --blue-800: #06586D;
-  --blue-900: #043E4D;
+  --brand-50:  #EAF9FD;
+  --brand-100: #C8EFF9;
+  --brand-200: #8EDBF1;
+  --brand-300: #4EB9DA;
+  --brand-400: #2EA0C6;
+  --brand-500: #0E91B2;
+  --brand-600: #0B7F9C;
+  --brand-700: #086C85;
+  --brand-800: #06586D;
+  --brand-900: #043E4D;
 
-  /* Blue-Core (Neutral Complement) */
-  --blue-core-50:  #EEF6FF;
-  --blue-core-100: #D3E4FF;
-  --blue-core-200: #A8CAFF;
-  --blue-core-300: #76ACFF;
-  --blue-core-400: #4E8FFF;
-  --blue-core-500: #2E77F2;
-  --blue-core-600: #1F61DC;
-  --blue-core-700: #174FC1;
-  --blue-core-800: #103DA3;
-  --blue-core-900: #0B2B7A;
+  /* Blue (Neutral Complement, formerly blue-core) */
+  --blue-50:  #EEF6FF;
+  --blue-100: #D3E4FF;
+  --blue-200: #A8CAFF;
+  --blue-300: #76ACFF;
+  --blue-400: #4E8FFF;
+  --blue-500: #2E77F2;
+  --blue-600: #1F61DC;
+  --blue-700: #174FC1;
+  --blue-800: #103DA3;
+  --blue-900: #0B2B7A;
 
   /* Gray Scale */
   --gray-50:  #F9FAFB;
@@ -237,29 +237,29 @@
   --purple-800: #451D7A;
   --purple-900: #30145A;
 
-  /* Blue (Brand Primary) */
-  --blue-50:  #EAF9FD;
-  --blue-100: #C8EFF9;
-  --blue-200: #8EDBF1;
-  --blue-300: #4EB9DA;
-  --blue-400: #2EA0C6;
-  --blue-500: #0E91B2;
-  --blue-600: #0B7F9C;
-  --blue-700: #086C85;
-  --blue-800: #06586D;
-  --blue-900: #043E4D;
+  /* Brand Primary (formerly blue) */
+  --brand-50:  #EAF9FD;
+  --brand-100: #C8EFF9;
+  --brand-200: #8EDBF1;
+  --brand-300: #4EB9DA;
+  --brand-400: #2EA0C6;
+  --brand-500: #0E91B2;
+  --brand-600: #0B7F9C;
+  --brand-700: #086C85;
+  --brand-800: #06586D;
+  --brand-900: #043E4D;
 
-  /* Blue-Core (Neutral Complement) */
-  --blue-core-50:  #EEF6FF;
-  --blue-core-100: #D3E4FF;
-  --blue-core-200: #A8CAFF;
-  --blue-core-300: #76ACFF;
-  --blue-core-400: #4E8FFF;
-  --blue-core-500: #2E77F2;
-  --blue-core-600: #1F61DC;
-  --blue-core-700: #174FC1;
-  --blue-core-800: #103DA3;
-  --blue-core-900: #0B2B7A;
+  /* Blue (Neutral Complement, formerly blue-core) */
+  --blue-50:  #EEF6FF;
+  --blue-100: #D3E4FF;
+  --blue-200: #A8CAFF;
+  --blue-300: #76ACFF;
+  --blue-400: #4E8FFF;
+  --blue-500: #2E77F2;
+  --blue-600: #1F61DC;
+  --blue-700: #174FC1;
+  --blue-800: #103DA3;
+  --blue-900: #0B2B7A;
 
   /* Gray Scale */
   --gray-50:  #F9FAFB;
@@ -382,6 +382,18 @@
   --color-purple-800: var(--purple-800);
   --color-purple-900: var(--purple-900);
 
+  /* Brand (formerly blue) */
+  --color-brand-50: var(--brand-50);
+  --color-brand-100: var(--brand-100);
+  --color-brand-200: var(--brand-200);
+  --color-brand-300: var(--brand-300);
+  --color-brand-400: var(--brand-400);
+  --color-brand-500: var(--brand-500);
+  --color-brand-600: var(--brand-600);
+  --color-brand-700: var(--brand-700);
+  --color-brand-800: var(--brand-800);
+  --color-brand-900: var(--brand-900);
+
   /* Blue */
   --color-blue-50: var(--blue-50);
   --color-blue-100: var(--blue-100);
@@ -393,18 +405,6 @@
   --color-blue-700: var(--blue-700);
   --color-blue-800: var(--blue-800);
   --color-blue-900: var(--blue-900);
-
-  /* Blue-Core */
-  --color-blue-core-50: var(--blue-core-50);
-  --color-blue-core-100: var(--blue-core-100);
-  --color-blue-core-200: var(--blue-core-200);
-  --color-blue-core-300: var(--blue-core-300);
-  --color-blue-core-400: var(--blue-core-400);
-  --color-blue-core-500: var(--blue-core-500);
-  --color-blue-core-600: var(--blue-core-600);
-  --color-blue-core-700: var(--blue-core-700);
-  --color-blue-core-800: var(--blue-core-800);
-  --color-blue-core-900: var(--blue-core-900);
 
   /* Gray */
   --color-gray-50: var(--gray-50);

@@ -4,8 +4,12 @@ export default function DashboardPage() {
       خوش آمدید به داشبورد
 
 
-      <div className="bg-blue-core-500" >
+      <div className="bg-red-500 p-4" >
+
+        <div className="bg-card">
+
         salam
+        </div>
       </div>
     </div>
   )
