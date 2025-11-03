@@ -35,6 +35,8 @@ import { ThemeToggle } from '../../../theme-toggle';
 import { UserAvatarProfile } from '../../../user-avatar-profile';
 import Icons from '../../../icons';
 import { cn } from '@workspace/ui/lib/utils';
+import Image from 'next/image';
+import UIConfig from '@workspace/ui/lib/ui-config';
 
 // ## --- Refactored Nav Item Component ---
 // This new component handles the logic for rendering a single navigation item.
@@ -158,6 +160,7 @@ export default function AppSidebar({ navItems }: AppSidebarProps) {
     <Sidebar side="right" variant="floating" collapsible="icon">
       <SidebarHeader>
         <ThemeToggle />
+        <Image src={UIConfig.logo.secondary} alt="logo" width={100} height={100} />
       </SidebarHeader>
 
       <SidebarContent className="overflow-x-hidden">
