@@ -1,6 +1,6 @@
 export default function Home() {
   return <div>
-    <p className="global-title-md">Home Page</p>
-    <p className="global-description-md">Home Page</p>
+    <p className="global-title-md">تایتل صفحه اصلی</p>
+    <p className="global-description-sm">صفحه اصلی</p>
   </div>;
 }
