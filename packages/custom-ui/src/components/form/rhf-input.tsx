@@ -199,7 +199,7 @@ export function RHFInput({
               onChange={(event) => handleChange(event, field)}
               onBlur={field.onBlur}
               type={type}
-              className={cn(
+              className={cn("shadow-none focus:!ring-0",
                 error && "border-red-500 focus:border-red-500",
                 className
               )}
