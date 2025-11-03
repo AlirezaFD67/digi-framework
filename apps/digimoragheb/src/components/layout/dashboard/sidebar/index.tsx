@@ -30,10 +30,10 @@ import {
 } from '@workspace/ui/components/dropdown-menu';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { NavItem } from '../../../../types';
-import { ThemeToggle } from '../../../theme-toggle';
-import { UserAvatarProfile } from '../../../user-avatar-profile';
-import Icons from '../../../icons';
+import { NavItem } from '../../../../../../../packages/custom-ui/src/types';
+import { ThemeToggle } from '@workspace/custom-ui/components/theme-toggle';
+import { UserAvatarProfile } from '@workspace/custom-ui/components/user-avatar-profile';
+import Icons from '@workspace/custom-ui/components/icons';
 import { cn } from '@workspace/ui/lib/utils';
 import Image from 'next/image';
 import UIConfig from '@workspace/ui/lib/ui-config';

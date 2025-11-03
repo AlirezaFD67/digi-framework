@@ -1,5 +1,5 @@
 import { render, screen, fireEvent, waitFor } from '../utils/test-utils';
-import ProfilePage from '@/app/(dashboard)/dashboard/profile/page';
+import ProfilePage from '@/app/(dashboard)/dashboard/(user)/profile/page';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 // Mock the useAuthContext hook

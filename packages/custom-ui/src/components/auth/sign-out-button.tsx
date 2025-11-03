@@ -11,7 +11,7 @@ interface SignOutButtonProps {
 }
 
 export function SignOutButton({ 
-  redirectUrl = '/auth/sign-in', 
+  redirectUrl = '/auth', 
   className,
   children 
 }: SignOutButtonProps) {

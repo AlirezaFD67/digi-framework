@@ -13,6 +13,6 @@
     }
   },
   
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "../../apps/digimoragheb/src/components/layout"],
   "exclude": ["node_modules", "dist"]
 }

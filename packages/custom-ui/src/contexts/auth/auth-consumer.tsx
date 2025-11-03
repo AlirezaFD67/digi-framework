@@ -5,7 +5,7 @@
 // ============================================================================
 
 import { AuthContext } from "./auth-context";
-import { SplashScreen } from "@/components/loading-screen";
+import { SplashScreen } from "../../components/loading-screen";
 
 // ============================================================================
 // TYPES & INTERFACES

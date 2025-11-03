@@ -10,6 +10,26 @@ export const routes = {
   },
   profile: "/dashboard/profile",
   auth: {
-    login: "/auth",
+    login: "auth",
+  },
+}
+
+
+
+const dashboardDoctorRoutes = {
+  root: "/dashboard",
+  single: (id: string) => `/dashboard/${id}`,
+  articles: {
+    root: "/dashboard/articles",
+    single: (id: string) => `/dashboard/articles/${id}`,
+  },
+}
+
+const dashboardUserRoute = {
+  root: "/dashboard",
+  single: (id: string) => `/dashboard/${id}`,
+  articles: {
+    root: "/dashboard/articles",
+    single: (id: string) => `/dashboard/articles/${id}`,
   },
 }

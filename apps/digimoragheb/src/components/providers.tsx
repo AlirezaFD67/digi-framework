@@ -12,7 +12,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
       <CustomUIProvider 
       loginRoute={routes.auth.login}
        appRoute={routes.dashboard.root}
-       userType="doctor"
+       userType="user"
        mode="dashboard"
        themeConfig={{ attribute: "class" }}
        sidebarConfig={{ defaultOpen: true }}

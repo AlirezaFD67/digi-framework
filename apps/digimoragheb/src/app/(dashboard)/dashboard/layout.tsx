@@ -1,8 +1,8 @@
 "use client"
 
 import * as React from "react"
-import AppSidebar from "@workspace/custom-ui/components/layout/dashboard/sidebar"
-import DashboardHeader from "@workspace/custom-ui/components/layout/dashboard/header"
+import AppSidebar from "@/components/layout/dashboard/sidebar"
+import DashboardHeader from "@/components/layout/dashboard/header"
 import { navItems } from "@/constants/data"
 import {  AuthGuard } from "@workspace/custom-ui"
 export default function DashboardLayout({
