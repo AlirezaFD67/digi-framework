@@ -94,6 +94,9 @@ importers:
       '@workspace/ui':
         specifier: workspace:*
         version: link:../../packages/ui
+      '@workspace/utils':
+        specifier: workspace:*
+        version: link:../../packages/utils
       lucide-react:
         specifier: ^0.475.0
         version: 0.475.0(react@19.2.0)
@@ -243,6 +246,9 @@ importers:
       '@workspace/ui':
         specifier: workspace:*
         version: link:../ui
+      '@workspace/utils':
+        specifier: workspace:*
+        version: link:../utils
       maplibre-gl:
         specifier: ^5.7.1
         version: 5.8.0
@@ -554,6 +560,24 @@ importers:
         version: 4.1.14
       typescript:
         specifier: ^5.9.2
+        version: 5.9.3
+
+  packages/utils:
+    devDependencies:
+      '@types/node':
+        specifier: ^22.10.2
+        version: 22.18.8
+      '@workspace/eslint-config':
+        specifier: workspace:*
+        version: link:../eslint-config
+      '@workspace/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      eslint:
+        specifier: ^8.0.0
+        version: 8.57.1
+      typescript:
+        specifier: ^5.0.0
         version: 5.9.3
 
 packages:
