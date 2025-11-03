@@ -4,20 +4,20 @@
   "private": true,
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
     },
     "./components/*": {
-      "types": "./dist/components/*.d.ts",
-      "default": "./dist/components/*.js"
+      "types": "./src/components/*.tsx",
+      "default": "./src/components/*.tsx"
     },
     "./auth/*": {
-      "types": "./dist/auth/*.d.ts",
-      "default": "./dist/auth/*.js"
+      "types": "./src/auth/*.tsx",
+      "default": "./src/auth/*.tsx"
     },
     "./hooks/*": {
-      "types": "./dist/hooks/*.d.ts",
-      "default": "./dist/hooks/*.js"
+      "types": "./src/hooks/*.ts",
+      "default": "./src/hooks/*.ts"
     }
   },
   "scripts": {

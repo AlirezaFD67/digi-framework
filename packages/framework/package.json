@@ -4,20 +4,20 @@
   "private": true,
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
-      "default": "./dist/index.js"
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
     },
     "./types": {
-      "types": "./dist/types/index.d.ts",
-      "default": "./dist/types/index.js"
+      "types": "./src/types/index.ts",
+      "default": "./src/types/index.ts"
     },
     "./utils": {
-      "types": "./dist/utils/index.d.ts",
-      "default": "./dist/utils/index.js"
+      "types": "./src/utils/index.ts",
+      "default": "./src/utils/index.ts"
     },
     "./providers": {
-      "types": "./dist/providers/index.d.ts",
-      "default": "./dist/providers/index.js"
+      "types": "./src/providers/index.ts",
+      "default": "./src/providers/index.ts"
     }
   },
   "scripts": {

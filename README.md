@@ -49,9 +49,28 @@ pnpm install
 # Start development
 pnpm dev
 
-# Build all packages
+# Build all packages (for production)
 pnpm build
 ```
+
+#### 🔥 Dev Mode (No Build Required)
+
+All packages (`@workspace/custom-ui`, `@workspace/framework`, `@workspace/ui`) are configured to work directly from source code without requiring a build step during development.
+
+**Benefits:**
+- ✅ Instant changes - No need to rebuild packages
+- ✅ Faster development workflow
+- ✅ Direct source code debugging
+- ✅ Automatic TypeScript compilation via Next.js
+
+**How it works:**
+- Packages export their source files directly (`.ts`/`.tsx` from `src/`)
+- Next.js transpiles them using `transpilePackages` configuration
+- Changes are reflected immediately when you save
+
+**See individual package DEV_MODE.md files for details:**
+- [custom-ui/DEV_MODE.md](./packages/custom-ui/DEV_MODE.md)
+- [framework/DEV_MODE.md](./packages/framework/DEV_MODE.md)
 
 ## 📄 License
 
