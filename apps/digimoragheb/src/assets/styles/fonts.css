@@ -1,5 +1,5 @@
 @layer base {
-	// Ravi font family - Persian/Farsi numbers
+	/* Ravi font family - Persian/Farsi numbers */
 	
 	/* Thin - 100 */
 	@font-face {
@@ -73,7 +73,7 @@
 		font-style: normal;
 	}
 
-	// Vazir font family - Persian/Farsi (Alternative)
+	/* Vazir font family - Persian/Farsi (Alternative) */
 	
 	/* Light - 300 */
 	@font-face {
@@ -125,8 +125,8 @@
 		unicode-range: U+0600-06FF, U+200C-200E, U+2010-2011, U+FB50-FDFF, U+FE80-FEFC;
 	}
 
-	// Inter font family - English/Latin
-	// Modern, clean, and professional font for UI
+	/* Inter font family - English/Latin */
+	/* Modern, clean, and professional font for UI */
 	
 	/* Thin - 100 */
 	@font-face {
