@@ -3,6 +3,7 @@
 import React from "react"
 import { useFormContext } from "react-hook-form"
 import { Button, buttonVariants, type VariantProps } from "@workspace/ui/components/button"
+import { cn } from "@workspace/ui/lib/utils"
 
 // ----------------------------------------------------------------------
 
@@ -38,7 +39,7 @@ export function RHFButton({
     <Button
       type={type}
       disabled={disabled || isLoading}
-      className={className}
+      className={cn(className, "shadow-none !outline-none")}
       onClick={onClick}
       variant={variant}
       size={size}
