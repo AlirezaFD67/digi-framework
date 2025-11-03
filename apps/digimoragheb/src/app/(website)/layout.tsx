@@ -1,4 +1,4 @@
-import './styles/website.css'
+import './styles/website.scss'
 
 export default function Layout({
     children,

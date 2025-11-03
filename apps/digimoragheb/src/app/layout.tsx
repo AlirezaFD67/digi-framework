@@ -1,8 +1,5 @@
 import { Geist, Geist_Mono } from "next/font/google"
-import "@fontsource/vazir/400.css"
-import "@fontsource/vazir/500.css"
-import "@fontsource/vazir/700.css"
-import "@fontsource/vazir/farsi-digits.css"
+import "../assets/styles/fonts.scss"
 
 import "@workspace/ui/globals.css"
 import { Providers } from "../components/providers"
