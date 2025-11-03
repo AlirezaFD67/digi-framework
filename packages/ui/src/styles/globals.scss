@@ -497,4 +497,86 @@ body {
   .font-vazir {
     font-family: 'Vazir', sans-serif;
   }
+
+  /* Global Title Classes - Responsive Typography */
+  .global-title-3xs {
+    @apply font-['Ravi'] font-bold text-[8px] sm:text-xs leading-snug text-gray-700 lg:text-base;
+  }
+
+  .global-title-2xs {
+    @apply font-['Ravi'] font-bold text-[10px] sm:text-xs leading-snug text-gray-700 lg:text-base;
+  }
+
+  .global-title-xs {
+    @apply font-['Ravi'] font-bold text-xs sm:text-sm leading-snug text-gray-700 lg:text-lg;
+  }
+
+  .global-title-sm {
+    @apply font-['Ravi'] font-bold text-sm sm:text-base leading-snug text-gray-700 lg:text-xl;
+  }
+
+  .global-title-md {
+    @apply font-['Ravi'] font-bold text-base sm:text-lg leading-snug text-gray-700 lg:text-2xl;
+  }
+
+  .global-title-lg {
+    @apply font-['Ravi'] font-bold text-lg sm:text-xl leading-snug text-gray-700 lg:text-3xl;
+  }
+
+  .global-title-xl {
+    @apply font-['Ravi'] font-bold text-xl sm:text-2xl leading-snug text-gray-700 lg:text-4xl;
+  }
+
+  .global-title-2xl {
+    @apply font-['Ravi'] font-bold text-2xl sm:text-3xl leading-tight text-gray-700 lg:text-5xl;
+  }
+
+  .global-title-3xl {
+    @apply font-['Ravi'] font-bold text-3xl sm:text-4xl leading-tight text-gray-700 lg:text-6xl;
+  }
+
+  .global-title-4xl {
+    @apply font-['Ravi'] font-bold text-4xl sm:text-5xl leading-tight text-gray-700 lg:text-7xl;
+  }
+
+  /* Global Description Classes - Responsive Typography */
+  .global-description-3xs {
+    @apply text-justify font-['Ravi'] font-normal text-[8px] sm:text-xs leading-7 text-gray-700 lg:text-sm;
+  }
+
+  .global-description-2xs {
+    @apply text-justify font-['Ravi'] font-normal text-[10px] sm:text-xs leading-7 text-gray-700 lg:text-sm;
+  }
+
+  .global-description-xs {
+    @apply text-justify font-['Ravi'] font-normal text-xs sm:text-sm leading-7 text-gray-700 lg:text-base;
+  }
+
+  .global-description-sm {
+    @apply text-justify font-['Ravi'] font-normal text-sm sm:text-base leading-7 text-gray-700 lg:text-lg;
+  }
+
+  .global-description-md {
+    @apply text-justify font-['Ravi'] font-normal text-base sm:text-lg leading-7 text-gray-700 lg:text-xl;
+  }
+
+  .global-description-lg {
+    @apply text-justify font-['Ravi'] font-normal text-lg sm:text-xl leading-7 text-gray-700 lg:text-2xl;
+  }
+
+  .global-description-xl {
+    @apply text-justify font-['Ravi'] font-normal text-xl sm:text-2xl leading-8 text-gray-700 lg:text-3xl;
+  }
+
+  .global-description-2xl {
+    @apply text-justify font-['Ravi'] font-normal text-2xl sm:text-3xl leading-8 text-gray-700 lg:text-4xl;
+  }
+
+  .global-description-3xl {
+    @apply text-justify font-['Ravi'] font-normal text-3xl sm:text-4xl leading-9 text-gray-700 lg:text-5xl;
+  }
+
+  .global-description-4xl {
+    @apply text-justify font-['Ravi'] font-normal text-4xl sm:text-5xl leading-9 text-gray-700 lg:text-6xl;
+  }
 }
