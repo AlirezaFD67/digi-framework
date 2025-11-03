@@ -80,7 +80,7 @@ export default function AdminLoginPage() {
 
 ### 2.2. OTP Login (برای کاربران عادی)
 ```typescript
-// apps/application-expert/src/app/auth/page.tsx
+// apps/digimoragheb/src/app/auth/page.tsx
 import { OTPLoginForm } from '@workspace/custom-ui';
 import { useRouter } from 'next/navigation';
 

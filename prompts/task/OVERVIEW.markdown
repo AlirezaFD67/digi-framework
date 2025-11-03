@@ -7,7 +7,7 @@
 digi-framework/
 ├── apps/              # اپلیکیشن‌های Next.js
 │   ├── admin-panel/
-│   ├── application-expert/
+│   ├── digimoragheb/
 │   └── docs/
 ├── packages/          # پکیج‌های مشترک
 │   ├── framework/     # API Management

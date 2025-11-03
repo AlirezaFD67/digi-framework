@@ -1,11 +1,11 @@
-# Testing Setup for Application Expert
+# Testing Setup for Digimoragheb
 
-This document describes the complete testing setup for the Application Expert app, following the monorepo testing guidelines.
+This document describes the complete testing setup for the Digimoragheb app, following the monorepo testing guidelines.
 
 ## 📁 File Structure
 
 ```
-apps/application-expert/
+apps/digimoragheb/
 ├── vitest.config.ts                    # Vitest configuration
 ├── src/
 │   └── __tests__/
@@ -30,7 +30,7 @@ apps/application-expert/
 
 ### Install Dependencies
 ```bash
-cd apps/application-expert
+cd apps/digimoragheb
 pnpm install
 ```
 

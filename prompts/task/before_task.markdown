@@ -24,7 +24,7 @@
 
 ### 2. تعیین محل تسک
 - [ ] **مشخص کنید تسک برای کدام بخش است**:
-  - **اپلیکیشن خاص**: `apps/admin-panel/` یا `apps/application-expert/`؟
+  - **اپلیکیشن خاص**: `apps/admin-panel/` یا `apps/digimoragheb/`؟
   - **پکیج مشترک**: نیاز به تغییر در `packages/framework/` یا `packages/custom-ui/` یا `packages/ui/`؟
   - **هر دو**: باید هم در package و هم در app تغییر داده شود؟
 

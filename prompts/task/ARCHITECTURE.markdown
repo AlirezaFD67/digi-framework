@@ -35,7 +35,7 @@ digi-framework/                    # ریشه monorepo
 │   │   ├── package.json
 │   │   ├── next.config.ts
 │   │   └── tsconfig.json
-│   ├── application-expert/        # اپلیکیشن کارشناس
+│   ├── digimoragheb/              # اپلیکیشن اصلی
 │   │   └── ... (ساختار مشابه admin-panel)
 │   └── docs/                      # داکیومنتیشن سایت
 │       └── ... (Fumadocs)

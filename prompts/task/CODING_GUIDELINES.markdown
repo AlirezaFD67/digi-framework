@@ -14,7 +14,7 @@
 ## ۱. محل ایجاد فایل‌های جدید (Monorepo)
 
 ### 1.1. صفحات جدید (در apps/)
-- **تعیین اپلیکیشن**: ابتدا مشخص کنید صفحه برای کدام اپ است (مثل `admin-panel` یا `application-expert`)
+- **تعیین اپلیکیشن**: ابتدا مشخص کنید صفحه برای کدام اپ است (مثل `admin-panel` یا `digimoragheb`)
 - **مسیر**: `apps/[app-name]/src/app/` با نام فولدر kebab-case (مثل `users-management/`)
 - **فایل**: `page.tsx` برای صفحه اصلی route
 - **مثال**: `apps/admin-panel/src/app/users-management/page.tsx`

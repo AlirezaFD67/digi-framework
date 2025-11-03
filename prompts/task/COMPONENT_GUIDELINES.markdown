@@ -88,10 +88,10 @@ import { AdminLogin, ErrorBoundary, Toast } from '@workspace/custom-ui';
 - `UserManagementTable.tsx`: جدول مدیریت کاربران
 - `StatisticsCard.tsx`: کارت آمار (خاص ادمین)
 
-**مثال برای application-expert:**
-- `ExpertPanel.tsx`: پنل کارشناسی
-- `ApplicationForm.tsx`: فرم درخواست
-- `ExpertTools.tsx`: ابزارهای کارشناسی
+**مثال برای digimoragheb:**
+- `ProductCard.tsx`: کارت محصول
+- `CategoryList.tsx`: لیست دسته‌بندی‌ها
+- `SearchFilters.tsx`: فیلترهای جستجو
 
 ## ۴. قوانین استفاده
 
@@ -126,7 +126,7 @@ import { AdminLogin, ErrorBoundary, Toast } from '@workspace/custom-ui';
    ```typescript
    // ❌ اشتباه - ایجاد Button در هر اپ
    apps/admin-panel/src/components/Button.tsx
-   apps/application-expert/src/components/Button.tsx
+   apps/digimoragheb/src/components/Button.tsx
    
    // ✅ درست - استفاده از @workspace/ui
    import { Button } from '@workspace/ui';

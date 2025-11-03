@@ -92,13 +92,15 @@ pnpm add-app
 ## ساختار پروژه
 
 ```
-digimoragheb-monorepo/
+digi-framework/
 ├── apps/                    # اپلیکیشن‌ها
-│   ├── web/                # اپلیکیشن اصلی وب
-│   └── application-expert/ # اپلیکیشن متخصص
+│   ├── admin-panel/        # پنل ادمین
+│   ├── digimoragheb/       # اپلیکیشن اصلی
+│   └── docs/               # داکیومنتیشن
 ├── packages/               # پکیج‌های مشترک
 │   ├── ui/                 # UI components (shadcn/ui)
 │   ├── custom-ui/          # کامپوننت‌های سفارشی
+│   ├── framework/          # API management
 │   ├── eslint-config/      # تنظیمات ESLint
 │   └── typescript-config/  # تنظیمات TypeScript
 └── scripts/                # اسکریپت‌های مدیریتی

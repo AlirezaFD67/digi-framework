@@ -9,7 +9,7 @@
 - 🎯 **@workspace/framework**: API management متمرکز
 - 🎨 **@workspace/custom-ui**: کامپوننت‌های گلوبال
 - 🧩 **@workspace/ui**: کامپوننت‌های shadcn/ui پایه
-- 🚀 **Multiple Apps**: admin-panel, application-expert, docs
+- 🚀 **Multiple Apps**: admin-panel, digimoragheb, docs
 
 داکیومنت‌های موجود (مثل `before_task.markdown`, `ARCHITECTURE.markdown`) برای استانداردسازی توسعه در این ساختار پیچیده طراحی شده‌اند.
 

@@ -106,7 +106,7 @@ That's it! You have a fully functional OTP-based authentication system.
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                     Application Layer                        │
-│                  (apps/application-expert)                   │
+│              (apps/digimoragheb, apps/admin-panel)           │
 │  - Login Pages                                               │
 │  - Protected Routes                                          │
 │  - Provider Setup                                            │

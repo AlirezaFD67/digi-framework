@@ -20,7 +20,7 @@ The login system is built across three main layers:
    - Authentication hooks
    - Auth guards
 
-### 3. **Application Layer** (`apps/application-expert`)
+### 3. **Application Layer** (e.g., `apps/digimoragheb`, `apps/admin-panel`)
    - Login pages
    - Route protection
    - Provider setup
@@ -320,7 +320,7 @@ export function OTPLoginForm({
 
 ### 8. Application Setup
 
-**File:** `apps/application-expert/src/app/auth/page.tsx`
+**File:** `apps/[app-name]/src/app/auth/page.tsx`
 
 ```typescript
 export default function AuthPage() {
@@ -349,7 +349,7 @@ export default function AuthPage() {
 }
 ```
 
-**Layout File:** `apps/application-expert/src/app/auth/layout.tsx`
+**Layout File:** `apps/[app-name]/src/app/auth/layout.tsx`
 
 ```typescript
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
