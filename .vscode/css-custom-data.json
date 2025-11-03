@@ -1,0 +1,30 @@
+{
+  "version": 1.1,
+  "atDirectives": [
+    {
+      "name": "@source",
+      "description": "Tailwind CSS v4 directive to specify source files for scanning utility classes"
+    },
+    {
+      "name": "@theme",
+      "description": "Tailwind CSS v4 directive to define theme configuration"
+    },
+    {
+      "name": "@apply",
+      "description": "Tailwind CSS directive to apply utility classes inline"
+    },
+    {
+      "name": "@custom-variant",
+      "description": "Tailwind CSS v4 directive to define custom variants"
+    },
+    {
+      "name": "@layer",
+      "description": "Tailwind CSS directive to organize styles into layers"
+    },
+    {
+      "name": "@config",
+      "description": "Tailwind CSS v4 directive for inline configuration"
+    }
+  ]
+}
+
