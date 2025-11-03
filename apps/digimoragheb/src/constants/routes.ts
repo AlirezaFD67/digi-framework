@@ -10,7 +10,7 @@ export const routes = {
   },
   profile: "/dashboard/profile",
   auth: {
-    login: "auth",
+    login: "/auth",
   },
 }
 

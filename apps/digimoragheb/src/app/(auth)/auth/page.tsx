@@ -1,11 +1,16 @@
 "use client"
 
-import { OTPLoginForm } from "@workspace/custom-ui"
+import { OTPLoginForm, useAuthContext } from "@workspace/custom-ui"
 import * as React from "react"
-import { useRouter } from "next/navigation"
+import { useRouter, useSearchParams } from "next/navigation"
 import { routes } from "@/constants/routes"
 export default function AuthPage() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const { appRoute } = useAuthContext()
+  
+  // Get returnTo from URL or fallback to appRoute
+  const returnTo = searchParams.get("returnTo") || appRoute || routes.dashboard.root
 
   const sampleTestimonials: {   avatarSrc: string;
     name: string;
@@ -37,7 +42,7 @@ export default function AuthPage() {
       <OTPLoginForm
       heroImageSrc="https://images.unsplash.com/photo-1642615835477-d303d7dc9ee9?w=2160&q=80"
       testimonials={sampleTestimonials}
-      onSuccess={() => router.push(routes.home)}
+      onSuccess={() => router.push(returnTo)}
       onError={(error: any) => console.log(error)}
       />
       </div>

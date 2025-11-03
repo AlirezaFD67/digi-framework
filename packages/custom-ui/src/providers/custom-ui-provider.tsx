@@ -11,6 +11,7 @@ import { ModalManager } from "../components/modal"
 import { ToastContainer } from "../components/error"
 import { SidebarProvider } from "@workspace/ui/components/sidebar"
 import { AuthProvider } from "../contexts/auth/auth-provider"
+import type { UserType } from "@workspace/framework"
 export type AppMode = "dashboard" | "web-app"
 
 export interface CustomUIProviderProps {
@@ -32,7 +33,7 @@ export interface CustomUIProviderProps {
   }
   loginRoute?: string
   appRoute?: string
-  userType?: "admin" | "user" | "doctor"
+  userType?: UserType
 }
 
 export function CustomUIProvider({
