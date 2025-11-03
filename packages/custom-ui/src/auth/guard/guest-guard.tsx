@@ -35,9 +35,12 @@ export default function GuestGuard({ children }: Props) {
 function Container({ children }: Props) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const { isAuthenticated, loginRoute } = useAuthContext();
+  const { isAuthenticated, appRoute } = useAuthContext();
 
-  const returnTo = searchParams.get("returnTo") || `/${loginRoute}`;
+  // Get returnTo from URL params or fallback to appRoute
+  const returnToParam = searchParams.get("returnTo");
+  const defaultPath = appRoute?.startsWith("/") ? appRoute : `/${appRoute || ""}`;
+  const returnTo = returnToParam || defaultPath;
 
   const check = useCallback(() => {
     if (isAuthenticated) {

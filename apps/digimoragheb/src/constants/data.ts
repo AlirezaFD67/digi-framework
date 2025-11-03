@@ -1,5 +1,3 @@
-import { NavItem } from '@workspace/custom-ui/types';
-import { routes } from './routes';
 
 export type Product = {
   photo_url: string;
@@ -12,32 +10,6 @@ export type Product = {
   updated_at: string;
 };
 
-//اطلاعات: داده‌های زیر برای ناوبری کناری و نوار Cmd K استفاده می‌شود.
-export const navItems: NavItem[] = [
-  {
-    title: 'داشبورد',
-    url: routes.dashboard.root,
-    icon: 'dashboard',
-    isActive: false,
-    shortcut: ['d', 'd'],
-    items: [] // آرایه خالی چون هیچ آیتم فرزندی برای داشبورد وجود ندارد
-  },
-  {
-    title: 'حساب کاربری',
-    url: '#', // نگهدارنده چون هیچ لینک مستقیمی برای والد وجود ندارد
-    icon: 'billing',
-    isActive: true,
-
-    items: [
-       {
-        title: 'پروفایل',
-        url: routes.profile,
-        icon: 'userPen',
-        shortcut: ['m', 'm']
-      }
-    ]
-  },
-];
 
 export interface SaleUser {
   id: number;
