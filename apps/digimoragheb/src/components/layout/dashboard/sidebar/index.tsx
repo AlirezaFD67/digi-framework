@@ -159,7 +159,7 @@ export default function AppSidebar({ navItems }: AppSidebarProps) {
   return (
     <Sidebar side="right" variant="floating" collapsible="icon">
       <SidebarHeader>
-        <ThemeToggle />
+        
         <Image src={UIConfig.logo.secondary} alt="logo" width={100} height={100} />
       </SidebarHeader>
 
