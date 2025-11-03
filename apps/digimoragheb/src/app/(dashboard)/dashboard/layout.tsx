@@ -18,7 +18,7 @@ export default function DashboardLayout({
           <AppSidebar navItems={getNavItems(userType as UserRole)} />
           <div className="flex flex-1 flex-col">
           <DashboardHeader navItems={getNavItems(userType as UserRole)} />
-            <main className="p-6">
+            <main className="max-w-4xl mx-auto w-full p-6">
               {children}
             </main>
           </div>

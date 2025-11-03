@@ -17,6 +17,7 @@ import { useUpdateUserProfileMutation } from "@workspace/framework";
 import { LogOutIcon, UserIcon } from "lucide-react";
 import { IUpdateUserProfileRequest } from "@workspace/framework";
 import { CardContent, CardHeader, CardTitle,Card } from "@workspace/ui/components/card";
+import { Alert, AlertDescription, AlertTitle } from "@workspace/ui/components/alert";
 
 export default function ProfilePage() {
   const { user, logout } = useAuthContext();
@@ -90,36 +91,8 @@ export default function ProfilePage() {
   ];
 
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-6">
-      {/* User Info Section */}
-      <div className="bg-white rounded-lg shadow-sm border p-6">
-        <div className="flex items-center gap-3 mb-4">
-          <UserIcon className="h-6 w-6 text-blue-600" />
-          <h1 className="text-2xl font-bold text-gray-900">
-            اطلاعات کاربری
-          </h1>
-        </div>
-        <div className="space-y-2">
-          <p className="text-lg">
-            <span className="font-semibold">نام:</span> {user?.user_Name || ""}
-          </p>
-          <p className="text-lg">
-            <span className="font-semibold">نام خانوادگی:</span> {user?.user_Family || ""}
-          </p>
-          <p className="text-lg">
-            <span className="font-semibold">شماره تماس:</span> {user?.user_Phone || ""}
-          </p>
-        </div>
-        <Button 
-          onClick={logout}
-          variant="outline"
-          className="mt-4"
-        >
-          <LogOutIcon className="h-4 w-4 mr-2" />
-          خروج از حساب
-        </Button>
-      </div>
-
+    
+    <div>
       {/* User Profile Form */}
       <Card>
         <CardHeader>
