@@ -72,17 +72,17 @@ export function CustomUIProvider({
       disableTransitionOnChange={disableTransitionOnChange}
       enableColorScheme={enableColorScheme}
     >
-      <AuthProvider loginRoute={loginRoute} appRoute={appRoute} userType={userType}>
-        <ErrorProvider>
-          <ToastProvider>
-            <ModalProvider>
+      <ModalProvider>
+        <AuthProvider loginRoute={loginRoute} appRoute={appRoute} userType={userType}>
+          <ErrorProvider>
+            <ToastProvider>
               {children}
               <ModalManager />
               <ToastContainer position={position} />
-            </ModalProvider>
-          </ToastProvider>
-        </ErrorProvider>
-      </AuthProvider>
+            </ToastProvider>
+          </ErrorProvider>
+        </AuthProvider>
+      </ModalProvider>
     </NextThemesProvider>
   )
 

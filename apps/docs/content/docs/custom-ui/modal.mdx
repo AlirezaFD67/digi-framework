@@ -7,6 +7,57 @@ links:
   api: https://ui.shadcn.com/docs/components/dialog#api-reference
 ---
 
+import { useModalContext } from "@workspace/custom-ui"
+import { Button } from "@workspace/custom-ui"
+import { Input } from "@workspace/ui/components/input"
+import { Label } from "@workspace/ui/components/label"
+
+function LoginModalDrawerDemo() {
+  const { openModal, closeModal } = useModalContext()
+
+  const handleOpen = () => {
+    const modalId = "docs-login-responsive"
+
+    openModal({
+      id: modalId,
+      type: "responsive",
+      title: "ورود به حساب کاربری",
+      description: "فرم ورود در حالت Drawer روی موبایل و Dialog روی دسکتاپ نمایش داده می‌شود",
+      size: "lg",
+      view: (
+        <form
+          className="space-y-4"
+          onSubmit={(event) => {
+            event.preventDefault()
+            closeModal(modalId)
+          }}
+        >
+          <div className="space-y-2">
+            <Label htmlFor="drawer-login-phone">شماره موبایل</Label>
+            <Input id="drawer-login-phone" placeholder="0912..." />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="drawer-login-otp">کد تایید</Label>
+            <Input id="drawer-login-otp" placeholder="123456" />
+          </div>
+          <div className="flex justify-end gap-2">
+            <Button type="button" variant="outline" onClick={() => closeModal(modalId)}>
+              انصراف
+            </Button>
+            <Button type="submit">ورود</Button>
+          </div>
+        </form>
+      ),
+    })
+  }
+
+  return (
+    <Button onClick={handleOpen}>
+      نمایش فرم ورود
+    </Button>
+  )
+}
+
 <ComponentPreview
   name="modal"
   description="A comprehensive modal system with dialog and responsive variants"
@@ -30,6 +81,12 @@ import {
   name="modal"
   title="components/modal.tsx"
 />
+
+## Login Drawer Example
+
+برای نمایش فرم ورود در قالب Modal Drawer از تابع `openModal` استفاده کنید. این مودال روی دسکتاپ به صورت Dialog و روی موبایل به صورت Drawer نمایش داده می‌شود.
+
+<LoginModalDrawerDemo />
 
 ## Variants
 
