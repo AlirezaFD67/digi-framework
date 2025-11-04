@@ -56,10 +56,10 @@ export function FormButton({
   // تعیین متن‌های پیش‌فرض بر اساس حالت
   const defaultSubmitText = mode === "edit" ? "به‌روزرسانی" : "ثبت";
   const defaultLoadingText = mode === "edit" ? "در حال به‌روزرسانی..." : "در حال ثبت...";
-  const defaultResetText = "بازگشت به مقادیر اولیه";
+  const defaultResetText = "بازگشت ";
 
   return (
-    <CardFooter className={`flex sticky bottom-0 bg-card justify-end gap-4 px-2 py-6 border-t ${className}`}>
+    <CardFooter className={`flex  right-0 sticky -bottom-7 bg-sidebar justify-end gap-4 md:mx-0 -mx-5 px-2 py-6 rounded-lg ${className}`}>
       {showResetButton && (
         <RHFButton 
           type="button" 
@@ -76,6 +76,7 @@ export function FormButton({
         loading={loading}
         loadingText={loadingText || defaultLoadingText}
       >
+        
         {submitButtonText || defaultSubmitText}
       </RHFButton>
     </CardFooter>

@@ -18,7 +18,7 @@ export default function DashboardLayout({
           <AppSidebar navItems={getNavItems(userType as UserRole)} />
           <div className="flex overflow-hidden flex-1 p-1 flex-col bg-sidebar rounded-xl">
           <DashboardHeader navItems={getNavItems(userType as UserRole)} />
-            <main className=" w-full max-w-[1200px] mx-auto p-6 overflow-auto">
+            <main className=" w-full max-w-[1200px] mx-auto md:p-6 p-1 my-3 overflow-auto">
               {children}
             </main>
           </div>

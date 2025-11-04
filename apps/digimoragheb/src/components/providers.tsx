@@ -11,7 +11,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
   return (
     <FrameworkProvider>
       <CustomUIProvider 
-      loginRoute={routes.auth.login}
+       loginRoute={routes.auth.login}
        appRoute={routes.dashboard.root}
        userType={UserRole.User}
        mode="dashboard"
