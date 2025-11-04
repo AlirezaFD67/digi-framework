@@ -2,7 +2,7 @@
 
 import React from "react"
 import { useFormContext } from "react-hook-form"
-import { Button, buttonVariants, type VariantProps } from "@workspace/ui/components/button"
+import { CustomButton } from "../custom-button"
 
 // ----------------------------------------------------------------------
 
@@ -13,9 +13,9 @@ type Props = {
   children?: React.ReactNode
   type?: "button" | "submit" | "reset"
   className?: string
-  variant?: VariantProps<typeof buttonVariants>['variant']
+  variant?: "default" | "destructive" | "outline" | "secondary" | "ghost" | "link"
   onClick?: () => void
-  size?: VariantProps<typeof buttonVariants>['size']
+  size?: "sm" | "md" | "lg"
 }
 
 export function RHFButton({ 
@@ -25,8 +25,8 @@ export function RHFButton({
   children,
   type = "button",
   className,
-  variant,
-  size,
+  variant = "default",
+  size = "md",
   onClick,
   ...other 
 }: Props) {
@@ -35,16 +35,18 @@ export function RHFButton({
   const isLoading = loading || isSubmitting
 
   return (
-    <Button
+    <CustomButton
       type={type}
-      disabled={disabled || isLoading}
+      disabled={disabled}
+      loading={isLoading}
+      loadingText={loadingText}
       className={className}
       onClick={onClick}
       variant={variant}
       size={size}
       {...other}
     >
-      {isLoading ? loadingText : children}
-    </Button>
+      {children}
+    </CustomButton>
   )
 }

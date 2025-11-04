@@ -22,6 +22,7 @@ const ADMIN_TOKEN = {
 // User management endpoints
 const USER = {
   PROFILE: "/getuserprofile",
+  UPDATE_PROFILE: "/updateuserprofile",
 } as const;
 
 // Users management (admin)

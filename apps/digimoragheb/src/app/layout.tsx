@@ -22,7 +22,7 @@ export default function RootLayout({
   return (
     <html lang="fa" dir="rtl" suppressHydrationWarning>
       <body
-        className={`${fontSans.variable} ${fontMono.variable} font-vazir antialiased`}
+        className={`${fontSans.variable} ${fontMono.variable} font-[Ravi] antialiased`}
       >
         <Providers>{children}</Providers>
       </body>

@@ -36,3 +36,30 @@ export interface IUpdateProfileRequest {
   city_ID?: number;
 }
 
+export interface IUpdateUserProfileRequest {
+  state_ID: number;
+  city_ID: number;
+  user_Melli: string;
+  user_Name: string;
+  user_Family: string;
+  user_Sex: number;
+  user_Age: number;
+  user_Height: number;
+  user_Weight: number;
+  user_Blood: number;
+  user_Adr: string;
+  user_Lat: number;
+  user_Lon: number;
+}
+
+export interface IUpdateUserProfileResponse {
+  result: {
+    status: string;
+    message: string;
+  };
+  entries: {
+    userId?: number;
+    success: boolean;
+  };
+}
+

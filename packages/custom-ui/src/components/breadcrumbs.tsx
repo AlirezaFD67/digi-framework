@@ -6,6 +6,7 @@ import { useBreadcrumbs } from '../hooks/use-breadcrumbs';
 import { IconSlash } from '@tabler/icons-react';
 import { Fragment } from 'react';
 import { cn } from '@workspace/ui/lib/utils';
+import Link from 'next/link';
 
 interface BreadcrumbsProps {
   navItems: NavItem[];
@@ -25,7 +26,7 @@ export function Breadcrumbs({ navItems }: BreadcrumbsProps) {
           <Fragment key={item.title || index}>
             {index !== items.length - 1 && (
               <BreadcrumbItem className='hidden md:block'>
-                <BreadcrumbLink href={item.link}>{item.title}</BreadcrumbLink>
+                <BreadcrumbLink asChild><Link href={item.link}>{item.title}</Link></BreadcrumbLink>
               </BreadcrumbItem>
             )}
             {index < items.length - 1 && (
