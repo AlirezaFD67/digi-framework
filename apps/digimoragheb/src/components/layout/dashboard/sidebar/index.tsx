@@ -30,7 +30,7 @@ import {
 } from '@workspace/ui/components/dropdown-menu';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
-import { NavItem } from '../../../../../../../packages/custom-ui/src/types';
+import { NavItem } from '@/types/nav-items';
 import { ThemeToggle } from '@workspace/custom-ui/components/theme-toggle';
 import { UserAvatarProfile } from '@workspace/custom-ui/components/user-avatar-profile';
 import Icons from '@workspace/custom-ui/components/icons';

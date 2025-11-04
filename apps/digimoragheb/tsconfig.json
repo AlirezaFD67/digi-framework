@@ -3,14 +3,17 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@website/*":[
+        "./src/app/website/*"
+      ],
       "@/*": [
         "./src/*"
       ],
       "@workspace/ui/*": [
-        "../../packages/ui/src/*"
+        "../../packages/ui/src/*" //shadcn ui
       ],
       "@workspace/custom-ui/*": [
-        "../../packages/custom-ui/src/*"
+        "../../packages/custom-ui/src/*" // custom ui
       ]
     },
     "plugins": [
