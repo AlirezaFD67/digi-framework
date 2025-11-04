@@ -1,5 +1,35 @@
 export const routes = {
   home: "/",
+  booking: {
+    root: "/booking/",
+    providers: "/providers/",
+  },
+  articles: {
+    root: "/articles/",
+  },
+  charity: "/charity/",
+  contactUs: "/contact-us/",
+  faqs: "/faqs/",
+  packages: "/packages/",
+  pharmacy: {
+    root: "/pharmacy/",
+  },
+  rules: "/rules/",
+  screeningList: {
+    root: "/screening-list/",
+  },
+  services: {
+    root: "/services/",
+    patientCompanion: "/services/patient-companion/",
+  },
+
+
+
+
+
+
+
+  
   dashboard: {
    root: "/dashboard",
    single: (id: string) => `/dashboard/${id}`,
@@ -12,6 +42,13 @@ export const routes = {
   auth: {
     login: "/auth",
   },
+
+  
+
+
+
+
+
 }
 
 
