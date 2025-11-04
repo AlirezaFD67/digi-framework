@@ -265,10 +265,10 @@ export function OTPLoginForm({
               {step === "phone" ? "ورود با شماره موبایل" : "تایید کد"}
             </h1>
           
-            {/* <p className="text-muted-foreground mt-2">
+            <p className="text-muted-foreground mt-2">
               {step === "phone" ? "شماره موبایل خود را وارد کنید" : "کد تایید ارسال شده را وارد کنید"}
-            </p> */}
-          </div>-
+            </p>
+          </div>
 
           {/* Error Display */}
           {error && (
@@ -391,20 +391,6 @@ export function OTPLoginForm({
           </div>
         </div>
       </section>
-
-      {/* Right column: hero image + testimonials */}
-      {heroImageSrc && (
-        <section className="hidden md:block flex-1 relative p-4">
-          <div className="animate-slide-right animate-delay-300 absolute inset-4 rounded-3xl bg-cover bg-center" style={{ backgroundImage: `url(${heroImageSrc})` }}></div>
-          {testimonials.length > 0 && (
-            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-4 px-8 w-full justify-center">
-              {testimonials[0] && <TestimonialCard testimonial={testimonials[0]} delay="animate-delay-1000" />}
-              {testimonials[1] && <div className="hidden xl:flex"><TestimonialCard testimonial={testimonials[1]} delay="animate-delay-1200" /></div>}
-              {testimonials[2] && <div className="hidden 2xl:flex"><TestimonialCard testimonial={testimonials[2]} delay="animate-delay-1400" /></div>}
-            </div>
-          )}
-        </section>
-      )}
     </div>
   )
 }

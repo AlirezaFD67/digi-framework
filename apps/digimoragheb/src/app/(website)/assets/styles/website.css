@@ -1,6 +1,6 @@
 /* Import Theme Variables */
 @import './theme-variables.css';
-@import "../../../assets/styles/fonts.css";
+@import "../../../../assets/styles/fonts.css";
 
 .menu-container {
   margin-left: auto;
