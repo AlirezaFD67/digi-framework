@@ -14,11 +14,11 @@ export default function DashboardLayout({
   const { userType } = useAuthContext();
   return (
       <AuthGuard>
-        <div className="flex min-h-dvh w-full p-3">
+        <div className="flex min-h-dvh max-h-dvh w-full p-3">
           <AppSidebar navItems={getNavItems(userType as UserRole)} />
-          <div className="flex flex-1 flex-col">
+          <div className="flex overflow-hidden flex-1 p-1 flex-col bg-sidebar rounded-xl">
           <DashboardHeader navItems={getNavItems(userType as UserRole)} />
-            <main className="max-w-4xl mx-auto w-full p-6">
+            <main className=" w-full max-w-3xl mx-auto p-6 overflow-auto">
               {children}
             </main>
           </div>
