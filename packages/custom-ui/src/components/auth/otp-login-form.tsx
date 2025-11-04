@@ -242,13 +242,13 @@ export function OTPLoginForm({
   }
 
   return (
-    <div className={cn("h-[100dvh] flex flex-col md:flex-row font-geist w-[100dvw]", className)}>
+    <div className={cn(" flex flex-col md:flex-row", className)}>
       {/* Left column: OTP form */}
       <section className="flex-1 flex items-center justify-center p-8">
         <div className="w-full max-w-lg -mt-20">
           <div className="flex flex-col gap-6">
           {/* Step Progress */}
-          <div className="flex items-center justify-center gap-4 mb-2">
+          {/* <div className="flex items-center justify-center gap-4 mb-2">
             <StepIcon step="phone" currentStep={step} />
             <div className="w-8 h-0.5 bg-gray-200 rounded-full">
               <div className={cn(
@@ -257,11 +257,11 @@ export function OTPLoginForm({
               )} />
             </div>
             <StepIcon step="otp" currentStep={step} />
-          </div>
+          </div> */}
 
           {/* Title */}
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-semibold leading-tight text-foreground">
+            <h1 className=" font-semibold leading-tight text-foreground">
               {step === "phone" ? "ورود با شماره موبایل" : "تایید کد"}
             </h1>
           

@@ -2,87 +2,73 @@
 
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
-import { 
-  Button, 
+import {
   useAuthContext,
   FormProvider,
   RHFInput,
   RHFSelect,
-  RHFButton,
   validationRules,
   commonValidations,
-  useToast
+  useToast,
+  FormButton,
+  FormLayout,
+  Button
 } from "@workspace/custom-ui";
-import { useInsertDoctorProfileMutation } from "@workspace/framework";
-import { LogOutIcon, UserIcon } from "lucide-react";
-import { IInsertDoctorProfileRequest } from "@workspace/framework";
+import { useUpdateUserProfileMutation } from "@workspace/framework";
+import { IUpdateUserProfileRequest } from "@workspace/framework";
+import { CardContent, Card } from "@workspace/ui/components/card";
 
 export default function ProfilePage() {
-  const { user, doctor, userType, logout } = useAuthContext();
+  const { user, withAuth } = useAuthContext();
   const { success, error } = useToast();
-  const insertDoctorMutation = useInsertDoctorProfileMutation();
+  const updateUserMutation = useUpdateUserProfileMutation();
 
-  const methods = useForm<IInsertDoctorProfileRequest>({
+  // User form
+  const methods = useForm<IUpdateUserProfileRequest>({
     defaultValues: {
-      proID: doctor?.pro_ID || 0,
-      stateID: doctor?.state_ID || 0,
-      cityID: doctor?.city_ID || 0,
-      docNezam: doctor?.doc_Nezam || 0,
-      docMelli: doctor?.doc_Melli || "",
-      docName: doctor?.doc_Name || "",
-      docNameEn: doctor?.doc_NameEn || "",
-      docFamily: doctor?.doc_Family || "",
-      docFamilyEn: doctor?.doc_FamilyEn || "",
-      docSex: doctor?.doc_Sex || 1,
-      docSpc: doctor?.doc_Spc || 0,
-      docsub: doctor?.doc_sub || 0,
-      docTel: doctor?.doc_Tel || "",
-      docExp: doctor?.doc_Exp || 0,
-      visitPrice: doctor?.vis_Price || 0,
-      accCall: doctor?.acc_Call || 0,
-      accChat: doctor?.acc_Chat || 0,
-      accOffice: doctor?.acc_Office || 0,
+      state_ID: user?.state_ID || 0,
+      city_ID: user?.city_ID || 0,
+      user_Melli: "",
+      user_Name: user?.user_Name || "",
+      user_Family: user?.user_Family || "",
+      user_Sex: user?.user_Sex || 1,
+      user_Age: user?.user_Age || 0,
+      user_Height: user?.user_Height || 0,
+      user_Weight: user?.user_Weight || 0,
+      user_Blood: user?.user_Blood || 0,
+      user_Adr: user?.user_Adr || "",
+      user_Lat: user?.user_Lat || 0,
+      user_Lon: user?.user_Lon || 0,
     }
   });
 
-  // Update form values when doctor data changes
+  // Update user form values when user data changes
   useEffect(() => {
-    if (doctor) {
+    if (user) {
       methods.reset({
-        proID: doctor.pro_ID || 0,
-        stateID: doctor.state_ID || 0,
-        cityID: doctor.city_ID || 0,
-        docNezam: doctor.doc_Nezam || 0,
-        docMelli: doctor.doc_Melli || "",
-        docName: doctor.doc_Name || "",
-        docNameEn: doctor.doc_NameEn || "",
-        docFamily: doctor.doc_Family || "",
-        docFamilyEn: doctor.doc_FamilyEn || "",
-        docSex: doctor.doc_Sex || 1,
-        docSpc: doctor.doc_Spc || 0,
-        docsub: doctor.doc_sub || 0,
-        docTel: doctor.doc_Tel || "",
-        docExp: doctor.doc_Exp || 0,
-        visitPrice: doctor.vis_Price || 0,
-        accCall: doctor.acc_Call || 0,
-        accChat: doctor.acc_Chat || 0,
-        accOffice: doctor.acc_Office || 0,
+        state_ID: user.state_ID || 0,
+        city_ID: user.city_ID || 0,
+        user_Melli: "",
+        user_Name: user.user_Name || "",
+        user_Family: user.user_Family || "",
+        user_Sex: user.user_Sex || 1,
+        user_Age: user.user_Age || 0,
+        user_Height: user.user_Height || 0,
+        user_Weight: user.user_Weight || 0,
+        user_Blood: user.user_Blood || 0,
+        user_Adr: user.user_Adr || "",
+        user_Lat: user.user_Lat || 0,
+        user_Lon: user.user_Lon || 0,
       });
     }
-  }, [doctor, methods]);
+  }, [user, methods]);
 
-  const onSubmit = async (data: IInsertDoctorProfileRequest) => {
+  const onSubmit = async (data: IUpdateUserProfileRequest) => {
     try {
-      await insertDoctorMutation.mutateAsync(data);
-      const message = doctor ? "پروفایل پزشک با موفقیت به‌روزرسانی شد" : "پروفایل پزشک با موفقیت ثبت شد";
-      success(message, "موفقیت");
-      // Don't reset form if updating existing profile
-      if (!doctor) {
-        methods.reset();
-      }
+      await updateUserMutation.mutateAsync(data);
+      success("پروفایل کاربر با موفقیت به‌روزرسانی شد", "موفقیت");
     } catch (err) {
-      const errorMessage = doctor ? "خطا در به‌روزرسانی پروفایل پزشک" : "خطا در ثبت پروفایل پزشک";
-      error(errorMessage, "خطا");
+      error("خطا در به‌روزرسانی پروفایل کاربر", "خطا");
     }
   };
 
@@ -91,239 +77,151 @@ export default function ProfilePage() {
     { value: 2, label: "زن" }
   ];
 
-  const accessOptions = [
-    { value: 0, label: "غیرفعال" },
-    { value: 1, label: "فعال" }
+  const bloodOptions = [
+    { value: 0, label: "نامشخص" },
+    { value: 1, label: "A+" },
+    { value: 2, label: "A-" },
+    { value: 3, label: "B+" },
+    { value: 4, label: "B-" },
+    { value: 5, label: "AB+" },
+    { value: 6, label: "AB-" },
+    { value: 7, label: "O+" },
+    { value: 8, label: "O-" }
   ];
 
   return (
-    <div className="max-w-4xl mx-auto p-6 space-y-6">
-      {/* User Info Section */}
-      <div className="bg-white rounded-lg shadow-sm border p-6">
-        <div className="flex items-center gap-3 mb-4">
-          <UserIcon className="h-6 w-6 text-blue-600" />
-          <h1 className="text-2xl font-bold text-gray-900">
-            اطلاعات کاربری
-          </h1>
-        </div>
-        <div className="space-y-2">
-          {userType === "doctor" ? (
-            <>
-              <p className="text-lg">
-                <span className="font-semibold">نام:</span> {doctor?.doc_Name || ""}
-              </p>
-              <p className="text-lg">
-                <span className="font-semibold">نام خانوادگی:</span> {doctor?.doc_Family || ""}
-              </p>
-              <p className="text-lg">
-                <span className="font-semibold">شماره تماس:</span> {doctor?.doc_Tel || ""}
-              </p>
-            </>
-          ) : (
-            <>
-              <p className="text-lg">
-                <span className="font-semibold">نام:</span> {user?.user_Name || ""}
-              </p>
-              <p className="text-lg">
-                <span className="font-semibold">نام خانوادگی:</span> {user?.user_Family || ""}
-              </p>
-              <p className="text-lg">
-                <span className="font-semibold">شماره تماس:</span> {user?.user_Phone || ""}
-              </p>
-            </>
-          )}
-        </div>
-        <Button 
-          onClick={logout}
-          variant="outline"
-          className="mt-4"
-        >
-          <LogOutIcon className="h-4 w-4 mr-2" />
-          خروج از حساب
-        </Button>
-      </div>
+    <div>
 
-      {/* Doctor Profile Form */}
-      <div className="bg-white rounded-lg shadow-sm border p-6">
-        <h2 className="text-xl font-bold text-gray-900 mb-6">
-          {doctor ? "ویرایش پروفایل پزشک" : "ثبت پروفایل پزشک"}
-        </h2>
-
-        <FormProvider 
-          methods={methods} 
+      <FormLayout
+        title="ویرایش پروفایل کاربری"
+        description="اطلاعات شخصی، جسمانی و آدرس خود را در این بخش مدیریت کنید. این اطلاعات برای ارائه خدمات بهتر به شما استفاده می‌شود."
+      >
+        <FormProvider
+          methods={methods}
           onSubmit={methods.handleSubmit(onSubmit)}
           className="space-y-6"
         >
           {/* Basic Information */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <RHFInput
-              name="docName"
-              label="نام (فارسی)"
+              name="user_Name"
+              label="نام"
               placeholder="نام خود را وارد کنید"
               required
               {...commonValidations.name}
             />
-            
+
             <RHFInput
-              name="docNameEn"
-              label="نام (انگلیسی)"
-              placeholder="Enter your first name"
-              required
-            />
-            
-            <RHFInput
-              name="docFamily"
-              label="نام خانوادگی (فارسی)"
+              name="user_Family"
+              label="نام خانوادگی"
               placeholder="نام خانوادگی خود را وارد کنید"
               required
               {...commonValidations.name}
             />
-            
-            <RHFInput
-              name="docFamilyEn"
-              label="نام خانوادگی (انگلیسی)"
-              placeholder="Enter your last name"
-              required
-            />
-          </div>
 
-          {/* Personal Information */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <RHFInput
-              name="docMelli"
+              name="user_Melli"
               label="کد ملی"
               placeholder="کد ملی خود را وارد کنید"
               required
               {...validationRules.pattern(/^\d{10}$/, "کد ملی باید ۱۰ رقم باشد")}
             />
-            
-            <RHFInput
-              name="docNezam"
-              label="شماره نظام پزشکی"
-              type="number"
-              placeholder="شماره نظام پزشکی"
-              required
-            />
-            
+
             <RHFSelect
-              name="docSex"
+              name="user_Sex"
               label="جنسیت"
               options={genderOptions}
               required
             />
-            
+          </div>
+
+          {/* Physical Information */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <RHFInput
-              name="docTel"
-              label="شماره تماس"
-              mode="phone"
-              placeholder="شماره تماس خود را وارد کنید"
+              name="user_Age"
+              label="سن"
+              type="number"
+              placeholder="سن خود را وارد کنید"
               required
-              {...validationRules.iranianPhone()}
+            />
+
+            <RHFSelect
+              name="user_Blood"
+              label="گروه خونی"
+              options={bloodOptions}
+            />
+
+            <RHFInput
+              name="user_Height"
+              label="قد (سانتی‌متر)"
+              type="number"
+              placeholder="قد خود را وارد کنید"
+            />
+
+            <RHFInput
+              name="user_Weight"
+              label="وزن (کیلوگرم)"
+              type="number"
+              placeholder="وزن خود را وارد کنید"
             />
           </div>
 
-          {/* Professional Information */}
+          {/* Location Information */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <RHFInput
-              name="proID"
+              name="state_ID"
               label="شناسه استان"
               type="number"
               placeholder="شناسه استان"
               required
             />
-            
+
             <RHFInput
-              name="stateID"
-              label="شناسه شهرستان"
-              type="number"
-              placeholder="شناسه شهرستان"
-              required
-            />
-            
-            <RHFInput
-              name="cityID"
+              name="city_ID"
               label="شناسه شهر"
               type="number"
               placeholder="شناسه شهر"
               required
             />
-            
-            <RHFInput
-              name="docSpc"
-              label="شناسه تخصص"
-              type="number"
-              placeholder="شناسه تخصص"
-              required
-            />
-            
-            <RHFInput
-              name="docsub"
-              label="شناسه زیرتخصص"
-              type="number"
-              placeholder="شناسه زیرتخصص"
-            />
-            
-            <RHFInput
-              name="docExp"
-              label="سال تجربه"
-              type="number"
-              placeholder="سال تجربه کاری"
-              required
-            />
           </div>
 
-          {/* Pricing and Access */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Address Information */}
+          <div className="space-y-6">
             <RHFInput
-              name="visitPrice"
-              label="قیمت ویزیت (تومان)"
-              type="number"
-              placeholder="قیمت ویزیت"
+              name="user_Adr"
+              label="آدرس"
+              placeholder="آدرس کامل خود را وارد کنید"
               required
             />
-            
-            <RHFSelect
-              name="accCall"
-              label="دسترسی تماس تلفنی"
-              options={accessOptions}
-              required
-            />
-            
-            <RHFSelect
-              name="accChat"
-              label="دسترسی چت آنلاین"
-              options={accessOptions}
-              required
-            />
-            
-            <RHFSelect
-              name="accOffice"
-              label="دسترسی ویزیت حضوری"
-              options={accessOptions}
-              required
-            />
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <RHFInput
+                name="user_Lat"
+                label="عرض جغرافیایی"
+                type="number"
+                placeholder="Latitude"
+                step="any"
+              />
+
+              <RHFInput
+                name="user_Lon"
+                label="طول جغرافیایی"
+                type="number"
+                placeholder="Longitude"
+                step="any"
+              />
+            </div>
           </div>
 
           {/* Submit Button */}
-          <div className="flex justify-end gap-4 pt-6 border-t">
-            <RHFButton 
-              type="button" 
-              variant="outline"
-              onClick={() => methods.reset()}
-            >
-              پاک کردن فرم
-            </RHFButton>
-            
-            <RHFButton 
-              type="submit"
-              loading={insertDoctorMutation.isPending}
-              loadingText="در حال ثبت..."
-            >
-              {doctor ? "به‌روزرسانی پروفایل" : "ثبت پروفایل پزشک"}
-            </RHFButton>
-          </div>
+          <FormButton
+            mode="edit"
+            loading={updateUserMutation.isPending}
+            onReset={() => methods.reset()}
+            submitButtonText="به‌روزرسانی پروفایل"
+          />
         </FormProvider>
-      </div>
+      </FormLayout>
     </div>
   );
 }

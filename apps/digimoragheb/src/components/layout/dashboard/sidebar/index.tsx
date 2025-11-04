@@ -160,7 +160,7 @@ export default function AppSidebar({ navItems }: AppSidebarProps) {
     <Sidebar side="right" variant="floating" collapsible="icon">
       <SidebarHeader>
         
-        <Image src={UIConfig.logo.secondary} alt="logo" width={100} height={100} />
+        <Image src={UIConfig.logo.secondary} alt="logo" width={200} height={200} />
       </SidebarHeader>
 
       <SidebarContent className="overflow-x-hidden">
