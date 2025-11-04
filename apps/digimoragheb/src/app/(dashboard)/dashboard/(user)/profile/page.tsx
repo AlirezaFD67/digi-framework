@@ -2,7 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
-import { 
+import {
   useAuthContext,
   FormProvider,
   RHFInput,
@@ -11,14 +11,15 @@ import {
   commonValidations,
   useToast,
   FormButton,
-  FormLayout
+  FormLayout,
+  Button
 } from "@workspace/custom-ui";
 import { useUpdateUserProfileMutation } from "@workspace/framework";
 import { IUpdateUserProfileRequest } from "@workspace/framework";
 import { CardContent, Card } from "@workspace/ui/components/card";
 
 export default function ProfilePage() {
-  const { user } = useAuthContext();
+  const { user, withAuth } = useAuthContext();
   const { success, error } = useToast();
   const updateUserMutation = useUpdateUserProfileMutation();
 
@@ -90,135 +91,136 @@ export default function ProfilePage() {
 
   return (
     <div>
+
       <FormLayout
         title="ویرایش پروفایل کاربری"
         description="اطلاعات شخصی، جسمانی و آدرس خود را در این بخش مدیریت کنید. این اطلاعات برای ارائه خدمات بهتر به شما استفاده می‌شود."
       >
-            <FormProvider 
-              methods={methods} 
-              onSubmit={methods.handleSubmit(onSubmit)}
-              className="space-y-6"
-            >
-              {/* Basic Information */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <RHFInput
-                  name="user_Name"
-                  label="نام"
-                  placeholder="نام خود را وارد کنید"
-                  required
-                  {...commonValidations.name}
-                />
-                
-                <RHFInput
-                  name="user_Family"
-                  label="نام خانوادگی"
-                  placeholder="نام خانوادگی خود را وارد کنید"
-                  required
-                  {...commonValidations.name}
-                />
-                
-                <RHFInput
-                  name="user_Melli"
-                  label="کد ملی"
-                  placeholder="کد ملی خود را وارد کنید"
-                  required
-                  {...validationRules.pattern(/^\d{10}$/, "کد ملی باید ۱۰ رقم باشد")}
-                />
-                
-                <RHFSelect
-                  name="user_Sex"
-                  label="جنسیت"
-                  options={genderOptions}
-                  required
-                />
-              </div>
+        <FormProvider
+          methods={methods}
+          onSubmit={methods.handleSubmit(onSubmit)}
+          className="space-y-6"
+        >
+          {/* Basic Information */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <RHFInput
+              name="user_Name"
+              label="نام"
+              placeholder="نام خود را وارد کنید"
+              required
+              {...commonValidations.name}
+            />
 
-              {/* Physical Information */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <RHFInput
-                  name="user_Age"
-                  label="سن"
-                  type="number"
-                  placeholder="سن خود را وارد کنید"
-                  required
-                />
-                
-                <RHFSelect
-                  name="user_Blood"
-                  label="گروه خونی"
-                  options={bloodOptions}
-                />
-                
-                <RHFInput
-                  name="user_Height"
-                  label="قد (سانتی‌متر)"
-                  type="number"
-                  placeholder="قد خود را وارد کنید"
-                />
-                
-                <RHFInput
-                  name="user_Weight"
-                  label="وزن (کیلوگرم)"
-                  type="number"
-                  placeholder="وزن خود را وارد کنید"
-                />
-              </div>
+            <RHFInput
+              name="user_Family"
+              label="نام خانوادگی"
+              placeholder="نام خانوادگی خود را وارد کنید"
+              required
+              {...commonValidations.name}
+            />
 
-              {/* Location Information */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <RHFInput
-                  name="state_ID"
-                  label="شناسه استان"
-                  type="number"
-                  placeholder="شناسه استان"
-                  required
-                />
-                
-                <RHFInput
-                  name="city_ID"
-                  label="شناسه شهر"
-                  type="number"
-                  placeholder="شناسه شهر"
-                  required
-                />
-              </div>
+            <RHFInput
+              name="user_Melli"
+              label="کد ملی"
+              placeholder="کد ملی خود را وارد کنید"
+              required
+              {...validationRules.pattern(/^\d{10}$/, "کد ملی باید ۱۰ رقم باشد")}
+            />
 
-              {/* Address Information */}
-              <div className="space-y-6">
-                <RHFInput
-                  name="user_Adr"
-                  label="آدرس"
-                  placeholder="آدرس کامل خود را وارد کنید"
-                  required
-                />
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <RHFInput
-                    name="user_Lat"
-                    label="عرض جغرافیایی"
-                    type="number"
-                    placeholder="Latitude"
-                    step="any"
-                  />
-                  
-                  <RHFInput
-                    name="user_Lon"
-                    label="طول جغرافیایی"
-                    type="number"
-                    placeholder="Longitude"
-                    step="any"
-                  />
-                </div>
-              </div>
+            <RHFSelect
+              name="user_Sex"
+              label="جنسیت"
+              options={genderOptions}
+              required
+            />
+          </div>
 
-              {/* Submit Button */}
-              <FormButton
-                mode="edit"
-                loading={updateUserMutation.isPending}
-                onReset={() => methods.reset()}
-                submitButtonText="به‌روزرسانی پروفایل"
+          {/* Physical Information */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <RHFInput
+              name="user_Age"
+              label="سن"
+              type="number"
+              placeholder="سن خود را وارد کنید"
+              required
+            />
+
+            <RHFSelect
+              name="user_Blood"
+              label="گروه خونی"
+              options={bloodOptions}
+            />
+
+            <RHFInput
+              name="user_Height"
+              label="قد (سانتی‌متر)"
+              type="number"
+              placeholder="قد خود را وارد کنید"
+            />
+
+            <RHFInput
+              name="user_Weight"
+              label="وزن (کیلوگرم)"
+              type="number"
+              placeholder="وزن خود را وارد کنید"
+            />
+          </div>
+
+          {/* Location Information */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <RHFInput
+              name="state_ID"
+              label="شناسه استان"
+              type="number"
+              placeholder="شناسه استان"
+              required
+            />
+
+            <RHFInput
+              name="city_ID"
+              label="شناسه شهر"
+              type="number"
+              placeholder="شناسه شهر"
+              required
+            />
+          </div>
+
+          {/* Address Information */}
+          <div className="space-y-6">
+            <RHFInput
+              name="user_Adr"
+              label="آدرس"
+              placeholder="آدرس کامل خود را وارد کنید"
+              required
+            />
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <RHFInput
+                name="user_Lat"
+                label="عرض جغرافیایی"
+                type="number"
+                placeholder="Latitude"
+                step="any"
               />
-            </FormProvider>
+
+              <RHFInput
+                name="user_Lon"
+                label="طول جغرافیایی"
+                type="number"
+                placeholder="Longitude"
+                step="any"
+              />
+            </div>
+          </div>
+
+          {/* Submit Button */}
+          <FormButton
+            mode="edit"
+            loading={updateUserMutation.isPending}
+            onReset={() => methods.reset()}
+            submitButtonText="به‌روزرسانی پروفایل"
+          />
+        </FormProvider>
       </FormLayout>
     </div>
   );
